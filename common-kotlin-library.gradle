@@ -1,0 +1,5 @@
+apply plugin: Plugins.kotlinAndroid
+
+dependencies {
+	implementation Kotlin.kotlinStdLibJdk
+}

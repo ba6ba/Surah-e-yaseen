@@ -3,4 +3,5 @@ apply from: "$rootDir/common-android-library.gradle"
 dependencies {
 	api project(Modules.ui)
 	api project(Modules.navigation)
+	api project(Modules.extensions)
 }

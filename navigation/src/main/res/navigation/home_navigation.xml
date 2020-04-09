@@ -2,11 +2,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/tilawatFragment"
+    app:startDestination="@id/mainFragment"
     >
 
     <fragment
-        android:id="@+id/tilawatFragment"
+        android:id="@+id/mainFragment"
         android:name="com.example.tilawat.TilawatFragment"
         android:label="Splash">
 
@@ -15,18 +15,21 @@
             app:destination="@id/recitationFragment"
             />
 
-    </fragment>
-
-    <fragment
-        android:id="@+id/recitationFragment"
-        android:name="com.example.recitation.RecitationFragment"
-        android:label="Splash">
-
         <action
             android:id="@+id/slide_to_player"
             app:destination="@id/tilawatFragment"
             />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/tilawatFragment"
+        android:name="com.example.tilawat.TilawatFragment"
+        android:label="Splash"/>
+
+    <fragment
+        android:id="@+id/recitationFragment"
+        android:name="com.example.recitation.RecitationFragment"
+        android:label="Splash"/>
 
 </navigation>

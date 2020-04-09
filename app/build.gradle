@@ -23,4 +23,7 @@ android {
 dependencies {
 	implementation project(Modules.core)
 	implementation project(Modules.splash)
+	implementation project(Modules.tilawat)
+	implementation project(Modules.recitation)
+
 }

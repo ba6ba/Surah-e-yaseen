@@ -21,6 +21,6 @@ android {
 }
 
 dependencies {
-	implementation project(Modules.navigation)
 	implementation project(Modules.core)
+	implementation project(Modules.splash)
 }

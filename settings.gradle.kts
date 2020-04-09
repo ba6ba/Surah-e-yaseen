@@ -4,5 +4,8 @@ include(
     ":core",
     ":ui",
     ":extensions",
-    ":di"
+    ":di",
+    ":splash",
+    ":tilawat",
+    ":recitation"
 )

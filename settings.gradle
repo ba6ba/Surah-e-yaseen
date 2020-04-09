@@ -1,6 +1,0 @@
-include ':core'
-include ':navigation'
-include ':app'
-include ':extensions'
-include ':ui'
-include ':di'

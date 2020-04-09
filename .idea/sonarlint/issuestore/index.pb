@@ -1,12 +1,8 @@
 
-l
-<app/src/main/java/com/example/surah_e_yaseen/MainActivity.kt,8/2/822cafa506e49231010d05e68038e9b4be446a99
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 @
 app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
-?
-settings.gradle,0/5/05efc8b1657769a27696d478ded1e95f38737233
 7
 gradlew,5/b/5bbfa66edb4db3c7c33c5181f43510990d3307f9
 A
@@ -23,12 +19,8 @@ L
 common-kotlin-library.gradle,6/f/6fdac927c0a3b7883339400491c6ed2accba7082
 Q
 !buildSrc/src/main/java/Modules.kt,c/b/cb9e50bf2267dfa8f788615fdefe24c787975087
-V
-&buildSrc/src/main/java/Dependencies.kt,e/8/e814710098f674890a8b6d2265ec0d2432e04a92
 A
 core/build.gradle,9/1/918ca359602392354123b7d3b63264baf7ea9dde
-U
-%common-android-dynamic-feature.gradle,1/f/1fdef474edb8b9a53ae70758e603d771fc022a58
 M
 common-android-library.gradle,5/b/5bef24bb016d75ea689de0d418c99204a9e27e51
 @
@@ -39,3 +31,43 @@ Q
 !buildSrc/src/main/java/Plugins.kt,5/4/54fe23bd88acf636f91975e7fbad655ea7e04dc0
 C
 settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
+I
+navigation/navigation.iml,6/1/619b82e33ca60440dfe64a6aa996f2dee16e231e
+a
+1app/src/main/java/com/example/app/MainActivity.kt,1/d/1deca740e5395c71cfe8f2645da260c8d390e22c
+R
+"buildSrc/src/main/java/MultiDex.kt,d/b/dbc66dda477a41e180ccd035ab2df2ca35fca159
+Q
+!buildSrc/src/main/java/Network.kt,6/a/6ab6ec8aa6abf2208f82d053b37623ea3d3b39a3
+P
+ buildSrc/src/main/java/Kotlin.kt,d/c/dcc2864be7131e2d7177579fd7f5053c7cd2c9a0
+P
+ buildSrc/src/main/java/Gradle.kt,1/a/1a9e2320c7395edd3e7c0b214368d86514a00535
+T
+$buildSrc/src/main/java/Extensions.kt,4/8/48fa4946c7fea63a80cb69b4e6eaeb00dfc8f52a
+T
+$buildSrc/src/main/java/Coroutines.kt,4/c/4c8e3f0be73533463237edf3390d0e3ef9e7e901
+U
+%buildSrc/src/main/java/Permissions.kt,e/0/e0530e6d15c6bf30eff6766f1b773c6bfbd7e03b
+M
+buildSrc/src/main/java/Ktx.kt,2/a/2a0f767d692f121f745709e3e685e377f0da8c81
+P
+ buildSrc/src/main/java/Google.kt,f/0/f0fc9040d2e8d50946b86097caff15f8ea9cac66
+N
+buildSrc/src/main/java/Test.kt,e/0/e0f87af747d9d5f29bba2cbddd634113ce33dfbe
+?
+ui/build.gradle,5/d/5df2da7a4bf2fd88e0d69ea2e04d2de03fedebb8
+L
+buildSrc/src/main/java/UI.kt,2/0/20c62dc15ace7dfe2a5d99d87a7ae0234738cb53
+?
+di/build.gradle,8/d/8d01fda61e06cb8bd8e5e650fe5060d75a6e37d0
+T
+$buildSrc/src/main/java/Navigation.kt,0/7/0757955cac73244a2996ffa8330cd87cfab2947a
+N
+buildSrc/src/main/java/Koin.kt,1/2/120bc24c13624826062605d19649bfbef3c5af21
+G
+extensions/build.gradle,3/f/3f012f05f2da9c4b8e808f7db332c3d98b015018
+C
+splash/build.gradle,b/5/b5ac9dc7a288ba6e69aa4546b95bd18dc7828e12
+i
+9splash/src/main/java/com/example/splash/SplashFragment.kt,3/9/39cd234efa555c84c534aa4c0b09cc695fb9c3ab

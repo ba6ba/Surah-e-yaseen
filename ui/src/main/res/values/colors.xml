@@ -6,6 +6,9 @@
     <color name="colorAccent_50">#80323E40</color>
     <color name="colorAccent_80">#CC323E40</color>
     <color name="colorWhite_50">#80ffffff</color>
+    <color name="colorWhite_90">#CCffffff</color>
     <color name="colorGrey">#DBDCDD</color>
     <color name="colorRipple">#1A000000</color>
+    <color name="colorLightTransparent">#1A000000</color>
+    <color name="colorTransparent">@android:color/transparent</color>
 </resources>

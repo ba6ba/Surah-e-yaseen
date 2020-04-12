@@ -1,5 +1,6 @@
 package com.example.ui.extensions
 
+import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
+import com.example.extensions.doAnimation
 import com.example.ui.R
 
 fun View.drawable(@DrawableRes drawableRes: Int): Drawable? = AppCompatResources.getDrawable(context, drawableRes)
@@ -16,18 +18,20 @@ fun View.dimension(@DimenRes dimenRes: Int) = resources.getDimension(dimenRes)
 
 fun View.string(@StringRes stringRes: Int) = resources.getString(stringRes)
 
-fun View.color(@ColorRes color: Int) = AppCompatResources.getColorStateList(context, color)
+fun View.colorStateList(@ColorRes color: Int) = AppCompatResources.getColorStateList(context, color)
+
+fun View.color(@ColorRes color: Int) = resources.getColor(color)
 
 fun View.font(@FontRes font: Int) = ResourcesCompat.getFont(context, font)
 
 val View.primaryColor
-    get() = color(R.color.colorPrimary)
+    get() = colorStateList(R.color.colorPrimary)
 
 val View.primaryDarkColor
-    get() = color(R.color.colorPrimaryDark)
+    get() = colorStateList(R.color.colorPrimaryDark)
 
 val View.accentColor
-    get() = color(R.color.colorAccent)
+    get() = colorStateList(R.color.colorAccent)
 
 fun ViewGroup.inflate(@LayoutRes resourceId: Int) = View.inflate(context, resourceId, this)
 
@@ -37,16 +41,49 @@ fun View.getIconResourceValue(a: TypedArray, styleableId: Int) = TypedValue().al
 
 fun View.hide() = run {
     visibility = View.GONE
+    this
 }
 
 fun View.show() = run {
     visibility = View.VISIBLE
+    this
 }
 
 fun View.invisible() = run {
     visibility = View.INVISIBLE
+    this
 }
 
 fun View.visibility(show : Boolean, invisible : Boolean = false) = run {
     if (show) show() else if (invisible) invisible() else hide()
+}
+
+fun View.animateByPushingLeftIn(context: Context) = run {
+    doAnimation(context, R.anim.push_left_in)
+    this
+}
+
+fun View.animateByPushingRightIn(context: Context) = run {
+    doAnimation(context, R.anim.push_right_in)
+    this
+}
+
+fun View.animateByPushingLeftOut(context: Context) = kotlin.run {
+    doAnimation(context, R.anim.push_left_out)
+    this
+}
+
+fun View.animateByPushingRightOut(context: Context) = kotlin.run {
+    doAnimation(context, R.anim.push_right_out)
+    this
+}
+
+fun View.animateByFadingIn(context: Context) = kotlin.run {
+    doAnimation(context, R.anim.fade_in)
+    this
+}
+
+fun View.animateByFadingOut(context: Context) = kotlin.run {
+    doAnimation(context, R.anim.fade_out)
+    this
 }

@@ -3,7 +3,10 @@ package com.example.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import com.example.core.FlowData
+import com.example.ui.sideDrawer.SideSheetStates
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -29,8 +32,13 @@ class MainFragment : Fragment(R.layout.fragment_home) {
             initTabs()
         }
 
-        sideNavExpandIcon.setOnClickListener {
-
-        }
+        FlowData.viewStateChangeLiveData.observe(viewLifecycleOwner, Observer {
+            if (SideSheetStates.EXPAND == it) {
+                viewPager.bringToFront()
+            }
+            else {
+                bottomNavigation.bringToFront()
+            }
+        })
     }
 }

@@ -90,13 +90,13 @@ class FloatingTabItem @JvmOverloads constructor(
 
 
 
-    fun selectTab(selectColor: ColorStateList = color(R.color.colorAccent)) = run {
+    fun selectTab(selectColor: ColorStateList = colorStateList(R.color.colorAccent)) = run {
         iconTint = selectColor
         textTint = selectColor
         indicator.show()
     }
 
-    fun deSelectTab(deSelectColor: ColorStateList = color(R.color.colorAccent_50)) = run {
+    fun deSelectTab(deSelectColor: ColorStateList = colorStateList(R.color.colorAccent_50)) = run {
         iconTint = deSelectColor
         textTint = deSelectColor
         indicator.hide()

@@ -29,6 +29,7 @@
             style="@style/TinyTextStyle.Accent80.SemiBold"
             tools:text="@string/recitation_header_subtitle"
             app:text="recitation_header_subtitle"
+            android:layout_marginBottom="-6dp"
             />
 
         <com.example.ui.com.example.ui.TranslationTextView

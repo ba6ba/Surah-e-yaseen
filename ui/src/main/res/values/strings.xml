@@ -4,4 +4,6 @@
     <string name="main_bottom_navigation_recitation_title">Recitation</string>
     <string name="recitation_header_subtitle">Sura’ah</string>
     <string name="recitation_header_title">Yaseen</string>
+    <string name="translators_list_header_title">Translators</string>
+    <string name="translators_list_header_sub_title">Choose</string>
 </resources>

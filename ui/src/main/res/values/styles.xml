@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TranslationTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:supportsRtl">true</item>
+        <item name="fontFamily">@font/muli_medium</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/general_text_size</item>
+    </style>
+
+    <style name="FloatingTabItemTextStyle" parent="TranslationTextView">
+        <item name="fontFamily">@font/muli_light</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="TinyTextStyle.Accent80.SemiBold" parent="TranslationTextView">
+        <item name="fontFamily">@font/muli_semibold</item>
+        <item name="android:textSize">@dimen/tiny_text_size</item>
+        <item name="android:textColor">@color/colorAccent_80</item>
+    </style>
+
+    <style name="MediumTextStyle.Accent.Black" parent="TranslationTextView">
+        <item name="fontFamily">@font/muli_black</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+</resources>

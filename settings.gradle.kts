@@ -7,5 +7,7 @@ include(
     ":di",
     ":splash",
     ":tilawat",
-    ":recitation"
+    ":recitation",
+    ":translations",
+    ":home"
 )

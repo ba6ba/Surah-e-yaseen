@@ -4,7 +4,7 @@ object Versions {
     private const val versionMinor = 0
     private const val versionPatch = 0
 
-    const val minSdk = 21
+    const val minSdk = 23
     const val targetSdk = 29
     const val compileSdk = 29
     const val buildToolsVersion = "29.0.2"

@@ -11,13 +11,18 @@
 
         <action
             android:id="@+id/splashFragment_to_mainFragment"
-            app:destination="@id/home_navigation"
+            app:destination="@id/mainScreen"
             app:popUpTo="@id/splashScreen"
             app:popUpToInclusive="true"
             />
 
     </fragment>
 
-    <include app:graph="@navigation/home_navigation" />
+    <fragment
+        android:id="@+id/mainScreen"
+        android:name="com.example.home.MainFragment"
+        android:label="Main">
+
+    </fragment>
 
 </navigation>

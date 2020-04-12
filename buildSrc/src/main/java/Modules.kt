@@ -8,4 +8,6 @@ object Modules {
     val splash = ":splash"
     val tilawat = ":tilawat"
     val recitation = ":recitation"
+    val translations = ":translations"
+    val home = ":home"
 }

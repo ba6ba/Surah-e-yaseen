@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_bottom_navigation_tialwat_title">Tilawat</string>
+    <string name="main_bottom_navigation_recitation_title">Recitation</string>
+    <string name="recitation_header_subtitle">Sura’ah</string>
+    <string name="recitation_header_title">Yaseen</string>
+</resources>

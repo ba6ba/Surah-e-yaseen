@@ -1,5 +1,8 @@
 package com.example.ui.sideDrawer
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
+import com.example.extensions.getWindowWidth
 import com.example.extensions.isTrue
 
 class SideSheetManager(private val sideSheet: SideSheet) {
@@ -14,4 +17,12 @@ class SideSheetManager(private val sideSheet: SideSheet) {
         (state != sheetState).isTrue {
             state = sheetState
         }
+
+    fun getSheetWidth(context: Context, mode: Mode, currentWidth: Int, collapseButtonSize : Int) = kotlin.run {
+        when(mode) {
+            Mode.FULL -> (context as AppCompatActivity).getWindowWidth - collapseButtonSize.div(2)
+            Mode.HALF -> (context as AppCompatActivity).getWindowWidth.div(2)
+            else -> currentWidth
+        }
+    }
 }

@@ -3,11 +3,14 @@ package com.example.ui.extensions
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import com.example.extensions.doAnimation
 import com.example.ui.R
@@ -87,3 +90,14 @@ fun View.animateByFadingOut(context: Context) = kotlin.run {
     doAnimation(context, R.anim.fade_out)
     this
 }
+
+fun <T : AttributeSet?> View.getStyleAttributes(styleableId: IntArray, t : T) =
+    context.theme.obtainStyledAttributes(t, styleableId, 0, 0)
+
+fun View.getDp(value : Int) = value.times(4)
+
+val View.constraintWrapLayoutParams
+    get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+
+val View.constraintMatchParentLayoutParams
+    get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)

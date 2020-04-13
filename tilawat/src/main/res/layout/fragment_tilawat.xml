@@ -10,6 +10,11 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:childLayout="@layout/translators_layout"
+        app:mode="custom"
+        app:openFrom="end"
+        app:sheetElevation="@dimen/general_space"
+        app:sheetBackground="@drawable/side_sheet_background"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

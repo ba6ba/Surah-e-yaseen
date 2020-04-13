@@ -12,4 +12,5 @@
     <color name="colorRipple">#1A000000</color>
     <color name="colorLightTransparent">#1A000000</color>
     <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorBlack">@android:color/black</color>
 </resources>

@@ -12,22 +12,10 @@
         <attr name="text" format="string"/>
     </declare-styleable>
 
-    <declare-styleable name="SideSheet">
-        <attr name="childLayout" format="reference"/>
-        <attr name="expandIcon" format="reference"/>
-        <attr name="collapseIcon" format="reference"/>
-        <attr name="sheetBackground" format="reference"/>
-        <attr name="openFrom" format="enum">
-            <enum name="start" value="0"/>
-            <enum name="end" value="1"/>
-        </attr>
-        <attr name="mode" format="enum">
-            <enum name="full" value="0"/>
-            <enum name="half" value="1"/>
-            <enum name="custom" value="2"/>
-        </attr>
-        <attr name="customWidth" format="dimension"/>
-        <attr name="customHeight" format="dimension"/>
-        <attr name="sheetElevation" format="dimension"/>
+    <declare-styleable name="CustomHorizontalCell">
+        <attr name="text" format="string"/>
+        <attr name="icon" format="reference"/>
+        <attr name="backgroundSelector" format="reference"/>
+        <attr name="colorIcon" format="color"/>
     </declare-styleable>
 </resources>

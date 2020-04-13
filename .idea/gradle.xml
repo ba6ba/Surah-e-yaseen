@@ -18,9 +18,11 @@
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/recitation" />
+            <option value="$PROJECT_DIR$/sidesheet" />
             <option value="$PROJECT_DIR$/splash" />
             <option value="$PROJECT_DIR$/tilawat" />
             <option value="$PROJECT_DIR$/translations" />
+            <option value="$PROJECT_DIR$/translators" />
             <option value="$PROJECT_DIR$/ui" />
           </set>
         </option>

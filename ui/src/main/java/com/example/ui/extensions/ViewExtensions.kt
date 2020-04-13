@@ -2,6 +2,8 @@ package com.example.ui.extensions
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -12,6 +14,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
 import com.example.extensions.doAnimation
 import com.example.ui.R
 
@@ -101,3 +104,9 @@ val View.constraintWrapLayoutParams
 
 val View.constraintMatchParentLayoutParams
     get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
+
+val View.isDarkColor
+    get() = ColorUtils.calculateLuminance((background as? ColorDrawable)?.color ?: color(R.color.colorAccent)) < 0.5
+
+val View.getColorBasedOnLuminance
+    get() = if (isDarkColor) color(R.color.colorBlack) else R.color.colorWhite

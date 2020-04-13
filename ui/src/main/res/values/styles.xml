@@ -20,6 +20,12 @@
         <item name="android:textColor">@color/colorAccent_80</item>
     </style>
 
+    <style name="SmallTextStyle.Accent.SemiBold" parent="TranslationTextView">
+        <item name="fontFamily">@font/muli_semibold</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="MediumTextStyle.Accent.Black" parent="TranslationTextView">
         <item name="fontFamily">@font/muli_black</item>
         <item name="android:textSize">@dimen/medium_text_size</item>

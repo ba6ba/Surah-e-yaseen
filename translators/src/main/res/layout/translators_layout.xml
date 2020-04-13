@@ -1,0 +1,51 @@
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/common_space"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.ui.com.example.ui.TranslationTextView
+            style="@style/TinyTextStyle.Accent80.SemiBold"
+            app:text="translators_list_header_sub_title"
+            android:layout_marginBottom="-6dp"
+            tools:text="@string/translators_list_header_sub_title" />
+
+        <com.example.ui.com.example.ui.TranslationTextView
+            style="@style/MediumTextStyle.Accent.Black"
+            app:text="translators_list_header_title"
+            tools:text="@string/translators_list_header_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/very_small_space"
+            android:background="@color/colorAccent" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/translatorsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/common_space"
+        android:layout_marginBottom="@dimen/common_space"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

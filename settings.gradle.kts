@@ -9,5 +9,7 @@ include(
     ":tilawat",
     ":recitation",
     ":translations",
-    ":home"
+    ":home",
+    ":sidesheet",
+    ":translators"
 )

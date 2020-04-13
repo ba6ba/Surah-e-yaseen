@@ -10,4 +10,6 @@ object Modules {
     val recitation = ":recitation"
     val translations = ":translations"
     val home = ":home"
+    val sidesheet = ":sidesheet"
+    val translators = ":translators"
 }

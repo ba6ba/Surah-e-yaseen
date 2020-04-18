@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/mainScreen"
-        android:name="com.example.home.MainFragment"
+        android:name="com.example.home.HomeFragment"
         android:label="Main">
 
     </fragment>

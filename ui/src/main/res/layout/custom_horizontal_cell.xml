@@ -5,17 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/very_small_space"
     android:id="@+id/cell"
-    android:background="@drawable/custom_horizontal_cell_background"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.example.ui.com.example.ui.TranslationTextView
         android:id="@+id/textView"
-        style="SmallTextStyle.Accent.SemiBold"
+        style="@style/SmallTextStyle.Accent.Bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:gravity="center"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/icon"

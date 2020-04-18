@@ -2,9 +2,11 @@ package com.example.ui.extensions
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.RippleDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RoundRectShape
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -12,11 +14,11 @@ import android.view.ViewGroup
 import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import com.example.extensions.doAnimation
 import com.example.ui.R
+import java.util.*
 
 fun View.drawable(@DrawableRes drawableRes: Int): Drawable? = AppCompatResources.getDrawable(context, drawableRes)
 
@@ -60,7 +62,7 @@ fun View.invisible() = run {
     this
 }
 
-fun View.visibility(show : Boolean, invisible : Boolean = false) = run {
+fun View.visibility(show: Boolean, invisible: Boolean = false) = run {
     if (show) show() else if (invisible) invisible() else hide()
 }
 
@@ -94,10 +96,10 @@ fun View.animateByFadingOut(context: Context) = kotlin.run {
     this
 }
 
-fun <T : AttributeSet?> View.getStyleAttributes(styleableId: IntArray, t : T) =
+fun <T : AttributeSet?> View.getStyleAttributes(styleableId: IntArray, t: T) =
     context.theme.obtainStyledAttributes(t, styleableId, 0, 0)
 
-fun View.getDp(value : Int) = value.times(4)
+fun View.getDp(value: Int) = value.times(4)
 
 val View.constraintWrapLayoutParams
     get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
@@ -106,7 +108,13 @@ val View.constraintMatchParentLayoutParams
     get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
 
 val View.isDarkColor
-    get() = ColorUtils.calculateLuminance((background as? ColorDrawable)?.color ?: color(R.color.colorAccent)) < 0.5
+    get() = ColorUtils.calculateLuminance(
+        when (val bg = background) {
+            is ColorDrawable -> bg.color
+            is RippleDrawable -> bg.getCurrentDrawableColor()
+            else -> null
+        } ?: color(R.color.colorWhite)
+    ) < 0.5
 
 val View.getColorBasedOnLuminance
-    get() = if (isDarkColor) color(R.color.colorBlack) else R.color.colorWhite
+    get() = color(if (isDarkColor) R.color.colorWhite else R.color.colorBlack)

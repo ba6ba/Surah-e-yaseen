@@ -5,4 +5,5 @@
     android:id="@+id/translatorItem"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:text="Mishari Rashid Al-Afasy"
+    android:layout_marginTop="@dimen/general_space"
     app:backgroundSelector="@drawable/translators_item_layout_background_selector" />

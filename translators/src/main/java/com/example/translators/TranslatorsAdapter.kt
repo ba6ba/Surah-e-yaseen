@@ -1,44 +1,32 @@
 package com.example.translators
 
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import com.example.core.BaseRecyclerViewAdapter
+import com.example.core.BaseViewHolder
 import com.example.extensions.isTrue
-import com.example.ui.extensions.getView
 import com.example.ui.horizontalcell.CustomHorizontalCellState
 import kotlinx.android.synthetic.main.translators_item_layout.view.*
 
-class TranslatorsAdapter : RecyclerView.Adapter<TranslatorsAdapter.TranslatorsViewHolder>() {
+class TranslatorsAdapter : BaseRecyclerViewAdapter<TranslatorsAdapter.TranslatorsViewHolder, Translator>() {
 
-    var translatorsList: ArrayList<Translator> = ArrayList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    override lateinit var itemClickListener: (Translator) -> Unit
+    override var itemLayout: Int = R.layout.translators_item_layout
 
-    lateinit var onClickListener : (Any) -> Unit
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TranslatorsViewHolder =
-        TranslatorsViewHolder(getView(R.layout.translators_item_layout, parent))
-
-    override fun getItemCount() = translatorsList.size
-
-    override fun onBindViewHolder(holder: TranslatorsViewHolder, position: Int) {
-        holder.onBind(translatorsList[position])
-    }
-
-    inner class TranslatorsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun onBind(translator: Translator) {
-            itemView.apply {
-                translatorItem.text = translator.translator
-                setOnClickListener {
-                    translatorItem.onClickListener = { text, state ->
-                        (CustomHorizontalCellState.HIGHLIGHTED == state).isTrue {
-                            onClickListener.invoke(text)
-                        }
+    inner class TranslatorsViewHolder(view: View) : BaseViewHolder<Translator>(view) {
+        override fun onBind(item: Translator, position: Int) {
+            itemView.translatorItem.apply {
+                text = item.translator
+                updateState(item.selected)
+                onClickListener = { text, state ->
+                    (CustomHorizontalCellState.HIGHLIGHTED == state).isTrue {
+                        itemClickListener.invoke(item)
                     }
+                    listItems.forEach { it.selected = it.id == item.id }
+                    notifyDataSetChanged()
                 }
             }
         }
     }
+
+    override fun viewHolder(view: View) = TranslatorsViewHolder(view)
 }

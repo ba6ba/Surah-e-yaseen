@@ -44,6 +44,6 @@ object Versions {
     const val fragmentKTXVersion = "1.2.2"
 
     const val navigation = "2.3.0-alpha04"
-    const val koin = "2.0.0-beta-1"
+    const val koin = "2.1.5"
 
 }

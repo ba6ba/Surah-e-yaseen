@@ -1,5 +1,7 @@
 package com.example.extensions
 
-fun Boolean.isTrue(func : () -> Unit) = run { if (this) func() else null }
+typealias Condition = Boolean.() -> Unit
 
-fun Boolean.isFalse(func : () -> Unit) = run { if (this.not()) func() else null }
+fun Boolean.isTrue(func : Condition) = run { if (this) func() else null }
+
+fun Boolean.isFalse(func : Condition) = run { if (this.not()) func() else null }

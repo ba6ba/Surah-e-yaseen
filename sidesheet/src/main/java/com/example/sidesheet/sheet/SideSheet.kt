@@ -23,7 +23,8 @@ class SideSheet @JvmOverloads constructor(context: Context, private val attribut
     var childView: View? = null
     var sheetWidth: Int = 0
     var sheetHeight: Int = ConstraintLayout.LayoutParams.MATCH_PARENT
-    lateinit var childLayoutInflateCompleteListener : (View?) -> Unit
+    var childLayoutInflateCompleteListener : ((View?) -> Unit)? = null
+    lateinit var collapseTrigger : () -> Unit
     var openFrom: OpenFrom = OpenFrom.END
     @LayoutRes
     var childLayout: Int = -1
@@ -69,6 +70,9 @@ class SideSheet @JvmOverloads constructor(context: Context, private val attribut
         getAttributes(attributeSet)
         observerStateListener()
         onClickListeners()
+        collapseTrigger = {
+            collapseSheet()
+        }
     }
 
     private fun inflateChildViewAndApplyConstraints(value: Int) {
@@ -77,7 +81,7 @@ class SideSheet @JvmOverloads constructor(context: Context, private val attribut
             layoutParams = applySheetConstraints()
         }
         childView = childStub.inflate()
-        childLayoutInflateCompleteListener(childView)
+        childLayoutInflateCompleteListener?.invoke(childView)
         updateButtons()
     }
 

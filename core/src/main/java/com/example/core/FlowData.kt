@@ -1,4 +1,4 @@
-package com.example.tilawat
+package com.example.core
 
 import androidx.lifecycle.MutableLiveData
 

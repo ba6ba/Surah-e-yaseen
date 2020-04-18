@@ -25,7 +25,7 @@ class CustomHorizontalCell @JvmOverloads constructor(
         set(value) {
             field = value
             onClickListener?.invoke(text, value)
-            textView.setTextColor(cell.getColorBasedOnLuminance)
+            updateTextAppearance()
         }
 
     var backgroundSelector: Drawable = defaultBackgroundSelector
@@ -65,10 +65,17 @@ class CustomHorizontalCell @JvmOverloads constructor(
 
     private fun setListener() {
         cell.setOnClickListener {
-            isSelected = !isSelected
+            updateState()
             state = if (isSelected) HIGHLIGHTED else DEFAULT
         }
     }
+
+    fun updateState(update : Boolean = !isSelected) {
+        isSelected = update
+        updateTextAppearance()
+    }
+
+    private fun updateTextAppearance() = textView.setTextColor(cell.getColorBasedOnLuminance)
 
     private fun getAttributes(attributeSet: AttributeSet?) {
         getStyleAttributes(R.styleable.CustomHorizontalCell, attributeSet).apply {

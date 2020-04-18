@@ -1,6 +1,8 @@
 apply from: "$rootDir/common-android-library.gradle"
 
 dependencies {
-	implementation Koin.koinViewModel
-	implementation Koin.koinAndroid
+	api Koin.koinViewModel
+	api Koin.koinAndroid
+	api Koin.koinAndroidScope
+	api Koin.koinFragment
 }

@@ -13,8 +13,8 @@
     </declare-styleable>
 
     <declare-styleable name="CustomHorizontalCell">
-        <attr name="text" format="string"/>
-        <attr name="icon" format="reference"/>
+        <attr name="text"/>
+        <attr name="icon"/>
         <attr name="backgroundSelector" format="reference"/>
         <attr name="colorIcon" format="color"/>
     </declare-styleable>

@@ -1,7 +1,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/common_space"
+    android:padding="@dimen/medium_space"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -42,10 +42,20 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/common_space"
         android:layout_marginBottom="@dimen/common_space"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/aboutText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:text="about_text"
+        android:id="@+id/aboutText"
+        style="@style/TinyTextStyle.Accent80.SemiBold"
+        tools:text="@string/about_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

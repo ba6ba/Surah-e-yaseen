@@ -26,6 +26,12 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="SmallTextStyle.Accent.Bold" parent="TranslationTextView">
+        <item name="fontFamily">@font/muli_bold</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="MediumTextStyle.Accent.Black" parent="TranslationTextView">
         <item name="fontFamily">@font/muli_black</item>
         <item name="android:textSize">@dimen/medium_text_size</item>

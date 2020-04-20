@@ -5,4 +5,12 @@ object Modules {
     val ui = ":ui"
     val extensions = ":extensions"
     val di = ":di"
+    val splash = ":splash"
+    val tilawat = ":tilawat"
+    val recitation = ":recitation"
+    val translations = ":translations"
+    val home = ":home"
+    val sidesheet = ":sidesheet"
+    val translators = ":translators"
+    val listpager = ":listpager"
 }

@@ -1,6 +1,8 @@
 apply from: "$rootDir/common-android-library.gradle"
 
 dependencies {
-	implementation Navigation.navigation
-	implementation Navigation.navigationKtx
+	api Koin.koinViewModel
+	api Koin.koinAndroid
+	api Koin.koinAndroidScope
+	api Koin.koinFragment
 }

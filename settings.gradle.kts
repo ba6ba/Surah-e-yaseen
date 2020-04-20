@@ -4,5 +4,13 @@ include(
     ":core",
     ":ui",
     ":extensions",
-    ":di"
+    ":di",
+    ":splash",
+    ":tilawat",
+    ":recitation",
+    ":translations",
+    ":home",
+    ":sidesheet",
+    ":translators",
+    ":listpager"
 )

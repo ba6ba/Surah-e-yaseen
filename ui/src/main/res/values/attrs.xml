@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FloatingTabItem">
+        <attr name="indicator" format="reference"/>
+        <attr name="indicatorTint" format="color"/>
+        <attr name="title" format="string"/>
+        <attr name="icon" format="reference"/>
+        <attr name="iconBackground" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="TranslationTextView">
+        <attr name="text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomHorizontalCell">
+        <attr name="text"/>
+        <attr name="icon"/>
+        <attr name="backgroundSelector" format="reference"/>
+        <attr name="colorIcon" format="color"/>
+    </declare-styleable>
+</resources>

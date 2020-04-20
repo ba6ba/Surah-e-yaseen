@@ -7,4 +7,7 @@ dependencies {
 	api(UI.swipeRefreshLayout)
 	api(UI.cardView)
 	api(UI.recyclerView)
+
+	api project(Modules.extensions)
+	api project(Modules.translations)
 }

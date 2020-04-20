@@ -1,12 +1,9 @@
 package com.example.app
 
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import com.example.core.BaseActivity
+import com.example.extensions.enableFullScreenMode
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(R.layout.activity_main) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
 }

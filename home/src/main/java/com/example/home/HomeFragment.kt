@@ -21,6 +21,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         bottomNavigation.apply {
             TabLayoutMediator(getTabLayout(),
                 viewPager.apply {
+                    isUserInputEnabled = false
                     adapter = HomeAdapter(this@HomeFragment)
                     registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                         override fun onPageSelected(position: Int) {

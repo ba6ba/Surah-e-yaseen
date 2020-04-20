@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ListPagerSwitcherViewsStyle">
+        <item name="android:layout_width">@dimen/page_switcher_views_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">visible</item>
+        <item name="background">@drawable/round_white_holder</item>
+    </style>
+</resources>

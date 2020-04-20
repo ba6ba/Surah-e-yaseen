@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/recitation_item_layout_min_width"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/general_space"
+    android:layout_marginBottom="@dimen/general_space"
+    android:layout_marginStart="@dimen/common_space"
+    android:layout_marginEnd="@dimen/common_space"
+    android:background="@drawable/recitation_item_background_with_ripple">
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:id="@+id/arabicTextView"
+        style="@style/LargeTextStyle.Accent.Bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="عَلٰى صِرَاطٍ مُّسۡتَقِيۡمٍؕ‏"
+        tools:text="عَلٰى صِرَاطٍ مُّسۡتَقِيۡمٍؕ‏" />
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:id="@+id/urduTextView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/arabicTextView"
+        app:text="سیدھے راستے کی طرف"
+        tools:text="سیدھے راستے کی طرفٍؕ‏"
+        style="@style/SmallTextStyle.Accent.Italic"
+        />
+
+    <TextView
+        android:id="@+id/englishTextView"
+        style="@style/SmallTextStyle.Accent.Italic"
+        android:layout_width="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/urduTextView"
+        tools:text="On a straight pathٍؕ‏" />
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:id="@+id/ayahNumber"
+        style="@style/TinyTextStyle.Accent80.SemiBold"
+        android:fontFamily="@font/muli_bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/ayah_background"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/englishTextView"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

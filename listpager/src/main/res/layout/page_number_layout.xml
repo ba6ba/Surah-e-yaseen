@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ListPagerSwitcherViewsStyle"
+    android:id="@+id/pageNumberRoot"
+    android:padding="@dimen/general_space">
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:id="@+id/heading"
+        style="@style/VerySmallTextStyle.Accent.Light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/general_space"
+        app:layout_constraintTop_toTopOf="parent"
+        app:text="page_number"
+        tools:text="@string/page_number" />
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:id="@+id/pageNumber"
+        style="@style/SmallTextStyle.Accent.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textSize="@dimen/common_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/general_space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="01" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

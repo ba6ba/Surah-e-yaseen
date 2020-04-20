@@ -12,4 +12,5 @@ object Modules {
     val home = ":home"
     val sidesheet = ":sidesheet"
     val translators = ":translators"
+    val listpager = ":listpager"
 }

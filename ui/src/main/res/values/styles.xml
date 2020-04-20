@@ -32,9 +32,30 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="LargeTextStyle.Accent.Bold" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:fontFamily">@font/muli_bold</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="SmallTextStyle.Accent.Italic" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:fontFamily">@font/muli_italic</item>
+    </style>
+
     <style name="MediumTextStyle.Accent.Black" parent="TranslationTextView">
         <item name="fontFamily">@font/muli_black</item>
         <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="VerySmallTextStyle.Accent.Light" parent="TranslationTextView">
+        <item name="fontFamily">@font/muli_light</item>
+        <item name="android:textSize">@dimen/very_small_text_size</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 

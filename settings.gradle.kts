@@ -11,5 +11,6 @@ include(
     ":translations",
     ":home",
     ":sidesheet",
-    ":translators"
+    ":translators",
+    ":listpager"
 )

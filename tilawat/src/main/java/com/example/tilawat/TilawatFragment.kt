@@ -3,6 +3,7 @@ package com.example.tilawat
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.core.BaseFragment
 import com.example.core.FlowData
 import com.example.sidesheet.sheet.SideSheetStates

@@ -80,8 +80,8 @@ class FloatingTabItem @JvmOverloads constructor(
             attributeSet, R.styleable.FloatingTabItem, 0,
             0
         ).apply {
-            indicatorTint = getColorStateList(R.styleable.FloatingTabItem_indicatorTint)
-            iconTint = getColorStateList(R.styleable.FloatingTabItem_iconBackground)
+            indicatorTint = getColorStateList(R.styleable.FloatingTabItem_indicatorTint) ?: defaultColorStateList
+            iconTint = getColorStateList(R.styleable.FloatingTabItem_iconBackground) ?: defaultColorStateList
             iconRes = getIconResourceValue(this, R.styleable.FloatingTabItem_icon)
             indicatorRes = getIconResourceValue(this, R.styleable.FloatingTabItem_indicator)
             text = getString(R.styleable.FloatingTabItem_title)

@@ -7,4 +7,5 @@
     <string name="translators_list_header_title">Translators</string>
     <string name="translators_list_header_sub_title">Choose</string>
     <string name="about_text">About Us</string>
+    <string name="page_number">Page\nNumber</string>
 </resources>

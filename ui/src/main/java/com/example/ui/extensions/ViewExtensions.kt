@@ -1,5 +1,6 @@
 package com.example.ui.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
@@ -118,6 +119,7 @@ val View.constraintWidthMatchConstraint
     get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
 
 val View.isDarkColor
+    @SuppressLint("NewApi")
     get() = ColorUtils.calculateLuminance(
         when (val bg = background) {
             is ColorDrawable -> bg.color

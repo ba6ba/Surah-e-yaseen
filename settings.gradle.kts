@@ -12,5 +12,9 @@ include(
     ":home",
     ":sidesheet",
     ":translators",
-    ":listpager"
+    ":listpager",
+    ":network",
+    ":data"
 )
+
+rootProject.buildFileName = "build.gradle.kts"

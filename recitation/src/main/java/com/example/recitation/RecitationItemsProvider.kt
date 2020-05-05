@@ -1,10 +1,6 @@
 package com.example.recitation
 
 import androidx.lifecycle.MutableLiveData
-import com.example.extensions.isTrue
-import com.example.listpager.PagerList
-import java.util.HashMap
-import kotlin.math.ceil
 
 class RecitationItemsProvider {
 

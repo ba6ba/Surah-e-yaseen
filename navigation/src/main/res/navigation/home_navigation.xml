@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/recitationFragment"
-        android:name="com.example.recitation.RecitationFragment"
+        android:name="com.example.recitation.ui.RecitationFragment"
         android:label="Splash"/>
 
 </navigation>

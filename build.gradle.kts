@@ -1,23 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-    dependencies {
-        classpath(Gradle.pathGradle)
-        classpath(Google.googleServices)
-        classpath(Kotlin.kotlinGradle)
-    }
-}
+import extensions.applyDefault
 
 allprojects {
-    repositories {
-        maven(url = "https://jitpack.io")
-        maven(url = "https://maven.google.com")
-        google()
-        jcenter()
-    }
+    repositories.applyDefault()
 }
 
 tasks.register("clean", Delete::class) {

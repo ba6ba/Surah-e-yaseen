@@ -10,8 +10,9 @@ import retrofit2.http.Query
 interface Chapters {
     @GET("chapters/{chapterNumber}/verses")
     suspend fun fetchVerses(@Path(value = "chapterNumber", encoded = true) chapterNumber : Int,
-        @Query("limit") limit : Int = 1,
-        @Query("page") page : Int = 1, @Query("language") language : String = LanguageProvider.getDefaultLanguageCode) : VersesResponse
+        @Query("limit") limit : Int = 1, @Query("offset") offset : Int = 0,
+        @Query("translations[]") translations : List<Int>,
+        /*@Query("page") page : Int = 1,*/ @Query("language") language : String = LanguageProvider.getDefaultLanguageCode) : VersesResponse
 
     @GET("chapters/{chapterNumber}")
     suspend fun info(@Path(value = "chapterNumber", encoded = true) chapterNumber : Int) : ChapterResponse

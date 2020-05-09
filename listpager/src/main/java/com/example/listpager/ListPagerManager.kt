@@ -22,7 +22,7 @@ class ListPagerManager<T> {
 
     fun createViewPagerAdapter(@LayoutRes viewPagerItemLayoutResId: Int,
         viewPagerAdapter: ListPagerAdapter<T>.() -> Unit, viewHolder: (View) -> RecyclerView.ViewHolder,
-        viewHolderCallback: (RecyclerView.ViewHolder, MutableList<T>, Int) -> Unit
+        viewHolderCallback: (RecyclerView.ViewHolder, List<T>, Int) -> Unit
         ) = kotlin.run {
         viewPagerAdapter(ListPagerAdapter(viewPagerItemLayoutResId, viewHolder, viewHolderCallback).also {
             pagerAdapter = it
@@ -30,10 +30,10 @@ class ListPagerManager<T> {
     }
 
     fun createViewPagerItemAdapter(@LayoutRes itemLayoutResId: Int, itemViewHolder : (View) -> RecyclerView.ViewHolder,
-        itemViewHolderCallBack: (RecyclerView.ViewHolder, MutableList<T>, Int) -> Unit) =
+        itemViewHolderCallBack: (RecyclerView.ViewHolder, List<T>, Int) -> Unit) =
         ListPagerItemsAdapter(itemLayoutResId, itemViewHolder, itemViewHolderCallBack)
 
-    fun populateData(arrayList: ArrayList<T>) = kotlin.run {
+    fun populateData(arrayList: List<T>) = kotlin.run {
         if (this::pagerAdapter.isInitialized) {
             pagerAdapter.itemsList = toPagerList(getList(arrayList))
         } else {
@@ -41,10 +41,10 @@ class ListPagerManager<T> {
         }
     }
 
-    private fun getList(arrayList: ArrayList<T>, @ItemsPerPage numberOfItems: Int = numberOfItemsPerPage) = run {
+    private fun getList(arrayList: List<T>, @ItemsPerPage numberOfItems: Int = numberOfItemsPerPage) = run {
         val numberOfPages = ceil(arrayList.size.toDouble().div(numberOfItems))
         var range = 0..numberOfItems
-        hashMapOf<Int, MutableList<T>>().apply {
+        hashMapOf<Int, List<T>>().apply {
             for (i in 0 until numberOfPages.toInt()) {
                 if (range.last <= arrayList.size) {
                     put(i + 1, arrayList.subList(range.first, range.last))
@@ -57,12 +57,11 @@ class ListPagerManager<T> {
         }
     }
 
-    private fun toPagerList(hashMap: HashMap<Int, MutableList<T>>) = kotlin.run {
+    private fun toPagerList(hashMap: HashMap<Int, List<T>>) = kotlin.run {
         mutableListOf<PagerList<T>>().apply {
             for (i in hashMap.keys.indices) {
                 add(PagerList(pageNo = i + 1, item = hashMap[i + 1]!!))
             }
-        }
+        } as List<PagerList<T>>
     }
-
 }

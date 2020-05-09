@@ -11,7 +11,7 @@ import com.example.extensions.showToast
 
 abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(layoutRes) {
 
-    abstract fun <M : BaseViewModel> getViewModel() : BaseViewModel?
+    abstract fun getViewModel() : BaseViewModel?
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -19,7 +19,7 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(la
     }
 
     private fun observeErrorHandler() {
-        getViewModel<BaseViewModel>()?.apply {
+        getViewModel()?.apply {
             errorLiveData.observeOnce(viewLifecycleOwner) { genericError ->
                 if (GenericError.Severity.HIGH == genericError.severity) {
                     // open Fragment to block user from doing any actions

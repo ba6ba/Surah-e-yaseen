@@ -10,8 +10,8 @@ class ChapterRepository(private val chapters: Chapters) : BaseRepository() {
             chapters.info(chapterNumber = chapterNumber)
         }
 
-    suspend fun getChapterVerses(chapterNumber: Int, page: Int, errorHandler: ErrorHandler) =
+    suspend fun getChapterVerses(chapterNumber: Int, page: Int, limit : Int, offset : Int, translations : List<Int> ,errorHandler: ErrorHandler) =
         makeApiCall(errorHandler) {
-            chapters.fetchVerses(chapterNumber = chapterNumber, page = page)
+            chapters.fetchVerses(chapterNumber = chapterNumber, limit = limit, offset = offset, translations = translations)
         }
 }

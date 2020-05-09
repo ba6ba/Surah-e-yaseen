@@ -24,10 +24,12 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     private var translatorsListView : TranslatorsListView = TranslatorsListView(translatorsAdapter, translatorsProvider)
     private val tilawatViewModel : TilawatViewModel by viewModel()
 
-    override fun <M : BaseViewModel> getViewModel() = tilawatViewModel
-
     companion object {
         fun newInstance() = TilawatFragment()
+    }
+
+    override fun getViewModel(): BaseViewModel? {
+        return tilawatViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

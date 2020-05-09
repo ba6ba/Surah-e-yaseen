@@ -9,7 +9,8 @@ import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 
 class SplashFragment : BaseFragment(R.layout.fragment_splash) {
-    override fun <M : BaseViewModel> getViewModel(): M? {
+
+    override fun getViewModel(): BaseViewModel? {
         return null
     }
 

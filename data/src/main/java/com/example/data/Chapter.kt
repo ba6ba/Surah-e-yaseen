@@ -10,9 +10,9 @@ data class Chapter(
     var name: String?,
     var revelationOrder: Int?,
     var revelationPlace: String?,
-    var verses: List<Verse>?
+    var verses: ArrayList<Verse> = arrayListOf()
 ) {
-    constructor(chapterInfo: ChapterInfo?, verses: List<Verse>?) :
+    constructor(chapterInfo: ChapterInfo?, verses: ArrayList<Verse> = arrayListOf()) :
             this(number = chapterInfo?.chapterNumber,
                 hasBismillah = chapterInfo?.bismillahPre,
                 numberOfVerses = chapterInfo?.numberOfVerses,

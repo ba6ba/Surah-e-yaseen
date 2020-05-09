@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RoundedBackgroundImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="RoundedBackgroundImageView.First" parent="RoundedBackgroundImageView">
+        <item name="cornerSize">12%</item>
+    </style>
+
+    <style name="RoundedBackgroundImageView.Second" parent="RoundedBackgroundImageView">
+        <item name="cornerSize">9%</item>
+    </style>
+</resources>

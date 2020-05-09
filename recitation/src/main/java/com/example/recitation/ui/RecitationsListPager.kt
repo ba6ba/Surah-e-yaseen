@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.data.verse.Verse
 import com.example.listpager.ListPager
-import com.example.recitation.Verse
 
 class RecitationsListPager @JvmOverloads constructor(
     context: Context,
@@ -14,6 +14,7 @@ class RecitationsListPager @JvmOverloads constructor(
 ) : ListPager<Verse>(context, attributeSet, defStyleRes) {
 
     lateinit var onItemClickListener : (Verse) -> Unit
+    var onPageChangeCallbackListener : ((Int) -> Unit)? = null
 
     init {
         createViews()
@@ -25,7 +26,12 @@ class RecitationsListPager @JvmOverloads constructor(
         }
     }
 
-    override var itemViewHolderCallBack: (RecyclerView.ViewHolder, MutableList<Verse>, Int) -> Unit = { holder, list, position ->
+    override var itemViewHolderCallBack: (RecyclerView.ViewHolder, List<Verse>, Int) -> Unit = { holder, list, position ->
         (holder as RecitationItemViewHolder).onBind(list[position])
+    }
+
+    override fun onPageChangeCallback(position: Int) {
+        super.onPageChangeCallback(position)
+        onPageChangeCallbackListener?.invoke(position)
     }
 }

@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.example.extensions.checkForTrue
 import com.example.extensions.isTrue
 import com.example.ui.extensions.inflateAndGetStyleAttributes
 import com.example.ui.extensions.isValidResourceId
@@ -21,7 +22,7 @@ abstract class ListPager<T> @JvmOverloads constructor(
 
     private var listPagerManager: ListPagerManager<T> = ListPagerManager()
     abstract var itemViewHolder: (View) -> RecyclerView.ViewHolder
-    abstract var itemViewHolderCallBack: (RecyclerView.ViewHolder, MutableList<T>, Int) -> Unit
+    abstract var itemViewHolderCallBack: (RecyclerView.ViewHolder, List<T>, Int) -> Unit
 
     var isRtl: Boolean = false
     val pager: ViewPager2
@@ -50,7 +51,7 @@ abstract class ListPager<T> @JvmOverloads constructor(
         }
     }
 
-    fun populateData(arrayList: ArrayList<T>) = listPagerManager.populateData(arrayList)
+    fun populateData(arrayList: List<T>) = listPagerManager.populateData(arrayList)
 
     protected fun createViews() {
         itemLayout.isValidResourceId().isTrue {
@@ -69,6 +70,7 @@ abstract class ListPager<T> @JvmOverloads constructor(
 
     private fun configureViewPager(listPagerAdapter: ListPagerAdapter<T>) {
         listViewPager.apply {
+            isUserInputEnabled = false
             layoutDirection = if (isRtl) ViewPager2.LAYOUT_DIRECTION_RTL else ViewPager2.LAYOUT_DIRECTION_LTR
             adapter = listPagerAdapter
             setPageTransformer(transformer)
@@ -89,7 +91,7 @@ abstract class ListPager<T> @JvmOverloads constructor(
     }
 
     open fun onPageChangeCallback(position: Int) {
-        //
+        listViewPager.moveChildRecyclerViewToTop()
     }
 
     fun navigateNext() {

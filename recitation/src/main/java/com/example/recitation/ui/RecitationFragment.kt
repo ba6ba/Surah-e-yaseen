@@ -2,24 +2,20 @@ package com.example.recitation.ui
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.extensions.observeOnce
-import com.example.extensions.showToast
 import com.example.recitation.R
-import com.example.recitation.RecitationItemsProvider
 import com.example.recitation.RecitationViewModel
 import kotlinx.android.synthetic.main.fragment_recitation.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecitationFragment : BaseFragment(R.layout.fragment_recitation) {
 
-    private val recitationItemsProvider : RecitationItemsProvider by inject()
     private val recitationViewModel : RecitationViewModel by viewModel()
-    override fun <M : BaseViewModel> getViewModel(): BaseViewModel? = recitationViewModel
+    override fun getViewModel(): BaseViewModel? {
+        return recitationViewModel
+    }
 
     companion object {
         fun newInstance() = RecitationFragment()
@@ -27,23 +23,35 @@ class RecitationFragment : BaseFragment(R.layout.fragment_recitation) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
+        setObservers()
+    }
+
+    private fun setObservers() {
+        recitationViewModel.apply {
+            canFetchVerses.observeOnce(viewLifecycleOwner) { nothing ->
+                requestForVersesData()
+            }
+        }
+    }
+
+    private fun requestForVersesData(pageNo : Int = 0) {
+        recitationViewModel.fetchVerses(recitationsListPager, pageNo).observeOnce(viewLifecycleOwner) { chapter ->
+            recitationsListPager.populateData(chapter?.verses.orEmpty())
+        }
+    }
+
+    private fun initViews() {
         recitationsListPager.apply {
             onItemClickListener = { verse ->
                 verse
             }
 
-            recitationItemsProvider.recitationsLiveData.observe(viewLifecycleOwner, Observer {
-                populateData(it)
-            })
-
             listPagerSwitcher.setupWithListPager(this)
-        }
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        recitationViewModel.chapter.observeOnce(viewLifecycleOwner) {
-            showToast(it.arabicName.toString())
+            onPageChangeCallbackListener = { pageNo ->
+                requestForVersesData(pageNo = pageNo)
+            }
         }
     }
 }

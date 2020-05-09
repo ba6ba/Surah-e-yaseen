@@ -9,3 +9,7 @@ private val chaptersData = mapOf(
 )
 
 fun getChapterNumber(name : String) = chaptersData[name]!!
+
+enum class DO {
+    NOTHING
+}

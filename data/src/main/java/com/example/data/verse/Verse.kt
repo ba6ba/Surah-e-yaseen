@@ -17,5 +17,9 @@ data class Verse(
     var sajdahNumber : String?,
     @field:Json(name = "words")
     var contents : List<Content>?,
+    var translations: List<Translation>?,
     var showSajdah : Boolean = sajdah.isNullOrEmpty().not() && sajdah == "required"
 ) : BaseVerse()
+
+fun Verse?.translation(translatorId : Int) = this?.translations?.filter { it.translatorId == translatorId }?.
+    joinToString(separator = " ") { it.text ?: "" }

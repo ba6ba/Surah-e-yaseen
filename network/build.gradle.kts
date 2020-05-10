@@ -10,6 +10,9 @@ android {
         getByName(BuildType.DEBUG) {
             stringBuildConfigField("BASE_URL", "https://quran.com/api/api/v3/")
         }
+        getByName(BuildType.RELEASE) {
+            stringBuildConfigField("BASE_URL", "https://quran.com/api/api/v3/")
+        }
     }
 }
 

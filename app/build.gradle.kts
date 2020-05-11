@@ -5,6 +5,7 @@ plugins {
     id(BuildPlugins.androidApplication)
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinAndroidExtension)
+    id(BuildPlugins.kotlinKapt)
 }
 
 android {
@@ -51,6 +52,15 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    dexOptions {
+        preDexLibraries = true
+        jumboMode = false
+    }
+
+    kapt {
+        useBuildCache = true
     }
 }
 

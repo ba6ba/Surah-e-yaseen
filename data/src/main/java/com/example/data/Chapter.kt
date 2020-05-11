@@ -25,7 +25,7 @@ data class Chapter(
     fun isValid() =
         number.isNotNull().and(hasBismillah.isNotNull()).and(numberOfVerses.isNotNull()).
             and(arabicName.isNotNull()).and(name.isNotNull()).and(revelationOrder.isNotNull()).
-            and(revelationPlace.isNotNull()).and(verses.isNotNull()).and(verses?.isNotEmpty() == true)
+            and(revelationPlace.isNotNull()).and(verses.isNotNull()).and(verses.isNotEmpty())
 }
 
 fun Chapter.get() = if (isValid()) this else null

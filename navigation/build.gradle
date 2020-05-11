@@ -1,7 +1,0 @@
-apply from: "$rootDir/common-android-library.gradle"
-
-dependencies {
-	api Navigation.navigation
-	api Navigation.navigationKtx
-	api Navigation.navigationDynamicFeature
-}

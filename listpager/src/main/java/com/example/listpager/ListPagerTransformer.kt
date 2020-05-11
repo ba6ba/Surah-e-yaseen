@@ -12,7 +12,4 @@ val transformer = ViewPager2.PageTransformer { page, position ->
         page.scaleY = scaleFactor
         page.translationX = w * (1 - position) - w
     }
-//    page.apply {
-//        alpha = 0.25f + (1 - abs(position))
-//    }
 }

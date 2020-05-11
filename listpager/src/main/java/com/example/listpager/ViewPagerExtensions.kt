@@ -1,7 +1,9 @@
 package com.example.listpager
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.extensions.isTrue
+import com.example.ui.extensions.scrollToTop
 
 fun ViewPager2.moveToNextItem(smoothScroll : Boolean = true) = kotlin.run {
     (nextItem <= adapter?.itemCount ?: 0).isTrue {
@@ -23,3 +25,10 @@ val ViewPager2.previousItem
 
 val ViewPager2.initialItem
     get() = 0
+
+val ViewPager2.itemCount
+    get() = adapter?.itemCount
+
+fun ViewPager2?.moveChildRecyclerViewToTop() {
+    this?.findViewById<RecyclerView>(R.id.itemsRecyclerView)?.scrollToTop()
+}

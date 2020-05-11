@@ -1,0 +1,17 @@
+object BuildModules {
+    const val navigation = ":navigation"
+    const val core = ":core"
+    const val ui = ":ui"
+    const val extensions = ":extensions"
+    const val di = ":di"
+    const val splash = ":splash"
+    const val tilawat = ":tilawat"
+    const val recitation = ":recitation"
+    const val translations = ":translations"
+    const val home = ":home"
+    const val sidesheet = ":sidesheet"
+    const val translators = ":translators"
+    const val listpager = ":listpager"
+    const val network = ":network"
+    const val data = ":data"
+}

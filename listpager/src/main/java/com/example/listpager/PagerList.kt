@@ -1,3 +1,3 @@
 package com.example.listpager
 
-data class PagerList<T> (var pageNo : Int, var item : MutableList<T>)
+data class PagerList<T> (var pageNo : Int, var item : List<T>)

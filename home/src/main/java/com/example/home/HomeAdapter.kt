@@ -2,7 +2,7 @@ package com.example.home
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.recitation.RecitationFragment
+import com.example.recitation.ui.RecitationFragment
 import com.example.tilawat.TilawatFragment
 import com.example.ui.bottomTab.FloatingBottomNavigation.Companion.NO_OF_TABS
 

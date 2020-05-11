@@ -1,20 +1,24 @@
 package com.example.extensions
 
-import android.app.Activity
 import android.util.DisplayMetrics
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
-fun Activity.enableFullScreenMode(hasFocus: Boolean) = kotlin.run {
+fun AppCompatActivity.enableFullScreenMode(hasFocus: Boolean) = kotlin.run {
     if (hasFocus)
         window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
 }
 
-val Activity.getWindowWidth
+val AppCompatActivity.getWindowWidth
     get() = DisplayMetrics().apply {
         windowManager.defaultDisplay.getMetrics(this)
     }.widthPixels
 
-val Activity.getWindowHeight
+val AppCompatActivity.getWindowHeight
     get() = DisplayMetrics().apply {
         windowManager.defaultDisplay.getMetrics(this)
     }.heightPixels
+
+fun AppCompatActivity.showToast(message : String, length : Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(this, message, length).show()

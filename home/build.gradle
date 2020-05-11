@@ -1,7 +1,0 @@
-apply from: "$rootDir/common-android-library.gradle"
-
-dependencies {
-	implementation project(Modules.core)
-	implementation project(Modules.tilawat)
-	implementation project(Modules.recitation)
-}

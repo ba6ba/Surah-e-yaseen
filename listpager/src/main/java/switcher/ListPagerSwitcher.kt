@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.example.extensions.greaterThan
 import com.example.listpager.ListPager
+import com.example.listpager.itemCount
 import com.example.listpager.moveToNextItem
 import com.example.listpager.moveToPreviousItem
 import com.example.ui.com.example.ui.TranslationTextView

@@ -3,22 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/recitation_item_layout_min_width"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/general_space"
     android:layout_marginBottom="@dimen/general_space"
     android:layout_marginStart="@dimen/common_space"
-    android:layout_marginEnd="@dimen/common_space"
-    android:background="@drawable/recitation_item_background_with_ripple">
+    android:layout_marginEnd="@dimen/common_space">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/recitation_item_first_background_with_ripple"
+        android:scaleType="fitXY"
+        app:shapeAppearanceOverlay="@style/RoundedBackgroundImageView.First"
+        />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/recitation_item_second_backgroud_with_ripple"
+        android:scaleType="fitXY"
+        android:layout_margin="@dimen/general_space"
+        app:shapeAppearanceOverlay="@style/RoundedBackgroundImageView.Second"
+        />
 
     <com.example.ui.com.example.ui.TranslationTextView
         android:id="@+id/arabicTextView"
         style="@style/LargeTextStyle.Accent.Bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,9 +51,9 @@
     <com.example.ui.com.example.ui.TranslationTextView
         android:id="@+id/urduTextView"
         android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/arabicTextView"
@@ -45,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/urduTextView"
@@ -66,6 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/englishTextView"
+        android:layout_marginTop="@dimen/normal_space"
         app:layout_constraintVertical_bias="1.0"
         tools:text="1" />
 

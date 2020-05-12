@@ -8,3 +8,12 @@
 .externalNativeBuild
 .cxx
 .gitignore
+/buildSrc/build/
+buildSrc/build/kotlin/
+data/build/
+home/build/
+listpager/build/
+network/build/
+sidesheet/build/
+translations/build/
+translators/build/

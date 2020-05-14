@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
-        android:id="@+id/include"
         android:layout_width="@dimen/page_switcher_views_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

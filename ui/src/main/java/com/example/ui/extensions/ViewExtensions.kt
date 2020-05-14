@@ -12,7 +12,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +27,7 @@ fun View.dimension(@DimenRes dimenRes: Int) = resources.getDimension(dimenRes)
 
 fun View.string(@StringRes stringRes: Int) = resources.getString(stringRes)
 
-fun View.colorStateList(@ColorRes color: Int) : ColorStateList = AppCompatResources.getColorStateList(context, color)
+fun View.colorStateList(@ColorRes color: Int): ColorStateList = AppCompatResources.getColorStateList(context, color)
 
 fun View.color(@ColorRes color: Int) = resources.getColor(color)
 
@@ -43,7 +42,7 @@ val View.primaryDarkColor
 val View.accentColor
     get() = colorStateList(R.color.colorAccent)
 
-fun ViewGroup.inflate(@LayoutRes resourceId: Int) : View = View.inflate(context, resourceId, this)
+fun ViewGroup.inflate(@LayoutRes resourceId: Int): View = View.inflate(context, resourceId, this)
 
 fun View.getIconResourceValue(a: TypedArray, styleableId: Int) = TypedValue().also {
     a.getValue(styleableId, it)
@@ -68,41 +67,43 @@ fun View.visibility(show: Boolean, invisible: Boolean = false) = run {
     if (show) show() else if (invisible) invisible() else hide()
 }
 
-fun View.animateByPushingLeftIn(context: Context) = run {
-    doAnimation(context, R.anim.push_left_in)
+fun View.animateByPushingLeftIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.push_left_in, animationCompleted)
     this
 }
 
-fun View.animateByPushingRightIn(context: Context) = run {
-    doAnimation(context, R.anim.push_right_in)
+fun View.animateByPushingRightIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.push_right_in, animationCompleted)
     this
 }
 
-fun View.animateByPushingLeftOut(context: Context) = kotlin.run {
-    doAnimation(context, R.anim.push_left_out)
+fun View.animateByPushingLeftOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = kotlin.run {
+    doAnimation(context, R.anim.push_left_out, animationCompleted)
     this
 }
 
-fun View.animateByPushingRightOut(context: Context) = kotlin.run {
-    doAnimation(context, R.anim.push_right_out)
+fun View.animateByPushingRightOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = kotlin.run {
+    doAnimation(context, R.anim.push_right_out, animationCompleted)
     this
 }
 
-fun View.animateByFadingIn(context: Context) = kotlin.run {
-    doAnimation(context, R.anim.fade_in)
+fun View.animateByFadingIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = kotlin.run {
+    doAnimation(context, R.anim.fade_in, animationCompleted)
     this
 }
 
-fun View.animateByFadingOut(context: Context) = kotlin.run {
-    doAnimation(context, R.anim.fade_out)
+fun View.animateByFadingOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = kotlin.run {
+    doAnimation(context, R.anim.fade_out, animationCompleted)
     this
 }
 
-fun <T : AttributeSet?> View.getStyleAttributes(styleableId: IntArray, t: T) : TypedArray =
+fun <T : AttributeSet?> View.getStyleAttributes(styleableId: IntArray, t: T): TypedArray =
     context.theme.obtainStyledAttributes(t, styleableId, 0, 0)
 
-fun <T : AttributeSet?> ViewGroup.inflateAndGetStyleAttributes(@LayoutRes resourceId: Int,
-    styleableId: IntArray, t: T, typedArray: TypedArray.() -> Unit) : View =
+fun <T : AttributeSet?> ViewGroup.inflateAndGetStyleAttributes(
+    @LayoutRes resourceId: Int,
+    styleableId: IntArray, t: T, typedArray: TypedArray.() -> Unit
+): View =
     inflate(resourceId).apply {
         typedArray(getStyleAttributes(styleableId, t))
     }

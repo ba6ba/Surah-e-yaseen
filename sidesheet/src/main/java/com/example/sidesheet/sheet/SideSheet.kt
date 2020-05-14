@@ -193,18 +193,28 @@ class SideSheet @JvmOverloads constructor(context: Context, private val attribut
         stateObserver.observeForever {
             when (it) {
                 SideSheetStates.COLLAPSE -> {
-                    provideAppropriateAnimation(collapseLayout.hide(), it)
-                    expand.show().animateByFadingIn(context)
-                    sheet.setBackgroundColor(color(R.color.colorTransparent))
+                    provideAppropriateAnimation(collapseLayout.hide(), it) { completed ->
+                        completed.isTrue {
+                            onStateChangeListener?.invoke(it)
+                            expand.show().animateByFadingIn(context)
+                            sheet.setBackgroundColor(color(R.color.colorTransparent))
+                        }
+                    }
                 }
 
                 SideSheetStates.EXPAND -> {
-                    expand.hide().animateByFadingOut(context)
-                    provideAppropriateAnimation(collapseLayout.show(), it)
-                    sheet.setBackgroundColor(color(R.color.colorLightTransparent))
+                    provideAppropriateAnimation(collapseLayout.show(), it) { completed ->
+                        completed.isFalse {
+                            expand.hide().animateByFadingOut(context)
+                            onStateChangeListener?.invoke(it)
+                            sheet.setBackgroundColor(color(R.color.colorLightTransparent))
+                        }
+                    }
+                }
+                else -> {
+                    //
                 }
             }
-            onStateChangeListener?.invoke(it)
         }
     }
 

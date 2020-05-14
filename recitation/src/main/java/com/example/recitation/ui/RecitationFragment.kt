@@ -29,14 +29,14 @@ class RecitationFragment : BaseFragment(R.layout.fragment_recitation) {
 
     private fun setObservers() {
         recitationViewModel.apply {
-            canFetchVerses.observeOnce(viewLifecycleOwner) { nothing ->
+            observeOnce(canFetchVerses) { nothing ->
                 requestForVersesData()
             }
         }
     }
 
     private fun requestForVersesData(pageNo : Int = 0) {
-        recitationViewModel.fetchVerses(recitationsListPager, pageNo).observeOnce(viewLifecycleOwner) { chapter ->
+        observeOnce(recitationViewModel.fetchVerses(recitationsListPager, pageNo)) { chapter ->
             recitationsListPager.populateData(chapter?.verses.orEmpty())
         }
     }

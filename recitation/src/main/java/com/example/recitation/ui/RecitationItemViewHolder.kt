@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.data.verse.Verse
 import com.example.data.verse.translation
 import com.example.extensions.toHtml
-import com.example.recitation.ChapterProvider.Companion.ABUL_ALA_MAUDUDI
-import com.example.recitation.ChapterProvider.Companion.SAHIH_INTERNATION_EN
+import com.example.recitation.RecitationChapterProvider.Companion.ABUL_ALA_MAUDUDI
+import com.example.recitation.RecitationChapterProvider.Companion.SAHIH_INTERNATION_EN
 import kotlinx.android.synthetic.main.recitation_item_layout.view.*
 
 class RecitationItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {

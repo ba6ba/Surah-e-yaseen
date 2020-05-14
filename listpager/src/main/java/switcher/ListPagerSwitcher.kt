@@ -46,6 +46,9 @@ class ListPagerSwitcher @JvmOverloads constructor(
 
         val pageNumberViewParent: ConstraintLayout?
             get() = view.pageNumberRoot
+
+        val switcherViewParent: ConstraintLayout?
+            get() = view.switcherRoot
     }
 
     fun <T> setupWithListPager(listPager: ListPager<T>) {
@@ -71,6 +74,7 @@ class ListPagerSwitcher @JvmOverloads constructor(
                 super.onPageSelected(position)
                 noOfPages = viewPager2.adapter?.itemCount ?: 0
                 getSwitcherView.pageNumberViewParent?.visibility(noOfPages > 1)
+                getSwitcherView.switcherViewParent?.visibility(noOfPages > 1)
                 currentPage = position
             }
         })

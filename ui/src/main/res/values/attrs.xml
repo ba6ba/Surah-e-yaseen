@@ -14,8 +14,14 @@
 
     <declare-styleable name="CustomHorizontalCell">
         <attr name="text"/>
+        <attr name="subText" format="string"/>
         <attr name="icon"/>
         <attr name="backgroundSelector" format="reference"/>
         <attr name="colorIcon" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="SingleValueHeader">
+        <attr name="heading" format="string"/>
+        <attr name="value" format="string"/>
     </declare-styleable>
 </resources>

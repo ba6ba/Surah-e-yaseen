@@ -1,20 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.example.sidesheet.sheet.SideSheet
         android:id="@+id/sideSheet"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:childLayout="@layout/translators_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:childLayout="@layout/translators_layout"
+        app:layout_constraintTop_toTopOf="parent"
         app:mode="custom"
         app:openFrom="end"
-        app:sheetElevation="@dimen/general_space"
         app:sheetBackground="@drawable/side_sheet_background"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:sheetElevation="@dimen/general_space" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/groupView"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/surahNameContainer"
+            app:layout_constraintTop_toBottomOf="@+id/logo">
+
+            <com.example.ui.com.example.ui.TranslationTextView
+                android:id="@+id/revelationPlace"
+                style="@style/TinyTextStyle.Accent80.SemiBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/round_corners_drawable"
+                android:backgroundTint="@color/colorWhite"
+                android:paddingVertical="@dimen/very_small_space"
+                android:paddingHorizontal="@dimen/common_space"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Makki" />
+
+            <com.example.ui.SingleValueHeader
+                android:id="@+id/numberOfVerses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:heading="verses_heading"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/surahNumber" />
+
+            <com.example.ui.SingleValueHeader
+                android:id="@+id/surahNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:heading="surah_number_heading"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/surahNameContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="-8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/separator"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.example.ui.com.example.ui.TranslationTextView
+                style="@style/SmallTextStyle.Accent.Italic"
+                android:layout_marginBottom="-6dp"
+                android:fontFamily="@font/muli_light"
+                app:text="recitation_header_subtitle"
+                tools:text="@string/recitation_header_subtitle" />
+
+            <com.example.ui.com.example.ui.TranslationTextView
+                android:id="@+id/surahName"
+                style="@style/NormalLargeTextStyle.Accent.Black"
+                tools:text="@string/recitation_header_title" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/very_small_space"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/separator_drawable"
+            android:backgroundTint="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="140dp"
+            android:layout_height="116dp"
+            android:background="@drawable/splash_logo"
+            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTintMode="multiply"
+            android:id="@+id/logo"
+            android:layout_marginTop="@dimen/large_space"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.audioplayer.CustomAudioPlayer
+            android:id="@+id/audioPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/common_space"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/separator" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_space"
+            android:layout_marginTop="@dimen/medium_large_space"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/audioPlayer"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.example.ui.com.example.ui.TranslationTextView
+                style="@style/SmallTextStyle.Accent.Italic"
+                android:fontFamily="@font/muli_light"
+                app:text="reciter_title"
+                tools:text="@string/reciter_title" />
+
+            <com.example.ui.com.example.ui.TranslationTextView
+                android:id="@+id/reciterName"
+                style="@style/NormalLargeTextStyle.Accent.Black"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="@string/recitation_header_title" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

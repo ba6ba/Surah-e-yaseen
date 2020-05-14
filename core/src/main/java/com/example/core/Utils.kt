@@ -10,6 +10,6 @@ private val chaptersData = mapOf(
 
 fun getChapterNumber(name : String) = chaptersData[name]!!
 
-enum class DO {
+enum class Do {
     NOTHING
 }

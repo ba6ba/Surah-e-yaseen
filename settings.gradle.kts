@@ -11,10 +11,11 @@ include(
     ":translations",
     ":home",
     ":sidesheet",
-    ":translators",
+    ":reciters",
     ":listpager",
     ":network",
-    ":data"
+    ":data",
+    ":audioplayer"
 )
 
 rootProject.buildFileName = "build.gradle.kts"

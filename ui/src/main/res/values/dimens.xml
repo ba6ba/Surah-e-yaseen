@@ -5,7 +5,10 @@
     <dimen name="general_space">8dp</dimen>
     <dimen name="normal_space">12dp</dimen>
     <dimen name="very_small_space">4dp</dimen>
+    <dimen name="tiny_space">2dp</dimen>
+    <dimen name="small_large_space">24dp</dimen>
     <dimen name="large_space">32dp</dimen>
+    <dimen name="medium_large_space">44dp</dimen>
 
     <dimen name="bottom_navigation_height">54dp</dimen>
     <dimen name="bottom_navigation_divider_height">36dp</dimen>
@@ -29,4 +32,16 @@
     <dimen name="page_switcher_views_width">120dp</dimen>
     <dimen name="page_switcher_bottom_margin">76dp</dimen>
     <dimen name="recitation_item_layout_min_width">160dp</dimen>
+
+    <dimen name="audio_player_elevation">10dp</dimen>
+    <dimen name="normal_elevation">6dp</dimen>
+
+    <dimen name="audio_player_play_button_width">52dp</dimen>
+    <dimen name="audio_player_play_button_height">56dp</dimen>
+    <dimen name="audio_player_backward_button_width">40dp</dimen>
+    <dimen name="audio_player_backward_button_height">32dp</dimen>
+    <dimen name="audio_player_forward_button_width">40dp</dimen>
+    <dimen name="audio_player_forward_button_height">32dp</dimen>
+    <dimen name="audio_player_seek_bar_height">1dp</dimen>
+
 </resources>

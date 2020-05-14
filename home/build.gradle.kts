@@ -6,4 +6,5 @@ dependencies {
 	implementation(project(BuildModules.core))
 	implementation(project(BuildModules.tilawat))
 	implementation(project(BuildModules.recitation))
+    implementation(project(BuildModules.data))
 }

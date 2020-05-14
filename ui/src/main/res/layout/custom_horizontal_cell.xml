@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="@dimen/very_small_space"
+    android:paddingHorizontal="@dimen/very_small_space"
+    android:paddingVertical="@dimen/general_space"
     android:id="@+id/cell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -12,17 +13,30 @@
         style="@style/SmallTextStyle.Accent.Bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
+        android:layout_marginStart="@dimen/general_space"
+        android:layout_marginEnd="@dimen/general_space"
+        android:gravity="start"
         android:textColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginEnd="8dp"
         tools:text="Mishari Rashid Al-Afasy" />
+
+    <com.example.ui.com.example.ui.TranslationTextView
+        android:id="@+id/subTitle"
+        style="@style/SmallTextStyle.Accent.Italic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/general_space"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:gravity="start"
+        android:layout_marginEnd="@dimen/general_space"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/tiny_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Mujawwad" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/icon"

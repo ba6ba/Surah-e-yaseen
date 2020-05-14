@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.extensions.isTrue
+import com.example.extensions.showAndApplyIfNotEmpty
 import com.example.ui.R
 import com.example.ui.extensions.*
 import com.example.ui.horizontalcell.CustomHorizontalCellState.DEFAULT
@@ -37,7 +38,13 @@ class CustomHorizontalCell @JvmOverloads constructor(
     var text: String = ""
         set(value) {
             field = value
-            textView.text = value
+            textView.showAndApplyIfNotEmpty(value)
+        }
+
+    var subText: String = ""
+        set(value) {
+            field = value
+            subTitle.showAndApplyIfNotEmpty(value)
         }
 
     var iconRes: Int = -1
@@ -75,7 +82,10 @@ class CustomHorizontalCell @JvmOverloads constructor(
         updateTextAppearance()
     }
 
-    private fun updateTextAppearance() = textView.setTextColor(cell.getColorBasedOnLuminance)
+    private fun updateTextAppearance() {
+        textView.setTextColor(cell.getColorBasedOnLuminance)
+        subTitle.setTextColor(cell.getColorBasedOnLuminance)
+    }
 
     private fun getAttributes(attributeSet: AttributeSet?) {
         getStyleAttributes(R.styleable.CustomHorizontalCell, attributeSet).apply {
@@ -84,6 +94,7 @@ class CustomHorizontalCell @JvmOverloads constructor(
                 text = getString(R.styleable.CustomHorizontalCell_text) ?: ""
                 iconRes = getResourceId(R.styleable.CustomHorizontalCell_icon, -1)
                 iconColor = getColorStateList(R.styleable.CustomHorizontalCell_colorIcon) ?: defaultColorStateList
+                subText = getString(R.styleable.CustomHorizontalCell_subText) ?: ""
             } finally {
                 recycle()
             }

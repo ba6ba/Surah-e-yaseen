@@ -8,24 +8,24 @@ import com.example.ui.extensions.animateByPushingLeftOut
 import com.example.ui.extensions.animateByPushingRightIn
 import com.example.ui.extensions.animateByPushingRightOut
 
-fun SideSheet.provideAppropriateAnimation(view: View, it: SideSheetStates) {
+fun SideSheet.provideAppropriateAnimation(view: View, it: SideSheetStates, animationCompleted : ((Boolean) -> Unit) ? = null) {
     view.apply {
         when(it) {
             SideSheetStates.COLLAPSE -> {
                 if (OpenFrom.END == openFrom) {
-                    animateByPushingRightOut(context)
+                    animateByPushingRightOut(context, animationCompleted)
                 }
                 else {
-                    animateByPushingLeftOut(context)
+                    animateByPushingLeftOut(context, animationCompleted)
                 }
             }
 
             SideSheetStates.EXPAND -> {
                 if (OpenFrom.END == openFrom) {
-                    animateByPushingLeftIn(context)
+                    animateByPushingLeftIn(context, animationCompleted)
                 }
                 else {
-                    animateByPushingRightIn(context)
+                    animateByPushingRightIn(context, animationCompleted)
                 }
             }
         }

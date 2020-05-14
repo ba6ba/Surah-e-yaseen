@@ -1,6 +1,7 @@
 package com.example.translations
 
 import android.content.Context
+import timber.log.Timber
 import java.util.*
 
 class TranslationManager(private val context: Context) {
@@ -52,9 +53,14 @@ class TranslationManager(private val context: Context) {
         val packageName = context.packageName
 
         val resourceId = resources.getIdentifier(key, string, packageName)
-        return if (resourceId != 0) {
-            context.getString(resourceId)
-        } else {
+        return try {
+            if (resourceId != 0) {
+                context.getString(resourceId)
+            } else {
+                key!!
+            }
+        } catch (e : Exception) {
+            Timber.e(e.localizedMessage)
             key!!
         }
     }

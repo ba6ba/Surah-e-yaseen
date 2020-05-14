@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AudioPlayerBackground" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">30dp</item>
+        <item name="cornerSizeTopRight">30dp</item>
+        <item name="cornerSizeBottomRight">60dp</item>
+        <item name="cornerSizeBottomLeft">60dp</item>
+    </style>
+
+    <style name="DurationStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:maxLength">5</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:inputType">number</item>
+    </style>
+
+    <style name="AudioPlayerCompletionTimeStyle" parent="DurationStyle">
+        <item name="fontFamily">@font/muli_black</item>
+        <item name="android:textSize">@dimen/normal_large_text_size</item>
+    </style>
+
+    <style name="AudioPlayerStartTimeStyle" parent="DurationStyle">
+        <item name="fontFamily">@font/muli_light</item>
+        <item name="android:textSize">@dimen/tiny_text_size</item>
+    </style>
+
+</resources>

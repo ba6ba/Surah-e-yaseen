@@ -18,3 +18,12 @@ val <T> ArrayList<T>.firstIndex
     get() = indexOf(first())
 
 fun <T> List<T>?.orEmptyArrayList() : ArrayList<T> = isNullOrEmpty().checkForTrue { arrayListOf<T>() } ?: this as ArrayList<T>
+
+fun <T> List<T>?.hasDataToShow(list : List<T>.() -> Unit) = if(isNullOrEmpty().not()) list(this!!) else null
+
+fun <T> List<T>?.hasData(list: (List<T>) -> Unit) : List<T>? =
+    if(isNullOrEmpty().not()) {
+        list(this!!)
+        this
+    }
+    else this!!

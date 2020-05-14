@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/ListPagerSwitcherViewsStyle"
     android:id="@+id/switcherRoot"
+    android:visibility="gone"
     >
 
     <androidx.appcompat.widget.AppCompatImageView

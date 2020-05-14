@@ -2,26 +2,21 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import com.example.audioplayer.toggle
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.core.FlowData
 import com.example.extensions.observeOnce
+import com.example.extensions.setTextIfEmptyOrNull
+import com.example.extensions.showAndApplyIfNotEmpty
 import com.example.sidesheet.sheet.SideSheetStates
-import com.example.translators.TranslatorsAdapter
-import com.example.translators.TranslatorsListView
-import com.example.translators.TranslatorsProvider
+import com.example.reciters.RecitersListView
 import kotlinx.android.synthetic.main.fragment_tilawat.*
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
 
-    private var translatorsAdapter : TranslatorsAdapter = TranslatorsAdapter()
-    private val translatorsProvider : TranslatorsProvider by inject()
-    private var translatorsListView : TranslatorsListView = TranslatorsListView(translatorsAdapter, translatorsProvider)
+    private var recitersListView : RecitersListView = RecitersListView()
     private val tilawatViewModel : TilawatViewModel by viewModel()
 
     companion object {
@@ -34,14 +29,40 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        translatorsListView.init(viewLifecycleOwner, sideSheet.childView)
-        sideSheet.apply {
-            onStateChangeListener = {
-                FlowData.viewStateChangeLiveData.postValue(SideSheetStates.EXPAND == it)
+        setObservers()
+    }
+
+    private fun setObservers() {
+        sideSheet.onStateChangeListener = {
+            FlowData.viewStateChangeLiveData.postValue(SideSheetStates.EXPAND == it)
+            if (SideSheetStates.EXPAND == it) {
+                sideSheet.bringToFront()
+            }
+            else {
+                groupView.bringToFront()
             }
         }
-        translatorsProvider.onTranslationSelection.observe(viewLifecycleOwner, Observer {
-            sideSheet.collapseTrigger()
-        })
+
+        observeOnce(tilawatViewModel.getTranslators()) { dataList ->
+            recitersListView.apply {
+                itemClickListener = {
+                    tilawatViewModel.setCurrentReciter(it)
+                    sideSheet.collapseTrigger()
+                }
+                init(sideSheet.childView, dataList)
+            }
+        }
+
+        observeOnce(tilawatViewModel.tilawatChapterData) { chapter ->
+            updateViews(chapter)
+        }
+    }
+
+    private fun updateViews(chapter: TilawatChapterData) {
+        revelationPlace.text = chapter.revelationPlace
+        numberOfVerses.value = chapter.numberOfVerses.toString()
+        surahNumber.value = chapter.surahNumber.toString()
+        surahName.text = chapter.surahNameEnglish
+        reciterName.setTextIfEmptyOrNull(chapter.reciter?.reciter?.reciterEngName)
     }
 }

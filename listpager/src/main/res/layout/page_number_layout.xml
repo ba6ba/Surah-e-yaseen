@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/ListPagerSwitcherViewsStyle"
     android:id="@+id/pageNumberRoot"
+    android:visibility="gone"
     android:padding="@dimen/general_space">
 
     <com.example.ui.com.example.ui.TranslationTextView

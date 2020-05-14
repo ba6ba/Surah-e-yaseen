@@ -8,4 +8,7 @@
     <string name="translators_list_header_sub_title">Choose</string>
     <string name="about_text">About Us</string>
     <string name="page_number">Page\nNumber</string>
+    <string name="reciter_title">Tilawat by</string>
+    <string name="verses_heading">Verses</string>
+    <string name="surah_number_heading">Surah</string>
 </resources>

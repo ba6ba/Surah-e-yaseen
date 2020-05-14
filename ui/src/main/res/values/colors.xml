@@ -6,11 +6,13 @@
     <color name="colorAccent_50">#80323E40</color>
     <color name="colorAccent_80">#CC323E40</color>
     <color name="colorWhite_50">#80ffffff</color>
-    <color name="colorWhite_90">#CCffffff</color>
+    <color name="colorWhite_90">#E6ffffff</color>
     <color name="colorWhite">@android:color/white</color>
     <color name="colorGrey">#DBDCDD</color>
+    <color name="colorGreyLight">#FFE9EAEC</color>
     <color name="colorRipple">#1A000000</color>
     <color name="colorLightTransparent">#1A000000</color>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorBlack">@android:color/black</color>
+    <color name="colorPrimary_70">#B3C8F5FD</color>
 </resources>

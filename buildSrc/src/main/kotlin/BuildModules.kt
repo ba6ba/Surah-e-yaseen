@@ -10,8 +10,9 @@ object BuildModules {
     const val translations = ":translations"
     const val home = ":home"
     const val sidesheet = ":sidesheet"
-    const val translators = ":translators"
+    const val reciters = ":reciters"
     const val listpager = ":listpager"
     const val network = ":network"
     const val data = ":data"
+    const val audioplayer = ":audioplayer"
 }

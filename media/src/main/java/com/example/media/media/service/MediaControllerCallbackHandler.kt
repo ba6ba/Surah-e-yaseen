@@ -5,7 +5,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 
-class MediaControllerCallbackImpl(private val mediaControllerCallback: MediaControllerCallback) : MediaControllerCompat.Callback() {
+class MediaControllerCallbackHandler(private val mediaControllerCallback: MediaControllerCallback) : MediaControllerCompat.Callback() {
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
         mediaControllerCallback.onMetadataChanged(metadata)
     }

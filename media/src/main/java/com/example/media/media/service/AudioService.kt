@@ -3,7 +3,6 @@ package com.example.media.media.service
 import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
-import android.media.browse.MediaBrowser
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -16,13 +15,11 @@ import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import com.example.extensions.isFalse
 import com.example.extensions.isTrue
-import com.example.media.R
 import com.example.media.media.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
 import com.example.media.media.notification.NOW_PLAYING_NOTIFICATION
 import com.example.media.media.notification.NotificationBuilder
 import com.example.media.media.source.AudioSource
-import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
 import com.example.network.MainDispatcher
 import com.google.android.exoplayer2.C
@@ -35,7 +32,6 @@ import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.get
 
 /** Content styling constants */
 private const val CONTENT_STYLE_BROWSABLE_HINT = "android.media.browse.CONTENT_STYLE_BROWSABLE_HINT"
@@ -45,29 +41,34 @@ private const val CONTENT_STYLE_LIST = 1
 private const val CONTENT_STYLE_GRID = 2
 
 const val MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED"
-
 private const val USER_AGENT = "surah-e-yaseen"
 
 class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
+
+    companion object {
+        val TAG = this::class.java.simpleName
+    }
 
     private lateinit var audioNoisyReceiver : NoisyReceiver
     private lateinit var notificationManager : NotificationManagerCompat
     private lateinit var notificationBuilder : NotificationBuilder
     private lateinit var audioSource : AudioSource
     private lateinit var packageValidator : PackageValidator
-
-    private val serviceJob = SupervisorJob()
-    private val serviceScope = CoroutineScope(MainDispatcher + serviceJob)
-
     private lateinit var mediaSession: MediaSessionCompat
     private lateinit var mediaController: MediaControllerCompat
     private lateinit var mediaSessionConnector: MediaSessionConnector
+    private lateinit var queueNavigator: QueueNavigator
 
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(MainDispatcher + serviceJob)
     private var isForegroundService = false
-    private val audioAttribute = AudioAttributes.Builder()
-        .setContentType(C.CONTENT_TYPE_MUSIC)
-        .setUsage(C.USAGE_MEDIA)
-        .build()
+
+    private val audioAttribute by lazy {
+        AudioAttributes.Builder()
+            .setContentType(C.CONTENT_TYPE_MUSIC)
+            .setUsage(C.USAGE_MEDIA)
+            .build()
+    }
 
     private val exoPlayer : ExoPlayer by lazy {
         ExoPlayerFactory.newSimpleInstance(this).apply {
@@ -75,43 +76,49 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        val sessionActivityPendingIntent = packageManager?.getLaunchIntentForPackage(packageName)?.let { sessionIntent ->
+    private val sessionActivityPendingIntent by lazy {
+        packageManager?.getLaunchIntentForPackage(packageName)?.let { sessionIntent ->
             PendingIntent.getActivity(this, 0, sessionIntent,PendingIntent.FLAG_CANCEL_CURRENT)
         }
-
-        mediaSession = MediaSessionCompat(this, this::class.java.simpleName)
-            .apply {
-                setSessionActivity(sessionActivityPendingIntent)
-                isActive = true
-            }
-
-        sessionToken = mediaSession.sessionToken
-        mediaController = MediaControllerCompat(this, mediaSession)
-            .also {
-                it.registerCallback(MediaControllerCallbackImpl(this))
-            }
-        notificationBuilder = NotificationBuilder(this)
-        notificationManager = NotificationManagerCompat.from(this)
-        audioNoisyReceiver = NoisyReceiver(this, mediaSession.sessionToken)
-        audioSource = RemoteSource(get())
-        createAudioCatalog()
-        mediaSessionConnector = MediaSessionConnector(mediaSession)
-            .also { mediaSessionConnector ->
-                val dataSourceFactory = DefaultDataSourceFactory(
-                    this, Util.getUserAgent(this, USER_AGENT), null
-                )
-                mediaSessionConnector.apply {
-                    setPlayer(exoPlayer)
-                    setPlaybackPreparer(PlaybackPreparer(audioSource, exoPlayer, dataSourceFactory))
-                    setQueueNavigator(QueueNavigator(mediaSession))
-                }
-            }
-        packageValidator = PackageValidator(this, R.xml.allowed_media_browser_callers)
     }
 
-    fun createAudioCatalog(audioId : Int = 3709) {
+    override fun onCreate() {
+        super.onCreate()
+        setupNoisyReceiverCallback()
+        setupMediaSession()
+        setupMediaController()
+        setupMediaSessionConnector()
+    }
+
+    private fun setupMediaSessionConnector() {
+        mediaSessionConnector.apply {
+            val dataSourceFactory = DefaultDataSourceFactory(this@AudioService,
+                Util.getUserAgent(this@AudioService, USER_AGENT), null)
+            setPlayer(exoPlayer)
+            setPlaybackPreparer(PlaybackPreparer(audioSource, exoPlayer, dataSourceFactory))
+            setQueueNavigator(queueNavigator)
+        }
+    }
+
+    private fun setupMediaController() {
+        mediaController.registerCallback(MediaControllerCallbackHandler(this))
+    }
+
+    private fun setupNoisyReceiverCallback() {
+        audioNoisyReceiver.audioGettingNoisy = {
+            mediaController.transportControls.pause()
+        }
+    }
+
+    private fun setupMediaSession() {
+        mediaSession.apply {
+            setSessionActivity(sessionActivityPendingIntent)
+            isActive = true
+            this@AudioService.sessionToken = sessionToken
+        }
+    }
+
+    fun getAudioClipFromRemote(audioId : Int = 3709) {
         serviceScope.launch {
             audioSource.load(audioId)
         }
@@ -143,6 +150,24 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
                     audioSource.map {
                         MediaBrowserCompat.MediaItem(it.description, it.flag)
                     }.toMutableList()
+                )
+            } ?: kotlin.run {
+                mediaSession.sendSessionEvent(NETWORK_FAILURE, null)
+                result.sendResult(null)
+            }
+        }
+        resultSent.isFalse {
+            result.detach()
+        }
+    }
+
+    override fun onLoadItem(itemId: String?, result: Result<MediaBrowserCompat.MediaItem>) {
+        val resultSent = audioSource.whenReady { hasInitialized ->
+            hasInitialized.isTrue {
+                result.sendResult(
+                    audioSource.map {
+                        MediaBrowserCompat.MediaItem(it.description, it.flag)
+                    }.first()
                 )
             } ?: kotlin.run {
                 mediaSession.sendSessionEvent(NETWORK_FAILURE, null)
@@ -200,21 +225,8 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    override fun onRepeatModeChanged(repeatMode: Int) {
-        //
-    }
-
-    override fun onShuffleModeChanged(shuffleMode: Int) {
-        //
-    }
-
-    override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
-        //
-    }
-
     private suspend fun updateNotification(state: PlaybackStateCompat) {
         val updatedState = state.state
-
         val notification = if (mediaController.metadata != null
             && updatedState != PlaybackStateCompat.STATE_NONE) {
             notificationBuilder.buildNotification(mediaSession.sessionToken)
@@ -228,32 +240,44 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         when(updatedState) {
             PlaybackStateCompat.STATE_BUFFERING,
             PlaybackStateCompat.STATE_PLAYING -> {
-                audioNoisyReceiver.register()
-                if (notification != null) {
-                    notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
-                    isForegroundService.isFalse {
-                        ContextCompat.startForegroundService(
-                            applicationContext,
-                            Intent(applicationContext, this@AudioService.javaClass)
-                        )
-                        startForeground(NOW_PLAYING_NOTIFICATION, notification)
-                        isForegroundService = true
-                    }
-                }
+                startPlayingAudio(notification)
             }
             else -> {
-                audioNoisyReceiver.unregister()
-                isForegroundService.isTrue {
-                    isForegroundService = false
-                    removeNowPlayingNotification(false)
-                    (PlaybackStateCompat.STATE_NONE == updatedState).isTrue {
-                        stopSelf()
-                    }
-                    notification?.let {
-                        notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
-                    } ?: removeNowPlayingNotification(true)
-                }
+                stopPlayingAudio(notification)
+                stopService(updatedState)
             }
+        }
+    }
+
+    private fun stopService(updatedState: Int) {
+        (PlaybackStateCompat.STATE_NONE == updatedState).isTrue {
+            stopSelf()
+        }
+    }
+
+    private fun startPlayingAudio(notification: Notification?) {
+        audioNoisyReceiver.register()
+        if (notification != null) {
+            notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
+            isForegroundService.isFalse {
+                ContextCompat.startForegroundService(
+                    applicationContext,
+                    Intent(applicationContext, this@AudioService.javaClass)
+                )
+                startForeground(NOW_PLAYING_NOTIFICATION, notification)
+                isForegroundService = true
+            }
+        }
+    }
+
+    private fun stopPlayingAudio(notification: Notification?) {
+        audioNoisyReceiver.unregister()
+        isForegroundService.isTrue {
+            isForegroundService = false
+            removeNowPlayingNotification(false)
+            notification?.let {
+                notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
+            } ?: removeNowPlayingNotification(true)
         }
     }
 

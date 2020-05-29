@@ -10,9 +10,15 @@ interface MediaControllerCallback {
 
     fun onPlaybackStateChanged(state: PlaybackStateCompat?)
 
-    fun onRepeatModeChanged(repeatMode: Int)
+    fun onRepeatModeChanged(repeatMode: Int) {
+        //
+    }
 
-    fun onShuffleModeChanged(shuffleMode: Int)
+    fun onShuffleModeChanged(shuffleMode: Int) {
+        //
+    }
 
-    fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?)
+    fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
+        //
+    }
 }

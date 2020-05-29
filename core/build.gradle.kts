@@ -1,4 +1,3 @@
-import dependencies.LifecycleDependencies
 plugins {
     id("commons.library-android")
 }

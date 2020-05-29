@@ -15,7 +15,9 @@ include(
     ":listpager",
     ":network",
     ":data",
-    ":audioplayer"
+    ":audioplayer",
+    ":media",
+    ":shared"
 )
 
 rootProject.buildFileName = "build.gradle.kts"

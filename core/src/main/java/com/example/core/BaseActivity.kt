@@ -13,6 +13,6 @@ open class BaseActivity constructor(@LayoutRes private val layoutRes : Int) : Ap
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        enableFullScreenMode(hasFocus)
+//        enableFullScreenMode(hasFocus)
     }
 }

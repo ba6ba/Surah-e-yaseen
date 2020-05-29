@@ -15,4 +15,6 @@ object BuildModules {
     const val network = ":network"
     const val data = ":data"
     const val audioplayer = ":audioplayer"
+    const val media = ":media"
+    const val shared = ":shared"
 }

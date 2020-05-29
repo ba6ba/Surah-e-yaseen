@@ -2,13 +2,11 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
-import com.example.audioplayer.toggle
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.core.FlowData
 import com.example.extensions.observeOnce
 import com.example.extensions.setTextIfEmptyOrNull
-import com.example.extensions.showAndApplyIfNotEmpty
 import com.example.sidesheet.sheet.SideSheetStates
 import com.example.reciters.RecitersListView
 import kotlinx.android.synthetic.main.fragment_tilawat.*
@@ -30,6 +28,12 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+        audioPlayer.apply {
+            init(this@TilawatFragment)
+            onPlayClick = {
+                tilawatViewModel.playAudio(it)
+            }
+        }
     }
 
     private fun setObservers() {
@@ -55,6 +59,14 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
 
         observeOnce(tilawatViewModel.tilawatChapterData) { chapter ->
             updateViews(chapter)
+        }
+
+        observeOnce(tilawatViewModel.networkError) {
+            //
+        }
+
+        observeOnce(tilawatViewModel.audioItems) {
+            //
         }
     }
 

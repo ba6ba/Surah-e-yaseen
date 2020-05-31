@@ -53,7 +53,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observeOnce(homeViewModel.fetchChapterInfo()) {
+        observeOnce(homeViewModel.fetchTilawatData()) {
             // handles in viewmodel and provider
         }
     }

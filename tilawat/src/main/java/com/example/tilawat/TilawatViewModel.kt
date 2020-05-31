@@ -73,11 +73,6 @@ class TilawatViewModel constructor(
         }
     }
 
-    /**
-     * When the session's [PlaybackStateCompat] changes, the [mediaItems] need to be updated
-     * so the correct [MediaItemData.playbackRes] is displayed on the active item.
-     * (i.e.: play/pause button or blank)
-     */
     private val playbackStateObserver = Observer<PlaybackStateCompat> {
         val playbackState = it ?: EMPTY_PLAYBACK_STATE
         val metadata = audioConnection.nowPlaying.value ?: NOTHING_PLAYING
@@ -86,12 +81,6 @@ class TilawatViewModel constructor(
         }
     }
 
-    /**
-     * When the session's [MediaMetadataCompat] changes, the [mediaItems] need to be updated
-     * as it means the currently active item has changed. As a result, the new, and potentially
-     * old item (if there was one), both need to have their [MediaItemData.playbackRes]
-     * changed. (i.e.: play/pause button or blank)
-     */
     private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
         val playbackState = audioConnection.playbackState.value ?: EMPTY_PLAYBACK_STATE
         val metadata = it ?: NOTHING_PLAYING
@@ -100,26 +89,8 @@ class TilawatViewModel constructor(
         }
     }
 
-    /**
-     * Because there's a complex dance between this [ViewModel] and the [audioConnection]
-     * (which is wrapping a [MediaBrowserCompat] object), the usual guidance of using
-     * [Transformations] doesn't quite work.
-     *
-     * Specifically there's three things that are watched that will cause the single piece of
-     * [LiveData] exposed from this class to be updated.
-     *
-     * [subscriptionCallback] (defined above) is called if/when the children of this
-     * ViewModel's [mediaId] changes.
-     *
-     * [audioConnection.playbackState] changes state based on the playback state of
-     * the player, which can change the [MediaItemData.playbackRes]s in the list.
-     *
-     * [audioConnection.nowPlaying] changes based on the item that's being played,
-     * which can also change the [MediaItemData.playbackRes]s in the list.
-     */
     private val localAudioConnection = audioConnection.also {
         it.subscribe(mediaId, subscriptionCallback)
-
         it.playbackState.observeForever(playbackStateObserver)
         it.nowPlaying.observeForever(mediaMetadataObserver)
     }
@@ -159,12 +130,6 @@ class TilawatViewModel constructor(
         }
     }
 
-    /**
-     * This method takes a [MediaItemData] and does one of the following:
-     * - If the item is *not* the active item, then play it directly.
-     * - If the item *is* the active item, check whether "pause" is a permitted command. If it is,
-     *   then pause playback, otherwise send "play" to resume playback.
-     */
     fun playMedia(audioClipData: AudioClipData, pauseAllowed: Boolean = true) {
         playMediaId(audioClipData.mediaId, pauseAllowed)
     }

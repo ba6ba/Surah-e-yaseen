@@ -7,7 +7,10 @@ import com.example.data.reciters.ReciterWrapper
 class TilawatChapterProvider {
 
     var getTilawatChapterLiveData: MutableLiveData<TilawatChapterData> = MutableLiveData()
-    private var tilawatChapterData: TilawatChapterData = TilawatChapterData()
+    var tilawatChapterData: TilawatChapterData = TilawatChapterData()
+    val tilawatAudioClipRange : IntRange by lazy {
+        tilawatChapterData.firstVerseId..tilawatChapterData.firstVerseId.plus(tilawatChapterData.numberOfVerses)
+    }
 
     var chapter: Chapter? = null
         set(value) {

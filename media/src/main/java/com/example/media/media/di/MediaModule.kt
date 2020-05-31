@@ -7,6 +7,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.media.R
 import com.example.media.media.AudioServiceConnection
 import com.example.media.media.notification.NotificationBuilder
+import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaControllerCallbackHandler
 import com.example.media.media.service.NoisyReceiver
@@ -34,6 +35,7 @@ val mediaModule = module {
     factory { MediaControllerCompat(androidContext(), get() as MediaSessionCompat) }
     factory { QueueNavigator(get()) }
     factory { MediaControllerCallbackHandler(get()) }
+    factory { ServiceNotificationHandler(get(), get(), get(), get(), get(), get()) }
 }
 
 fun providePackageValidatorXml(): Int {

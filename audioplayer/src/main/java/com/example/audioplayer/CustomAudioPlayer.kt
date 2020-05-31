@@ -2,11 +2,15 @@ package com.example.audioplayer
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.annotation.CallSuper
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.example.extensions.checkForTrue
+import com.example.extensions.isTrue
+import com.example.ui.CustomTextWatcher
 import com.example.ui.extensions.drawable
 import com.example.ui.extensions.inflate
 import kotlinx.android.synthetic.main.custom_audio_player_layout.view.*
@@ -22,8 +26,7 @@ class CustomAudioPlayer @JvmOverloads constructor(
     var playerState: AudioPlayerState = AudioPlayerState.STOP
         set(value) {
             field = value
-            play.background = getPlayButtonBackground(value)
-            onPlayClick(0)
+            actionOnCounter()
         }
 
     private fun getPlayButtonBackground(value: AudioPlayerState): Drawable? =
@@ -36,18 +39,22 @@ class CustomAudioPlayer @JvmOverloads constructor(
 
     @CallSuper
     override fun onResume(owner: LifecycleOwner) {
+        //
     }
 
     @CallSuper
     override fun onPause(owner: LifecycleOwner) {
+        //
     }
 
     @CallSuper
     override fun onStop(owner: LifecycleOwner) {
+        //
     }
 
     @CallSuper
     override fun onDestroy(owner: LifecycleOwner) {
+        //
     }
 
     init {
@@ -55,8 +62,21 @@ class CustomAudioPlayer @JvmOverloads constructor(
         play.setOnClickListener {
             playerState = playerState.toggle()
         }
+
         playForward.setOnClickListener {
-            onPlayClick(1)
+
         }
+
+        counter.addTextChangedListener(object : CustomTextWatcher{
+            override fun onTextChanged(text: String, after: Boolean) {
+                after.checkForTrue {
+                    actionOnCounter()
+                }
+            }
+        })
+    }
+
+    private fun actionOnCounter() {
+        onPlayClick(counter.text.toString().toInt())
     }
 }

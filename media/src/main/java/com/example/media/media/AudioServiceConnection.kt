@@ -13,6 +13,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.media.MediaBrowserServiceCompat
 import com.example.media.media.extensions.id
+import com.example.media.media.service.AudioService
 
 /**
  * Class that manages a connection to a [MediaBrowserServiceCompat] instance, typically a

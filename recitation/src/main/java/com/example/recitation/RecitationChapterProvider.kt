@@ -5,14 +5,17 @@ import com.example.core.DoNothingLiveData
 import com.example.core.SURAH_E_YASEEN
 import com.example.core.getChapterNumber
 import com.example.data.Chapter
+import com.example.data.verse.Verse
 import com.example.extensions.*
 import com.example.network.error.ApiErrorType
 import com.example.network.error.ErrorHandler
 import com.example.network.repository.ChapterRepository
 import kotlin.math.ceil
 
-class RecitationChapterProvider constructor(private val chapterRepository: ChapterRepository,
-    val doNothingLiveData: DoNothingLiveData = DoNothingLiveData()) {
+class RecitationChapterProvider constructor(
+    private val chapterRepository: ChapterRepository,
+    val doNothingLiveData: DoNothingLiveData = DoNothingLiveData()
+) {
 
     companion object {
         const val SAHIH_INTERNATION_EN = 20
@@ -38,6 +41,15 @@ class RecitationChapterProvider constructor(private val chapterRepository: Chapt
             field = value
             doNothingLiveData.postValue(Do.NOTHING)
         }
+
+    suspend fun fetchChapterSpecificVerses(chapterNumber: Int = getChapterNumber(SURAH_E_YASEEN), offset: Int = 1) : Verse? {
+        val response = chapterRepository.getChapterVerses(chapterNumber, offset, offset, offset, translationMetaData, null)
+        var verse : Verse? = null
+            response?.verses?.hasData {
+            verse = it.first()
+        }
+        return verse
+    }
 
     suspend fun fetchChapterVerses(chapterNumber: Int = getChapterNumber(SURAH_E_YASEEN), errorHandler: ErrorHandler): Chapter? {
         val versesResponse = chapterRepository.getChapterVerses(
@@ -72,5 +84,6 @@ class RecitationChapterProvider constructor(private val chapterRepository: Chapt
 
     fun doNeedToGetMoreVerses(pageNo: Int = 0) =
         (currentPage.greaterThanEqualsTo(pageNo)) && (chapter?.verses?.size ?: DEFAULT_ARRAY_SIZE).lessThan(
-            chapter?.numberOfVerses ?: DEFAULT_INT_VALUE)
+            chapter?.numberOfVerses ?: DEFAULT_INT_VALUE
+        )
 }

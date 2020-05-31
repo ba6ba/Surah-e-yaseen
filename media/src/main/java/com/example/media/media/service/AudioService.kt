@@ -1,6 +1,5 @@
 package com.example.media.media.service
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
@@ -9,17 +8,22 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import com.example.extensions.isFalse
 import com.example.extensions.isTrue
+import com.example.media.media.Constants.CONTENT_STYLE_BROWSABLE_HINT
+import com.example.media.media.Constants.CONTENT_STYLE_GRID
+import com.example.media.media.Constants.CONTENT_STYLE_LIST
+import com.example.media.media.Constants.CONTENT_STYLE_PLAYABLE_HINT
+import com.example.media.media.Constants.CONTENT_STYLE_SUPPORTED
+import com.example.media.media.Constants.MEDIA_SEARCH_SUPPORTED
+import com.example.media.media.Constants.USER_AGENT
 import com.example.media.media.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
-import com.example.media.media.notification.NOW_PLAYING_NOTIFICATION
-import com.example.media.media.notification.NotificationBuilder
+import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.source.AudioSource
+import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
 import com.example.network.MainDispatcher
 import com.google.android.exoplayer2.C
@@ -32,16 +36,7 @@ import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-
-/** Content styling constants */
-private const val CONTENT_STYLE_BROWSABLE_HINT = "android.media.browse.CONTENT_STYLE_BROWSABLE_HINT"
-private const val CONTENT_STYLE_PLAYABLE_HINT = "android.media.browse.CONTENT_STYLE_PLAYABLE_HINT"
-private const val CONTENT_STYLE_SUPPORTED = "android.media.browse.CONTENT_STYLE_SUPPORTED"
-private const val CONTENT_STYLE_LIST = 1
-private const val CONTENT_STYLE_GRID = 2
-
-const val MEDIA_SEARCH_SUPPORTED = "android.media.browse.SEARCH_SUPPORTED"
-private const val USER_AGENT = "surah-e-yaseen"
+import org.koin.android.ext.android.inject
 
 class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
@@ -49,19 +44,17 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         val TAG = this::class.java.simpleName
     }
 
-    private lateinit var audioNoisyReceiver : NoisyReceiver
-    private lateinit var notificationManager : NotificationManagerCompat
-    private lateinit var notificationBuilder : NotificationBuilder
-    private lateinit var audioSource : AudioSource
-    private lateinit var packageValidator : PackageValidator
-    private lateinit var mediaSession: MediaSessionCompat
-    private lateinit var mediaController: MediaControllerCompat
-    private lateinit var mediaSessionConnector: MediaSessionConnector
-    private lateinit var queueNavigator: QueueNavigator
+    private val audioNoisyReceiver : NoisyReceiver by inject()
+    private val audioSource : RemoteSource by inject()
+    private val packageValidator : PackageValidator by inject()
+    private val mediaSession: MediaSessionCompat by inject()
+    private val mediaController: MediaControllerCompat by inject()
+    private val mediaSessionConnector: MediaSessionConnector by inject()
+    private val queueNavigator: QueueNavigator by inject()
+    private val serviceNotificationHandler: ServiceNotificationHandler by inject()
 
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(MainDispatcher + serviceJob)
-    private var isForegroundService = false
 
     private val audioAttribute by lazy {
         AudioAttributes.Builder()
@@ -211,77 +204,13 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
         mediaController.playbackState?.let { state ->
-            serviceScope.launch {
-                updateNotification(state)
-            }
+            serviceNotificationHandler.handleMediaCallbacksAndNotification(state)
         }
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         state?.let {
-            serviceScope.launch {
-                updateNotification(state)
-            }
+            serviceNotificationHandler.handleMediaCallbacksAndNotification(state)
         }
-    }
-
-    private suspend fun updateNotification(state: PlaybackStateCompat) {
-        val updatedState = state.state
-        val notification = if (mediaController.metadata != null
-            && updatedState != PlaybackStateCompat.STATE_NONE) {
-            notificationBuilder.buildNotification(mediaSession.sessionToken)
-        } else {
-            null
-        }
-        checkForNotification(updatedState, notification)
-    }
-
-    private fun checkForNotification(updatedState: Int, notification: Notification?) {
-        when(updatedState) {
-            PlaybackStateCompat.STATE_BUFFERING,
-            PlaybackStateCompat.STATE_PLAYING -> {
-                startPlayingAudio(notification)
-            }
-            else -> {
-                stopPlayingAudio(notification)
-                stopService(updatedState)
-            }
-        }
-    }
-
-    private fun stopService(updatedState: Int) {
-        (PlaybackStateCompat.STATE_NONE == updatedState).isTrue {
-            stopSelf()
-        }
-    }
-
-    private fun startPlayingAudio(notification: Notification?) {
-        audioNoisyReceiver.register()
-        if (notification != null) {
-            notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
-            isForegroundService.isFalse {
-                ContextCompat.startForegroundService(
-                    applicationContext,
-                    Intent(applicationContext, this@AudioService.javaClass)
-                )
-                startForeground(NOW_PLAYING_NOTIFICATION, notification)
-                isForegroundService = true
-            }
-        }
-    }
-
-    private fun stopPlayingAudio(notification: Notification?) {
-        audioNoisyReceiver.unregister()
-        isForegroundService.isTrue {
-            isForegroundService = false
-            removeNowPlayingNotification(false)
-            notification?.let {
-                notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
-            } ?: removeNowPlayingNotification(true)
-        }
-    }
-
-    private fun removeNowPlayingNotification(removeNotification: Boolean) {
-        stopForeground(removeNotification)
     }
 }

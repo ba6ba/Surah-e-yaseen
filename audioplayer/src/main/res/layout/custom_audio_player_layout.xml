@@ -25,6 +25,46 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/large_space"
+            android:layout_marginBottom="@dimen/small_large_space"
+            android:id="@+id/switcher"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/next"
+                android:layout_width="@dimen/large_space"
+                android:layout_height="@dimen/large_space"
+                android:background="@drawable/rounded_ripple_background"
+                android:padding="@dimen/general_space"
+                app:srcCompat="@drawable/ic_next" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:id="@+id/counter"
+                android:backgroundTint="@color/colorTransparent"
+                style="@style/CommonTextStyle.Bold"
+                android:layout_marginHorizontal="@dimen/common_space"
+                tools:text="1"
+                android:gravity="center"
+                android:maxLength="3"
+                android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/previous"
+                android:layout_width="@dimen/large_space"
+                android:layout_height="@dimen/large_space"
+                android:background="@drawable/rounded_ripple_background"
+                android:padding="@dimen/general_space"
+                app:srcCompat="@drawable/ic_previous" />
+
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatSeekBar
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -71,10 +111,10 @@
             android:layout_width="@dimen/audio_player_play_button_width"
             android:layout_height="@dimen/audio_player_play_button_height"
             android:layout_marginTop="@dimen/medium_large_space"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/switcher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="@dimen/medium_large_space"
+            android:layout_marginBottom="@dimen/common_space"
             app:layout_constraintTop_toBottomOf="@id/completionTime"
             android:id="@+id/play"
             android:background="@drawable/play_icon"

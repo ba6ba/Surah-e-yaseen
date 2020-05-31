@@ -26,4 +26,9 @@ class ChapterProvider constructor(
     private fun emitEmptyDataError(errorHandler: ErrorHandler) {
         errorHandler.onError(ApiErrorType.NETWORK)
     }
+
+    suspend fun fetchChapterSpecificVerse(chapterNumber: Int = getChapterNumber(SURAH_E_YASEEN), numberOfVerses : Int = 1) =
+        recitationChapterProvider.fetchChapterSpecificVerses(chapterNumber, numberOfVerses)?.also {
+            tilawatChapterProvider.tilawatChapterData.firstVerseId = it.id ?: 0
+        }
 }

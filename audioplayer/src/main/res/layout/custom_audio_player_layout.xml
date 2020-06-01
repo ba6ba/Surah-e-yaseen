@@ -53,6 +53,7 @@
                 tools:text="1"
                 android:gravity="center"
                 android:maxLength="3"
+                android:text="1"
                 android:layout_height="wrap_content"/>
 
             <androidx.appcompat.widget.AppCompatImageView

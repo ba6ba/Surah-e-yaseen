@@ -2,6 +2,7 @@ package com.example.ui
 
 import android.text.Editable
 import android.text.TextWatcher
+import com.example.extensions.isFalse
 
 interface CustomTextWatcher : TextWatcher {
 
@@ -16,6 +17,8 @@ interface CustomTextWatcher : TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        onTextChanged(s.toString(), true)
+        s.toString().isEmpty().isFalse {
+            onTextChanged(s.toString(), true)
+        }
     }
 }

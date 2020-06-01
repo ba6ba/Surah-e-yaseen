@@ -2,14 +2,12 @@ package com.example.audioplayer
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.text.TextWatcher
 import android.util.AttributeSet
 import androidx.annotation.CallSuper
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.extensions.checkForTrue
-import com.example.extensions.isTrue
 import com.example.ui.CustomTextWatcher
 import com.example.ui.extensions.drawable
 import com.example.ui.extensions.inflate
@@ -21,7 +19,8 @@ class CustomAudioPlayer @JvmOverloads constructor(
 ) : ConstraintLayout(context, attributeSet, defStyleRes), DefaultLifecycleObserver {
 
     private lateinit var lifecycleOwner: LifecycleOwner
-    lateinit var onPlayClick : (Int) -> Unit
+    lateinit var onPlayClick: (Int) -> Unit
+    var counterValue: Int = 0
 
     var playerState: AudioPlayerState = AudioPlayerState.STOP
         set(value) {
@@ -67,7 +66,7 @@ class CustomAudioPlayer @JvmOverloads constructor(
 
         }
 
-        counter.addTextChangedListener(object : CustomTextWatcher{
+        counter.addTextChangedListener(object : CustomTextWatcher {
             override fun onTextChanged(text: String, after: Boolean) {
                 after.checkForTrue {
                     actionOnCounter()
@@ -77,6 +76,11 @@ class CustomAudioPlayer @JvmOverloads constructor(
     }
 
     private fun actionOnCounter() {
-        onPlayClick(counter.text.toString().toInt())
+        onPlayClick(makeCounterValue)
     }
+
+    private val makeCounterValue
+        get() = (counter.text.toString().toInt() - 1).also {
+            counterValue = it
+        }
 }

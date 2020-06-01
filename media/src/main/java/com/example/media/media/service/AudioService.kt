@@ -1,6 +1,7 @@
 package com.example.media.media.service
 
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -8,8 +9,11 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.annotation.CallSuper
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
+import com.example.data.Audio
+import com.example.extensions.get
 import com.example.extensions.isFalse
 import com.example.extensions.isTrue
 import com.example.media.media.Constants.CONTENT_STYLE_BROWSABLE_HINT
@@ -22,7 +26,6 @@ import com.example.media.media.Constants.USER_AGENT
 import com.example.media.media.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
 import com.example.media.media.notification.ServiceNotificationHandler
-import com.example.media.media.source.AudioSource
 import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
 import com.example.network.MainDispatcher
@@ -42,6 +45,9 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     companion object {
         val TAG = this::class.java.simpleName
+        val NAME = "com.example.media.media.service.AudioService"
+        val PLAY_AUDIO = "com.example.media.media.service.AudioService.PLAY_AUDIO"
+        val AUDIO_DATA = "com.example.media.media.service.AudioService.AUDIO_DATA"
     }
 
     private val audioNoisyReceiver : NoisyReceiver by inject()
@@ -83,6 +89,13 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         setupMediaSessionConnector()
     }
 
+    private fun checkForIntent(intent: Intent?) {
+        intent ?: return
+        (PLAY_AUDIO == intent.action && intent.hasExtra(AUDIO_DATA) && intent.get(AUDIO_DATA) != null).isTrue {
+            setupAudioClipSource(intent.get(AUDIO_DATA) as Audio)
+        }
+    }
+
     private fun setupMediaSessionConnector() {
         mediaSessionConnector.apply {
             val dataSourceFactory = DefaultDataSourceFactory(this@AudioService,
@@ -111,15 +124,18 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    fun getAudioClipFromRemote(audioId : Int = 3709) {
-        serviceScope.launch {
-            audioSource.load(audioId)
+    private fun setupAudioClipSource(audio : Audio?) {
+        audio?.let {
+            serviceScope.launch {
+                audioSource.load(audio)
+            }
         }
     }
 
+    @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        MediaButtonReceiver.handleIntent(mediaSession, intent)
-        return super.onStartCommand(intent, flags, startId)
+        checkForIntent(intent)
+        return Service.START_NOT_STICKY
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -143,24 +159,6 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
                     audioSource.map {
                         MediaBrowserCompat.MediaItem(it.description, it.flag)
                     }.toMutableList()
-                )
-            } ?: kotlin.run {
-                mediaSession.sendSessionEvent(NETWORK_FAILURE, null)
-                result.sendResult(null)
-            }
-        }
-        resultSent.isFalse {
-            result.detach()
-        }
-    }
-
-    override fun onLoadItem(itemId: String?, result: Result<MediaBrowserCompat.MediaItem>) {
-        val resultSent = audioSource.whenReady { hasInitialized ->
-            hasInitialized.isTrue {
-                result.sendResult(
-                    audioSource.map {
-                        MediaBrowserCompat.MediaItem(it.description, it.flag)
-                    }.first()
                 )
             } ?: kotlin.run {
                 mediaSession.sendSessionEvent(NETWORK_FAILURE, null)

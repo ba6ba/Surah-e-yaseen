@@ -1,14 +1,17 @@
 package com.example.media.media.source
 
 import android.support.v4.media.MediaMetadataCompat
+import com.example.data.Audio
 import com.example.media.media.extensions.from
+import com.example.network.DefaultDispatcher
 import com.example.network.IODispatcher
 import com.example.network.repository.TilawatRepository
 import com.example.shared.SURAH_E_YASEEN
 import com.example.shared.getSurahYaseen
 import kotlinx.coroutines.withContext
+import java.util.*
 
-class RemoteSource(private val tilawatRepository: TilawatRepository) : AbstractAudioSource() {
+class RemoteSource : AbstractAudioSource() {
 
     private var catalog: List<MediaMetadataCompat> = emptyList()
 
@@ -16,8 +19,8 @@ class RemoteSource(private val tilawatRepository: TilawatRepository) : AbstractA
         state = STATE_INITIALIZING
     }
 
-    override suspend fun load(audioId : Int) {
-        fetchAudio(audioId)?.let { newCatalog ->
+    override suspend fun load(audio : Audio) {
+        fetchAudio(audio)?.let { newCatalog ->
             catalog = newCatalog
             state = STATE_INITIALIZED
         } ?: kotlin.run {
@@ -28,32 +31,15 @@ class RemoteSource(private val tilawatRepository: TilawatRepository) : AbstractA
 
     override fun iterator(): Iterator<MediaMetadataCompat> = catalog.iterator()
 
-    private suspend fun fetchAudio(audioId: Int): List<MediaMetadataCompat>? {
-        return withContext(IODispatcher) {
-            val catalog = try {
-                if (audioId > 0) fetchData(audioId) else null
-            } catch (e: Exception) {
-                return@withContext null
-            }
+    private suspend fun fetchAudio(audio: Audio): List<MediaMetadataCompat>? {
+        return withContext(DefaultDispatcher) {
             arrayListOf<MediaMetadataCompat>().apply {
-                catalog?.audio?.let {
-                    add(MediaMetadataCompat.Builder()
-                        .from(AudioClip.from(it, "Rashid Alafasfy",
-                            SURAH_E_YASEEN.capitalize(), 1, ""))
-                        .build()
-                    )
-                    add(MediaMetadataCompat.Builder()
-                        .from(AudioClip.from(it.apply {
-                            url = "https://verses.quran.com/Alafasy/mp3/036083.mp3"
-                        }, "Rashid Alafasfy",
-                            SURAH_E_YASEEN.capitalize(), 2, ""))
-                        .build()
-                    )
-                }
+                add(MediaMetadataCompat.Builder()
+                    .from(AudioClip.from(audio, "Rashid Alafasfy",
+                        SURAH_E_YASEEN.toLowerCase(Locale.ROOT), 1, ""))
+                    .build()
+                )
             }
         }
     }
-
-    private suspend fun fetchData(audioId: Int) =
-        tilawatRepository.getTilawatAudio(getSurahYaseen(), audioId, 7, null)
 }

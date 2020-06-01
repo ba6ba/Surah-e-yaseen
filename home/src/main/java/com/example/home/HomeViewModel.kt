@@ -1,25 +1,20 @@
 package com.example.home
 
-import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.example.core.BaseViewModel
 import com.example.data.verse.Verse
+import kotlinx.coroutines.launch
 
-class HomeViewModel constructor(private val chapterProvider: ChapterProvider): BaseViewModel() {
+class HomeViewModel constructor(private val chapterProvider: ChapterProvider) : BaseViewModel() {
 
-    private fun fetchChapterInfo() = liveData<Unit> {
-        chapterProvider.fetchChapterInfo(errorHandler = this@HomeViewModel)
-    }
+    private suspend fun fetchChapterInfo() = chapterProvider.fetchChapterInfo(errorHandler = this)
 
-    private fun fetchSpecificChapterVerse() = liveData<Verse> {
-        chapterProvider.fetchChapterSpecificVerse()
-    }
+    private suspend fun fetchSpecificChapterVerse() = chapterProvider.fetchChapterSpecificVerse()
 
-    fun fetchTilawatData() = MediatorLiveData<Unit>().apply {
-        addSource(fetchSpecificChapterVerse()) {
-            addSource(fetchChapterInfo()) {
-                //
-            }
-        }
+    fun fetchTilawatData() : LiveData<Unit> = liveData {
+        fetchChapterInfo()
+        fetchSpecificChapterVerse()
     }
 }

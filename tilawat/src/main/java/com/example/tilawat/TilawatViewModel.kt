@@ -1,11 +1,15 @@
 package com.example.tilawat
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import com.example.core.BaseViewModel
+import com.example.data.Audio
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.reciters.toWrapperList
 import com.example.extensions.hasData
@@ -18,6 +22,7 @@ import com.example.media.media.extensions.id
 import com.example.media.media.extensions.isPlayEnabled
 import com.example.media.media.extensions.isPlaying
 import com.example.media.media.extensions.isPrepared
+import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaHelper
 import com.example.media.media.source.AudioClipData
 import com.example.network.error.ApiErrorType
@@ -29,7 +34,8 @@ typealias Reciters = List<ReciterWrapper>
 class TilawatViewModel constructor(
     private val tilawatChapterProvider: TilawatChapterProvider,
     private val recitersProvider: RecitersProvider,
-    private val audioConnection: AudioServiceConnection
+    private val audioConnection: AudioServiceConnection,
+    private val context : Context
 ) : BaseViewModel() {
 
     private var mediaId : String = MediaHelper.ROOT_ID
@@ -156,6 +162,23 @@ class TilawatViewModel constructor(
         }
     }
 
+    fun fetchAudioForVerse(verseNumber : Int) = liveData<Unit> {
+        tilawatChapterProvider.getAudio(verseNumber).apply {
+            if (this != null && this.audio != null) {
+                sendBroadcastToServiceViaIntent(this.audio!!)
+            } else {
+                onError(ApiErrorType.UNKNOWN)
+            }
+        }
+    }
+
+    private fun sendBroadcastToServiceViaIntent(audio: Audio) {
+        context.apply {
+            ContextCompat.startForegroundService(this,
+                createAudioServiceIntent(AudioService.NAME, AudioService.PLAY_AUDIO, audio))
+        }
+    }
+
     fun playAudio(audio: Int) {
         audioItems.value?.let { list ->
             list.hasData {
@@ -166,3 +189,10 @@ class TilawatViewModel constructor(
 }
 
 private const val NO_RES = 0
+
+fun Context.createAudioServiceIntent(name: String, action: String, data: Audio) =
+    Intent(this, Class.forName(name))
+        .apply {
+            this.action = action
+            putExtra(AudioService.AUDIO_DATA, data)
+        }

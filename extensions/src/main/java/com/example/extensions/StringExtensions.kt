@@ -6,6 +6,8 @@ import android.text.Html
 import android.text.Spanned
 import java.util.*
 
+const val EMPTY_STRING = ""
+
 fun String?.toHtml(): Spanned? = if (isVersionLowerThan(Build.VERSION_CODES.N)) Html.fromHtml(this)
 else Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)
 

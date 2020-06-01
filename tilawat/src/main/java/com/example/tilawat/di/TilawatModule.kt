@@ -4,9 +4,10 @@ import com.example.media.media.di.mediaModule
 import com.example.tilawat.TilawatChapterProvider
 import com.example.tilawat.TilawatViewModel
 import com.example.reciters.translatorsModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val tilawatModule = module {
-    factory { TilawatViewModel(get(), get(), get()) }
-    single { TilawatChapterProvider() }
+    factory { TilawatViewModel(get(), get(), get(), androidContext()) }
+    single { TilawatChapterProvider(get()) }
 } + translatorsModule + mediaModule

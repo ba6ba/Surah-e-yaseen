@@ -43,7 +43,7 @@ class RecitationChapterProvider constructor(
         }
 
     suspend fun fetchChapterSpecificVerses(chapterNumber: Int = getChapterNumber(SURAH_E_YASEEN), offset: Int = 1) : Verse? {
-        val response = chapterRepository.getChapterVerses(chapterNumber, offset, offset, offset, translationMetaData, null)
+        val response = chapterRepository.getChapterVerses(chapterNumber, offset, 1, offset, translationMetaData, null)
         var verse : Verse? = null
             response?.verses?.hasData {
             verse = it.first()

@@ -5,7 +5,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.media.R
-import com.example.media.media.AudioServiceConnection
+import com.example.media.media.connection.AudioServiceConnection
 import com.example.media.media.notification.NotificationBuilder
 import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.service.AudioService

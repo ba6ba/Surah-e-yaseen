@@ -1,5 +1,6 @@
 package com.example.media.media.service
 
+import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -24,5 +25,14 @@ class MediaControllerCallbackHandler(private val mediaControllerCallback: MediaC
 
     override fun onQueueChanged(queue: MutableList<MediaSessionCompat.QueueItem>?) {
         mediaControllerCallback.onQueueChanged(queue)
+    }
+
+    override fun onSessionDestroyed() {
+        mediaControllerCallback.onSessionDestroyed()
+    }
+
+    override fun onSessionEvent(event: String?, extras: Bundle?) {
+        super.onSessionEvent(event, extras)
+        mediaControllerCallback.onSessionEvent(event, extras)
     }
 }

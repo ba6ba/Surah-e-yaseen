@@ -15,9 +15,9 @@ import com.example.data.reciters.toWrapperList
 import com.example.extensions.hasData
 import com.example.extensions.hasDataToShow
 import com.example.extensions.isTrue
-import com.example.media.media.AudioServiceConnection
-import com.example.media.media.EMPTY_PLAYBACK_STATE
-import com.example.media.media.NOTHING_PLAYING
+import com.example.media.media.connection.AudioServiceConnection
+import com.example.media.media.connection.EMPTY_PLAYBACK_STATE
+import com.example.media.media.connection.NOTHING_PLAYING
 import com.example.media.media.extensions.id
 import com.example.media.media.extensions.isPlayEnabled
 import com.example.media.media.extensions.isPlaying

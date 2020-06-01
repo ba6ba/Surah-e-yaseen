@@ -31,7 +31,8 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         audioPlayer.apply {
             init(this@TilawatFragment)
             onPlayClick = {
-                observeOnce(tilawatViewModel.fetchAudioForVerse(it)) {}
+                tilawatViewModel.playAudio(0)
+//                observeOnce(tilawatViewModel.fetchAudioForVerse(it)) {}
             }
         }
     }
@@ -66,7 +67,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         }
 
         observeOnce(tilawatViewModel.audioItems) {
-            tilawatViewModel.playAudio(audioPlayer.counterValue)
+//            tilawatViewModel.playAudio(audioPlayer.counterValue)
         }
     }
 

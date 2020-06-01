@@ -1,7 +1,6 @@
 package com.example.media.media.service
 
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -9,9 +8,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.annotation.CallSuper
 import androidx.media.MediaBrowserServiceCompat
-import androidx.media.session.MediaButtonReceiver
 import com.example.data.Audio
 import com.example.extensions.get
 import com.example.extensions.isFalse
@@ -23,7 +20,7 @@ import com.example.media.media.Constants.CONTENT_STYLE_PLAYABLE_HINT
 import com.example.media.media.Constants.CONTENT_STYLE_SUPPORTED
 import com.example.media.media.Constants.MEDIA_SEARCH_SUPPORTED
 import com.example.media.media.Constants.USER_AGENT
-import com.example.media.media.NETWORK_FAILURE
+import com.example.media.media.connection.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
 import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.source.RemoteSource
@@ -87,6 +84,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         setupMediaSession()
         setupMediaController()
         setupMediaSessionConnector()
+        setupAudioClipSource(Audio("https://mirrors.quranicaudio.com/everyayah/Abdul_Basit_Murattal_64kbps/036001.mp3", 4, format = "mp3"))
     }
 
     private fun checkForIntent(intent: Intent?) {
@@ -132,11 +130,11 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    @CallSuper
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        checkForIntent(intent)
-        return Service.START_NOT_STICKY
-    }
+//    @CallSuper
+//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+//        checkForIntent(intent)
+//        return Service.START_NOT_STICKY
+//    }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)

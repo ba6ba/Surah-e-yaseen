@@ -1,15 +1,14 @@
 package com.example.recitation
 
-import com.example.core.Do
-import com.example.core.DoNothingLiveData
-import com.example.core.SURAH_E_YASEEN
-import com.example.core.getChapterNumber
 import com.example.data.Chapter
 import com.example.data.verse.Verse
 import com.example.extensions.*
 import com.example.network.error.ApiErrorType
 import com.example.network.error.ErrorHandler
 import com.example.network.repository.ChapterRepository
+import com.example.shared.Do
+import com.example.shared.DoNothingLiveData
+import com.example.shared.getSurahYaseen
 import kotlin.math.ceil
 
 class RecitationChapterProvider constructor(
@@ -42,16 +41,16 @@ class RecitationChapterProvider constructor(
             doNothingLiveData.postValue(Do.NOTHING)
         }
 
-    suspend fun fetchChapterSpecificVerses(chapterNumber: Int = getChapterNumber(SURAH_E_YASEEN), offset: Int = 1) : Verse? {
+    suspend fun fetchChapterSpecificVerses(chapterNumber: Int = getSurahYaseen, offset: Int = 1): Verse? {
         val response = chapterRepository.getChapterVerses(chapterNumber, offset, 1, offset, translationMetaData, null)
-        var verse : Verse? = null
-            response?.verses?.hasData {
+        var verse: Verse? = null
+        response?.verses?.hasData {
             verse = it.first()
         }
         return verse
     }
 
-    suspend fun fetchChapterVerses(chapterNumber: Int = getChapterNumber(SURAH_E_YASEEN), errorHandler: ErrorHandler): Chapter? {
+    suspend fun fetchChapterVerses(chapterNumber: Int = getSurahYaseen, errorHandler: ErrorHandler): Chapter? {
         val versesResponse = chapterRepository.getChapterVerses(
             chapterNumber, currentPage, contentLimitForEachPage.times(LIMIT_MULTIPLIER),
             chapter?.verses?.size ?: DEFAULT_ARRAY_SIZE, translationMetaData, errorHandler

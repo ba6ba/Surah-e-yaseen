@@ -163,21 +163,20 @@ class TilawatViewModel constructor(
     private fun getPlayingStateForMediaId(mediaId: String): Boolean =
         mediaId == audioConnection.nowPlaying.value?.id && audioConnection.playbackState.value?.isPlaying ?: false
 
-    private fun playMedia(audioClipData: AudioClipData, pauseAllowed: Boolean = true) {
+    private fun playMedia(audioClipData: AudioClipData) {
         audioConnection.nowPlaying.value?.apply {
-            playMediaId(if (mediaUri == audioClipData.mediaUri) mediaId else audioClipData.mediaId, pauseAllowed)
+            playMediaId(if (mediaUri == audioClipData.mediaUri) id ?: audioClipData.mediaId else audioClipData.mediaId)
         }
     }
 
-    private fun playMediaId(mediaId: String, pauseAllowed: Boolean = true) {
+    private fun playMediaId(mediaId: String) {
         val nowPlaying = audioConnection.nowPlaying.value
         val transportControls = audioConnection.transportControls
-
         val isPrepared = audioConnection.playbackState.value?.isPrepared ?: false
         if (isPrepared && mediaId == nowPlaying?.id) {
             audioConnection.playbackState.value?.let { playbackState ->
                 when {
-                    playbackState.isPlaying -> if (pauseAllowed) transportControls.pause() else Unit
+                    playbackState.isPlaying -> transportControls.pause()
                     playbackState.isPlayEnabled -> transportControls.play()
                     else -> {
                         Timber.w(
@@ -215,6 +214,10 @@ class TilawatViewModel constructor(
         playAudioLiveData.value?.let { audioItem ->
             playMedia(audioItem)
         }
+    }
+
+    fun doFetchOrPlay(verseNumber: Int) {
+//        audioConnection.nowPlaying.value?.trackNumber == verseNumber
     }
 }
 

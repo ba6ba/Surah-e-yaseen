@@ -6,4 +6,5 @@ dependencies {
 	implementation(project(BuildModules.core))
 	implementation(project(BuildModules.listpager))
     implementation(project(BuildModules.data))
+    implementation(project(BuildModules.shared))
 }

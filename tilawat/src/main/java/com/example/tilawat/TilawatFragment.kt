@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
-import com.example.core.FlowData
+import com.example.shared.FlowData
 import com.example.extensions.*
 import com.example.extensions.show
 import com.example.reciters.RecitersListView
@@ -46,6 +46,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     private fun setObservers() {
         audioPlayer.onPlayClick = {
             updateCurrentAudioPlayingLayout(it)
+            tilawatViewModel.doFetchOrPlay(it)
             observeOnce(tilawatViewModel.fetchAudioForVerse(it)) {}
         }
         viewModelObservers()

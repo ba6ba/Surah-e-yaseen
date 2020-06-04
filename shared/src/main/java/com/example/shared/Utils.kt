@@ -10,4 +10,5 @@ private val chaptersData = mapOf(
 
 fun getChapterNumber(name : String) = chaptersData[name]!!
 
-fun getSurahYaseen() = getChapterNumber(SURAH_E_YASEEN)
+val getSurahYaseen
+    get() = getChapterNumber(SURAH_E_YASEEN)

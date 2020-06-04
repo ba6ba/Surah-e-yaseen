@@ -9,4 +9,5 @@ dependencies {
     implementation(project(BuildModules.data))
     implementation(project(BuildModules.media))
     implementation(project(BuildModules.audioplayer))
+    implementation(project(BuildModules.shared))
 }

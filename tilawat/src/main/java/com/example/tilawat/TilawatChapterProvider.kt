@@ -1,12 +1,12 @@
 package com.example.tilawat
 
 import androidx.lifecycle.MutableLiveData
-import com.example.core.SURAH_E_YASEEN
-import com.example.core.getChapterNumber
 import com.example.data.Chapter
+import com.example.data.TilawatAudioModel
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.responses.toNotificationAudioWrapper
 import com.example.network.repository.TilawatRepository
+import com.example.shared.getSurahYaseen
 
 class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
 
@@ -32,12 +32,9 @@ class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
     private val tilawatChapterDataFromChapter
         get() = chapter.toTilawatChapterData().also { tilawatChapterData = it }
 
-    suspend fun getAudio(number: Int) =
-        tilawatRepository.getTilawatAudio(
-            getChapterNumber(SURAH_E_YASEEN), tilawatAudioClipRange.toList()[number],
-            tilawatChapterData.reciterId, null
-        )?.toNotificationAudioWrapper(
-            tilawatChapterData.reciterName,
-            tilawatChapterData.surahNameEnglish, number.toLong(), R.drawable.splash_logo
-        )
+    suspend fun getAudio(number: Int) = tilawatRepository.getTilawatAudio(getAudioModel(number))
+        ?.toNotificationAudioWrapper(tilawatChapterData.reciterName, tilawatChapterData.surahNameEnglish, number.toLong(), R.drawable.splash_logo)
+
+    private fun getAudioModel(number: Int) = TilawatAudioModel(
+        getSurahYaseen, tilawatAudioClipRange.toList()[number], tilawatChapterData.reciterId)
 }

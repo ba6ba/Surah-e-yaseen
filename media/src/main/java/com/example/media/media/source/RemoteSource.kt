@@ -10,23 +10,23 @@ import kotlinx.coroutines.withContext
 
 class RemoteSource(private val context: Context) : AbstractAudioSource() {
 
-    private var catalog: List<MediaMetadataCompat> = emptyList()
+    private var audioList: List<MediaMetadataCompat> = emptyList()
 
     init {
         state = STATE_INITIALIZING
     }
 
     override suspend fun load(audio: NotificationAudioWrapper) {
-        fetchAudio(audio)?.let { newCatalog ->
-            catalog = newCatalog
+        fetchAudio(audio)?.let { newList ->
+            audioList = newList
             state = STATE_INITIALIZED
         } ?: kotlin.run {
-            catalog = emptyList()
+            audioList = emptyList()
             state = STATE_ERROR
         }
     }
 
-    override fun iterator(): Iterator<MediaMetadataCompat> = catalog.iterator()
+    override fun iterator(): Iterator<MediaMetadataCompat> = audioList.iterator()
 
     private suspend fun fetchAudio(wrapper: NotificationAudioWrapper): List<MediaMetadataCompat>? {
         return withContext(DefaultDispatcher) {

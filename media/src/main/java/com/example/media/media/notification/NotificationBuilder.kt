@@ -7,7 +7,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -65,7 +64,7 @@ class NotificationBuilder(private val context: Context,
             .setContentText(description.subtitle)
             .setContentTitle(description.title)
             .setDeleteIntent(notificationActions.stopPendingIntent)
-            .setLargeIcon(getLargeIconBitmap(description))
+            .setLargeIcon(description.iconBitmap)
             .setOnlyAlertOnce(true)
             .setSmallIcon(R.drawable.exo_icon_play)
             .setStyle(mediaStyle(sessionToken, playPauseIndex))
@@ -79,23 +78,6 @@ class NotificationBuilder(private val context: Context,
             .setMediaSession(sessionToken)
             .setShowActionsInCompactView(actionsInCompactView)
             .setShowCancelButton(true)
-    }
-
-    private suspend fun getLargeIconBitmap(description: MediaDescriptionCompat): Bitmap? =
-        description.iconUri?.let {
-            resolveUriAsBitmap(it)
-        }
-
-    private suspend fun resolveUriAsBitmap(uri: Uri): Bitmap? {
-        return withContext(Dispatchers.IO) {
-            val parcelFileDescriptor =
-                context.contentResolver.openFileDescriptor(uri, MODE_READ_ONLY)
-                    ?: return@withContext null
-            val fileDescriptor = parcelFileDescriptor.fileDescriptor
-            BitmapFactory.decodeFileDescriptor(fileDescriptor).apply {
-                parcelFileDescriptor.close()
-            }
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

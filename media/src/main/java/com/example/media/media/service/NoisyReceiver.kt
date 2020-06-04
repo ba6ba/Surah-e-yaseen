@@ -44,29 +44,3 @@ class NoisyReceiver constructor(private val context: Context) {
         }
     }
 }
-/*
-class NoisyReceiver constructor(private val context: Context, sessionToken : MediaSessionCompat.Token) : BroadcastReceiver(){
-
-    private val mediaController : MediaControllerCompat = MediaControllerCompat(context, sessionToken)
-    private var isRegistered : Boolean = false
-
-    fun register() {
-        isRegistered.isFalse {
-            context.registerReceiver(this@NoisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
-            isRegistered = true
-        }
-    }
-
-    fun unregister() {
-        isRegistered.isTrue {
-            context.unregisterReceiver(this@NoisyReceiver)
-            isRegistered = false
-        }
-    }
-
-    override fun onReceive(context: Context?, intent: Intent?) {
-        (AudioManager.ACTION_AUDIO_BECOMING_NOISY == intent?.action).isTrue {
-            mediaController.transportControls.pause()
-        }
-    }
-}*/

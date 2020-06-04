@@ -1,17 +1,14 @@
 package com.example.media.media.source
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.support.v4.media.MediaMetadataCompat
-import com.example.data.Audio
+import com.example.data.audio.NotificationAudioWrapper
 import com.example.media.media.extensions.from
 import com.example.network.DefaultDispatcher
-import com.example.network.IODispatcher
-import com.example.network.repository.TilawatRepository
-import com.example.shared.SURAH_E_YASEEN
-import com.example.shared.getSurahYaseen
 import kotlinx.coroutines.withContext
-import java.util.*
 
-class RemoteSource : AbstractAudioSource() {
+class RemoteSource(private val context: Context) : AbstractAudioSource() {
 
     private var catalog: List<MediaMetadataCompat> = emptyList()
 
@@ -19,7 +16,7 @@ class RemoteSource : AbstractAudioSource() {
         state = STATE_INITIALIZING
     }
 
-    override suspend fun load(audio : Audio) {
+    override suspend fun load(audio: NotificationAudioWrapper) {
         fetchAudio(audio)?.let { newCatalog ->
             catalog = newCatalog
             state = STATE_INITIALIZED
@@ -31,13 +28,17 @@ class RemoteSource : AbstractAudioSource() {
 
     override fun iterator(): Iterator<MediaMetadataCompat> = catalog.iterator()
 
-    private suspend fun fetchAudio(audio: Audio): List<MediaMetadataCompat>? {
+    private suspend fun fetchAudio(wrapper: NotificationAudioWrapper): List<MediaMetadataCompat>? {
         return withContext(DefaultDispatcher) {
             arrayListOf<MediaMetadataCompat>().apply {
-                add(MediaMetadataCompat.Builder()
-                    .from(AudioClip.from(audio, "Rashid Alafasfy",
-                        SURAH_E_YASEEN.toLowerCase(Locale.ROOT), 1, ""))
-                    .build()
+                add(
+                    MediaMetadataCompat.Builder().from(
+                        AudioClip.from(
+                            wrapper.audio, wrapper.author,
+                            wrapper.mainTitle, wrapper.number,
+                            "", BitmapFactory.decodeResource(context.resources, wrapper.drawableId)
+                        )
+                    ).build()
                 )
             }
         }

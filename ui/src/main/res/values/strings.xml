@@ -11,4 +11,6 @@
     <string name="reciter_title">Tilawat by</string>
     <string name="verses_heading">Verses</string>
     <string name="surah_number_heading">Surah</string>
+    <string name="currently_playing_text">Currently Playing</string>
+    <string name="verse_text">Verse Number</string>
 </resources>

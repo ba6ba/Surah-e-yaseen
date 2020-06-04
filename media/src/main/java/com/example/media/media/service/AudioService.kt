@@ -1,6 +1,8 @@
 package com.example.media.media.service
 
+import android.app.Notification
 import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
@@ -8,8 +10,10 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import androidx.annotation.CallSuper
+import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
-import com.example.data.Audio
+import com.example.data.audio.NotificationAudioWrapper
 import com.example.extensions.get
 import com.example.extensions.isFalse
 import com.example.extensions.isTrue
@@ -22,6 +26,7 @@ import com.example.media.media.Constants.MEDIA_SEARCH_SUPPORTED
 import com.example.media.media.Constants.USER_AGENT
 import com.example.media.media.connection.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
+import com.example.media.media.notification.NOW_PLAYING_NOTIFICATION
 import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
@@ -37,6 +42,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import java.lang.IllegalStateException
+
+typealias ServiceHandlerState = com.example.media.media.notification.ServiceHandler
 
 class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
@@ -80,17 +88,29 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     override fun onCreate() {
         super.onCreate()
+        handleServiceNotificationHandlerCallbacks()
         setupNoisyReceiverCallback()
         setupMediaSession()
         setupMediaController()
         setupMediaSessionConnector()
-        setupAudioClipSource(Audio("https://mirrors.quranicaudio.com/everyayah/Abdul_Basit_Murattal_64kbps/036001.mp3", 4, format = "mp3"))
+    }
+
+    private fun handleServiceNotificationHandlerCallbacks() {
+        serviceNotificationHandler.serviceHandler = { state, data ->
+            when(state) {
+                ServiceHandlerState.STOP_SELF -> stopSelf()
+                ServiceHandlerState.START_SELF -> startForeground(NOW_PLAYING_NOTIFICATION, data as Notification)
+                ServiceHandlerState.START_FOREGROUND ->
+                    ContextCompat.startForegroundService(this, Intent(this, this.javaClass))
+                ServiceHandlerState.STOP_FOREGROUND -> stopForeground(data as Boolean)
+            }
+        }
     }
 
     private fun checkForIntent(intent: Intent?) {
         intent ?: return
         (PLAY_AUDIO == intent.action && intent.hasExtra(AUDIO_DATA) && intent.get(AUDIO_DATA) != null).isTrue {
-            setupAudioClipSource(intent.get(AUDIO_DATA) as Audio)
+            setupAudioClipSource(intent.get(AUDIO_DATA) as NotificationAudioWrapper)
         }
     }
 
@@ -122,19 +142,17 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    private fun setupAudioClipSource(audio : Audio?) {
-        audio?.let {
-            serviceScope.launch {
-                audioSource.load(audio)
-            }
+    private fun setupAudioClipSource(audio: NotificationAudioWrapper) {
+        serviceScope.launch {
+            audioSource.load(audio)
         }
     }
 
-//    @CallSuper
-//    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        checkForIntent(intent)
-//        return Service.START_NOT_STICKY
-//    }
+    @CallSuper
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        checkForIntent(intent)
+        return Service.START_NOT_STICKY
+    }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
@@ -153,11 +171,15 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         val resultSent = audioSource.whenReady { hasInitialized ->
             hasInitialized.isTrue {
-                result.sendResult(
-                    audioSource.map {
-                        MediaBrowserCompat.MediaItem(it.description, it.flag)
-                    }.toMutableList()
-                )
+                try {
+                    result.sendResult(
+                        audioSource.map {
+                            MediaBrowserCompat.MediaItem(it.description, it.flag)
+                        }.toMutableList()
+                    )
+                } catch (e : IllegalStateException) {
+                    notifyChildrenChanged(parentId)
+                }
             } ?: kotlin.run {
                 mediaSession.sendSessionEvent(NETWORK_FAILURE, null)
                 result.sendResult(null)

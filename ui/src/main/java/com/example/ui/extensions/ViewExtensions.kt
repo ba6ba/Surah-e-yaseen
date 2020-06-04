@@ -18,7 +18,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import com.example.extensions.doAnimation
+import com.example.extensions.isTrue
 import com.example.extensions.isVersionLowerThan
+import com.example.extensions.toDp
 import com.example.ui.R
 
 fun View.drawable(@DrawableRes drawableRes: Int): Drawable? = AppCompatResources.getDrawable(context, drawableRes)
@@ -63,8 +65,32 @@ fun View.invisible() = run {
     this
 }
 
+val View.isVisible
+    get() = visibility == View.VISIBLE
+
+val View.isGone
+    get() = visibility == View.GONE
+
+val View.isInvisible
+    get() = visibility == View.INVISIBLE
+
 fun View.visibility(show: Boolean, invisible: Boolean = false) = run {
     if (show) show() else if (invisible) invisible() else hide()
+}
+
+inline fun View.visibility(show: Boolean, invisible: Boolean = false, crossinline showed : View.() -> Unit) = run {
+    if (show) show() else if (invisible) invisible() else hide()
+    show.isTrue {
+        showed(this@run)
+    }
+}
+
+inline fun View.isVisible(crossinline showed : View.() -> Unit) = run {
+    if (isVisible) showed(this)
+}
+
+inline fun View.isGone(crossinline showed : View.() -> Unit) = run {
+    if (isGone) showed(this)
 }
 
 fun View.animateByPushingLeftIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
@@ -97,6 +123,51 @@ fun View.animateByFadingOut(context: Context, animationCompleted: ((Boolean) -> 
     this
 }
 
+fun View.animateByPushingUpIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.push_up_in, animationCompleted)
+    this
+}
+
+fun View.animateByPushingUpOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.push_up_out, animationCompleted)
+    this
+}
+
+fun View.animateByPushingDownOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.push_down_out, animationCompleted)
+    this
+}
+
+fun View.animateByPushingDownIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.push_down_in, animationCompleted)
+    this
+}
+
+fun View.animateByPushingSlideUp(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.slide_up, animationCompleted)
+    this
+}
+
+fun View.animateByPushingSlideDown(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.slide_down, animationCompleted)
+    this
+}
+
+fun View.animateByBounce(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.bounce, animationCompleted)
+    this
+}
+
+fun View.animateByBottomToTopIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.bottom_to_top_in, animationCompleted)
+    this
+}
+
+fun View.animateByBottomToTopOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
+    doAnimation(context, R.anim.bottom_to_top_out, animationCompleted)
+    this
+}
+
 fun <T : AttributeSet?> View.getStyleAttributes(styleableId: IntArray, t: T): TypedArray =
     context.theme.obtainStyledAttributes(t, styleableId, 0, 0)
 
@@ -118,6 +189,9 @@ val View.constraintMatchParentLayoutParams
 
 val View.constraintWidthMatchConstraint
     get() = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+
+fun View.customConstraintLayoutParams(width : Int, height : Int) =
+    ConstraintLayout.LayoutParams(width.toDp(), height.toDp())
 
 val View.isDarkColor
     @SuppressLint("NewApi")

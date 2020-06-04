@@ -58,6 +58,7 @@ class AudioServiceConnection(private val context: Context, serviceComponent: Com
     private val mediaBrowserConnectionCallback by lazy {
         MediaBrowserConnectionCallback(this)
     }
+
     private val mediaBrowser by lazy {
         MediaBrowserCompat(
             context,

@@ -5,7 +5,6 @@ import android.net.Uri
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
-import com.example.data.Audio
 import com.example.extensions.toUri
 import com.example.media.media.source.AudioClip
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
@@ -293,13 +292,14 @@ fun MediaMetadataCompat.Builder.from(audio: AudioClip): MediaMetadataCompat.Buil
     val durationMs = TimeUnit.SECONDS.toMillis(audio.duration)
 
     id = UUID.randomUUID().toString()
-    title = audio.author
+    title = audio.title
     artist = audio.author
-    album = ""
+    album = audio.title
     duration = durationMs
-    genre = ""
+    genre = "Verses"
     mediaUri = audio.clipUrl
     albumArtUri = audio.imageUrl
+    albumArt = audio.imageBitmap
     trackNumber = audio.number
     trackCount = 0
     flag = MediaItem.FLAG_PLAYABLE

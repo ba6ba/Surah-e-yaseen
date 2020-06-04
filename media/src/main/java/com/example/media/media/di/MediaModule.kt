@@ -9,7 +9,6 @@ import com.example.media.media.connection.AudioServiceConnection
 import com.example.media.media.notification.NotificationBuilder
 import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.service.AudioService
-import com.example.media.media.service.MediaControllerCallbackHandler
 import com.example.media.media.service.NoisyReceiver
 import com.example.media.media.service.QueueNavigator
 import com.example.media.media.source.RemoteSource
@@ -25,8 +24,8 @@ val mediaModule = module {
             ComponentName(androidContext(), AudioService::class.java)
         )
     }
-    factory { RemoteSource() }
-    factory { MediaSessionCompat(get(), AudioService.TAG) }
+    factory { RemoteSource(get()) }
+    single { MediaSessionCompat(get(), AudioService.TAG) }
     factory { NoisyReceiver(get()) }
     factory { NotificationBuilder(get()) }
     factory { NotificationManagerCompat.from(get()) }
@@ -34,8 +33,7 @@ val mediaModule = module {
     factory { PackageValidator(androidContext(), providePackageValidatorXml()) }
     factory { MediaControllerCompat(androidContext(), get() as MediaSessionCompat) }
     factory { QueueNavigator(get()) }
-    factory { MediaControllerCallbackHandler(get()) }
-    factory { ServiceNotificationHandler(get(), get(), get(), get(), get(), get()) }
+    factory { ServiceNotificationHandler(get(), get(), get(), get(), get()) }
 }
 
 fun providePackageValidatorXml(): Int {

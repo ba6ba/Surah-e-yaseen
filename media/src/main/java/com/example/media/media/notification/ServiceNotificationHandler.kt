@@ -21,13 +21,13 @@ class ServiceNotificationHandler(
     private val audioNoisyReceiver: NoisyReceiver,
     private val notificationManager: NotificationManagerCompat,
     private val notificationBuilder: NotificationBuilder,
-    private val mediaController: MediaControllerCompat,
-    private val audioService: AudioService
+    private val mediaController: MediaControllerCompat
 ) {
 
     private val serviceJob = SupervisorJob()
     private val serviceScope = CoroutineScope(MainDispatcher + serviceJob)
     private var isForegroundService = false
+    lateinit var serviceHandler : (ServiceHandler, Any?) -> Unit
 
     fun handleMediaCallbacksAndNotification(state: PlaybackStateCompat?) {
         state?.let {
@@ -64,7 +64,7 @@ class ServiceNotificationHandler(
 
     private fun stopService(updatedState: Int) {
         (PlaybackStateCompat.STATE_NONE == updatedState).isTrue {
-            audioService.stopSelf()
+            serviceHandler(ServiceHandler.STOP_SELF, null)
         }
     }
 
@@ -73,11 +73,8 @@ class ServiceNotificationHandler(
         if (notification != null) {
             notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
             isForegroundService.isFalse {
-                ContextCompat.startForegroundService(
-                    audioService,
-                    Intent(audioService, audioService.javaClass)
-                )
-                audioService.startForeground(NOW_PLAYING_NOTIFICATION, notification)
+                serviceHandler(ServiceHandler.START_FOREGROUND, null)
+                serviceHandler(ServiceHandler.START_SELF, notification)
                 isForegroundService = true
             }
         }
@@ -95,6 +92,6 @@ class ServiceNotificationHandler(
     }
 
     private fun removeNowPlayingNotification(removeNotification: Boolean) {
-        audioService.stopForeground(removeNotification)
+        serviceHandler(ServiceHandler.STOP_FOREGROUND, removeNotification)
     }
 }

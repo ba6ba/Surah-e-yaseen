@@ -9,24 +9,23 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import com.example.core.BaseViewModel
-import com.example.data.Audio
+import com.example.data.audio.NotificationAudioWrapper
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.reciters.toWrapperList
-import com.example.extensions.hasData
 import com.example.extensions.hasDataToShow
 import com.example.extensions.isTrue
+import com.example.extensions.toTimeStamp
 import com.example.media.media.connection.AudioServiceConnection
 import com.example.media.media.connection.EMPTY_PLAYBACK_STATE
 import com.example.media.media.connection.NOTHING_PLAYING
-import com.example.media.media.extensions.id
-import com.example.media.media.extensions.isPlayEnabled
-import com.example.media.media.extensions.isPlaying
-import com.example.media.media.extensions.isPrepared
+import com.example.media.media.extensions.*
 import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaHelper
 import com.example.media.media.source.AudioClipData
 import com.example.network.error.ApiErrorType
 import com.example.reciters.RecitersProvider
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 typealias Reciters = List<ReciterWrapper>
@@ -35,12 +34,24 @@ class TilawatViewModel constructor(
     private val tilawatChapterProvider: TilawatChapterProvider,
     private val recitersProvider: RecitersProvider,
     private val audioConnection: AudioServiceConnection,
-    private val context : Context
+    private val context: Context
 ) : BaseViewModel() {
 
-    private var mediaId : String = MediaHelper.ROOT_ID
-    val audioItems = MutableLiveData<List<AudioClipData>>()
+    private var mediaId: String = MediaHelper.ROOT_ID
+    var audioItems: List<AudioClipData> = arrayListOf()
     val tilawatChapterData: MutableLiveData<TilawatChapterData> = tilawatChapterProvider.getTilawatChapterLiveData
+    val playAudioLiveData: MutableLiveData<AudioClipData> = MutableLiveData()
+    val audioMetaData: MutableLiveData<AudioClipData.Metadata> = MutableLiveData()
+    private var needToUpdatePosition: Boolean = true
+    private var playbackState = EMPTY_PLAYBACK_STATE
+    var formatToDisplayVerseCount: String = "%02d"
+        set(value) {
+            field = "%0${value}d"
+        }
+    val currentDurationLiveData = MutableLiveData<Long>()
+        .apply {
+            postValue(0L)
+        }
 
     fun getTranslators(): LiveData<Reciters> = liveData {
         (recitersProvider.getReciters(this@TilawatViewModel)?.recitations.toWrapperList() ?: arrayListOf()).also { list ->
@@ -63,35 +74,51 @@ class TilawatViewModel constructor(
 
     private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
         override fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>) {
-            audioItems.postValue(
-                children.map { child ->
-                    val subtitle = child.description.subtitle ?: ""
-                    AudioClipData(
-                        child.mediaId!!,
-                        child.description.title.toString(),
-                        subtitle.toString(),
-                        child.description.iconUri ?: Uri.EMPTY,
-                        child.isBrowsable,
-                        getResourceForMediaId(child.mediaId!!)
-                    )
-                }
-            )
+            audioItems = children.map { child ->
+                val subtitle = child.description.subtitle ?: ""
+                AudioClipData(
+                    child.mediaId!!,
+                    child.description.title.toString(),
+                    subtitle.toString(),
+                    child.description.iconUri ?: Uri.EMPTY,
+                    child.isBrowsable,
+                    getPlayingStateForMediaId(child.mediaId!!),
+                    child.description.mediaUri
+                )
+            }
+            playAudioLiveData.value = audioItems.first()
         }
     }
 
     private val playbackStateObserver = Observer<PlaybackStateCompat> {
-        val playbackState = it ?: EMPTY_PLAYBACK_STATE
+        playbackState = it ?: EMPTY_PLAYBACK_STATE
         val metadata = audioConnection.nowPlaying.value ?: NOTHING_PLAYING
         if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
-            audioItems.postValue(updateState(playbackState, metadata))
+            audioItems = updateState(playbackState, metadata)
+            postMetadataToUI(playbackState, metadata)
         }
+    }
+
+    private fun postMetadataToUI(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat) {
+        audioMetaData.postValue(
+            AudioClipData.Metadata(
+                mediaMetadata.title ?: "",
+                mediaMetadata.displaySubtitle ?: "",
+                mediaMetadata.author ?: "",
+                playbackState.isPlaying,
+                mediaMetadata.albumArtUri,
+                mediaMetadata.albumArt,
+                mediaMetadata.duration.toTimeStamp(),
+                mediaMetadata.duration
+            )
+        )
     }
 
     private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
         val playbackState = audioConnection.playbackState.value ?: EMPTY_PLAYBACK_STATE
         val metadata = it ?: NOTHING_PLAYING
         if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
-            audioItems.postValue(updateState(playbackState, metadata))
+            audioItems = updateState(playbackState, metadata)
         }
     }
 
@@ -99,6 +126,19 @@ class TilawatViewModel constructor(
         it.subscribe(mediaId, subscriptionCallback)
         it.playbackState.observeForever(playbackStateObserver)
         it.nowPlaying.observeForever(mediaMetadataObserver)
+        checkForPlaybackPosition()
+    }
+
+    private fun checkForPlaybackPosition() {
+        viewModelScope.launch {
+            delay(100L)
+            (currentDurationLiveData.value != playbackState.currentPlayBackPosition).isTrue {
+                currentDurationLiveData.postValue(playbackState.currentPlayBackPosition)
+            }
+            needToUpdatePosition.isTrue {
+                checkForPlaybackPosition()
+            }
+        }
     }
 
     override fun onCleared() {
@@ -108,39 +148,28 @@ class TilawatViewModel constructor(
             nowPlaying.removeObserver(mediaMetadataObserver)
             unsubscribe(mediaId, subscriptionCallback)
         }
+        needToUpdatePosition = false
     }
 
     private fun updateState(
         playbackState: PlaybackStateCompat,
         mediaMetadata: MediaMetadataCompat
     ): List<AudioClipData> {
-
-        val newResId = when (playbackState.isPlaying) {
-            true -> R.drawable.stop_icon
-            else -> R.drawable.play_icon
-        }
-
-        return audioItems.value?.map {
-            val useResId = if (it.mediaId == mediaMetadata.id) newResId else NO_RES
-            it.copy(playbackRes = useResId)
-        } ?: emptyList()
-    }
-
-    private fun getResourceForMediaId(mediaId: String): Int {
-        val isActive = mediaId == audioConnection.nowPlaying.value?.id
-        val isPlaying = audioConnection.playbackState.value?.isPlaying ?: false
-        return when {
-            !isActive -> NO_RES
-            isPlaying -> R.drawable.stop_icon
-            else -> R.drawable.play_icon
+        return audioItems.map {
+            it.copy(playing = if ((it.mediaId == mediaMetadata.id)) playbackState.isPlaying else false)
         }
     }
 
-    fun playMedia(audioClipData: AudioClipData, pauseAllowed: Boolean = true) {
-        playMediaId(audioClipData.mediaId, pauseAllowed)
+    private fun getPlayingStateForMediaId(mediaId: String): Boolean =
+        mediaId == audioConnection.nowPlaying.value?.id && audioConnection.playbackState.value?.isPlaying ?: false
+
+    private fun playMedia(audioClipData: AudioClipData, pauseAllowed: Boolean = true) {
+        audioConnection.nowPlaying.value?.apply {
+            playMediaId(if (mediaUri == audioClipData.mediaUri) mediaId else audioClipData.mediaId, pauseAllowed)
+        }
     }
 
-    fun playMediaId(mediaId: String, pauseAllowed: Boolean = true) {
+    private fun playMediaId(mediaId: String, pauseAllowed: Boolean = true) {
         val nowPlaying = audioConnection.nowPlaying.value
         val transportControls = audioConnection.transportControls
 
@@ -151,7 +180,8 @@ class TilawatViewModel constructor(
                     playbackState.isPlaying -> if (pauseAllowed) transportControls.pause() else Unit
                     playbackState.isPlayEnabled -> transportControls.play()
                     else -> {
-                        Timber.w("""Playable item clicked but neither play nor 
+                        Timber.w(
+                            """Playable item clicked but neither play nor 
                             |pause are enabled! (mediaId=$mediaId)""".trimMargin()
                         )
                     }
@@ -162,35 +192,33 @@ class TilawatViewModel constructor(
         }
     }
 
-    fun fetchAudioForVerse(verseNumber : Int) = liveData<Unit> {
+    fun fetchAudioForVerse(verseNumber: Int) = liveData<Unit> {
         tilawatChapterProvider.getAudio(verseNumber).apply {
-            if (this != null && this.audio != null) {
-                sendBroadcastToServiceViaIntent(this.audio!!)
+            if (this != null) {
+                sendBroadcastToServiceViaIntent(this)
             } else {
                 onError(ApiErrorType.UNKNOWN)
             }
         }
     }
 
-    private fun sendBroadcastToServiceViaIntent(audio: Audio) {
+    private fun sendBroadcastToServiceViaIntent(audioWrapper: NotificationAudioWrapper) {
         context.apply {
-            ContextCompat.startForegroundService(this,
-                createAudioServiceIntent(AudioService.NAME, AudioService.PLAY_AUDIO, audio))
+            ContextCompat.startForegroundService(
+                this,
+                createAudioServiceIntent(AudioService.NAME, AudioService.PLAY_AUDIO, audioWrapper)
+            )
         }
     }
 
-    fun playAudio(audio: Int) {
-        audioItems.value?.let { list ->
-            list.hasData {
-                playMedia(it[audio])
-            }
+    fun playAudio() {
+        playAudioLiveData.value?.let { audioItem ->
+            playMedia(audioItem)
         }
     }
 }
 
-private const val NO_RES = 0
-
-fun Context.createAudioServiceIntent(name: String, action: String, data: Audio) =
+fun Context.createAudioServiceIntent(name: String, action: String, data: NotificationAudioWrapper) =
     Intent(this, Class.forName(name))
         .apply {
             this.action = action

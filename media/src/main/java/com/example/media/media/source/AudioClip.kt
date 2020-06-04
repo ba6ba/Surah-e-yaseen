@@ -1,6 +1,7 @@
 package com.example.media.media.source
 
-import com.example.data.Audio
+import android.graphics.Bitmap
+import com.example.data.audio.Audio
 
 data class AudioClip(
     var duration: Long,
@@ -9,11 +10,12 @@ data class AudioClip(
     var format: String,
     var clipUrl: String,
     var imageUrl: String,
-    var number: Long
+    var number: Long,
+    var imageBitmap : Bitmap?
 ) {
 
     companion object {
-        fun from(audio: Audio, reciter: String, title: String, number: Long, imageUrl: String) =
+        fun from(audio: Audio, reciter: String, title: String, number: Long, imageUrl: String, imageBitmap: Bitmap?) =
             AudioClip(
                 duration = audio.duration.toLong(),
                 clipUrl = audio.url,
@@ -21,7 +23,8 @@ data class AudioClip(
                 author = reciter,
                 title = title,
                 number = number,
-                imageUrl = imageUrl
+                imageUrl = imageUrl,
+                imageBitmap = imageBitmap
             )
     }
 }

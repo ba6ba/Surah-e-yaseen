@@ -17,3 +17,9 @@ fun Reciter.toReciterWrapper() = ReciterWrapper(this)
 fun List<Reciter>?.toWrapperList() = this?.map { it.toReciterWrapper() }?.hasData {
     it.first().selected = true
 }
+
+val defaultReciter
+    get() = Reciter(
+        id = 7, reciterEngName = "Mishary Rashid Al Afasy",
+        reciterTranslatedName = "Mishary Rashid Al Afasy", style = ""
+    )

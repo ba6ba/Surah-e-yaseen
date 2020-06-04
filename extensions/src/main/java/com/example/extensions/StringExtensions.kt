@@ -21,3 +21,5 @@ fun String?.containsCaseInsensitive(other: String?) =
     } else {
         false
     }
+
+fun String?.asFormatted(format : String) = String.format(format, this)

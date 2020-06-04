@@ -5,6 +5,7 @@ import com.example.core.SURAH_E_YASEEN
 import com.example.core.getChapterNumber
 import com.example.data.Chapter
 import com.example.data.reciters.ReciterWrapper
+import com.example.data.responses.toNotificationAudioWrapper
 import com.example.network.repository.TilawatRepository
 
 class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
@@ -12,7 +13,7 @@ class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
     var getTilawatChapterLiveData: MutableLiveData<TilawatChapterData> = MutableLiveData()
     var tilawatChapterData: TilawatChapterData = TilawatChapterData()
     private val tilawatAudioClipRange: IntRange by lazy {
-        tilawatChapterData.firstVerseId..tilawatChapterData.firstVerseId.plus(tilawatChapterData.numberOfVerses - 1)
+        tilawatChapterData.getRangeForAudioVerses
     }
 
     var chapter: Chapter? = null
@@ -34,6 +35,9 @@ class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
     suspend fun getAudio(number: Int) =
         tilawatRepository.getTilawatAudio(
             getChapterNumber(SURAH_E_YASEEN), tilawatAudioClipRange.toList()[number],
-            tilawatChapterData.reciter?.reciter?.id ?: 7, null
+            tilawatChapterData.reciterId, null
+        )?.toNotificationAudioWrapper(
+            tilawatChapterData.reciterName,
+            tilawatChapterData.surahNameEnglish, number.toLong(), R.drawable.splash_logo
         )
 }

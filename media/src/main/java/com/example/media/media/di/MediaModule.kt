@@ -16,11 +16,13 @@ import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val mediaModule = module {
-    single {
+
+    factory {
         AudioServiceConnection(
             androidContext(),
             ComponentName(androidContext(), AudioService::class.java)

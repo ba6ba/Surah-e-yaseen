@@ -9,10 +9,9 @@ import com.example.tilawat.dataprovider.IAudioData
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import org.koin.java.KoinJavaComponent.bind
 
 val tilawatModule = module {
-    factory { TilawatViewModel(androidContext(),get(), get(), get(), get()) }
+    single { TilawatViewModel(androidContext(),get(), get(), get(), get()) }
     single { TilawatChapterProvider(get()) }
     factory { AudioDataProvider() } bind IAudioData::class
 } + translatorsModule + mediaModule

@@ -73,6 +73,7 @@ class AudioServiceConnection(private val context: Context, serviceComponent: Com
 
     fun unsubscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         mediaBrowser.unsubscribe(parentId, callback)
+        mediaBrowser.disconnect()
     }
 
     override fun onConnectionSuccessful() {

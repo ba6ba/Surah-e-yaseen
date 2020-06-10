@@ -6,6 +6,7 @@ import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import com.example.data.audio.*
+import com.example.extensions.getBitmap
 import com.example.extensions.toSeconds
 import com.example.extensions.toTimeStamp
 import com.example.extensions.toUri
@@ -295,9 +296,9 @@ fun MediaMetadataCompat.Builder.from(serviceMetaData: AudioMediaData.ServiceMeta
     // milliseconds. Here's where we convert to the proper units.
     id = serviceMetaData.url.getIdFromUrl(to = ".mp3") ?: UUID.randomUUID().toString()
     title = serviceMetaData.title
-    duration = serviceMetaData.audioDuration.toSeconds
+    duration = serviceMetaData.audioDuration
     mediaUri = serviceMetaData.url
-    albumArt = serviceMetaData.bitmap
+    albumArt = serviceMetaData.byteArray.getBitmap
     flag = MediaItem.FLAG_PLAYABLE
 
     // To make things easier for *displaying* these, set the display properties as well.

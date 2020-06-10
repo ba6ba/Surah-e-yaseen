@@ -39,18 +39,20 @@ class AudioDataProvider : IAudioData, KoinComponent {
     override fun transformMediaItemDataToAudioMediaData(
         children: MutableList<MediaBrowserCompat.MediaItem>,
         itemToPlay: AudioMediaData.() -> Unit) {
-        itemToPlay(
-            audioItemsList.apply {
-                forEachIndexed { index, audioItem ->
-                    audioItem.mediaMetaData?.apply {
-                        mediaId = children[index].mediaId!!
-                        isBrowsable = children[index].isBrowsable
-                        isPlayable = children[index].isPlayable
-                        mediaUri = children[index].description.mediaUri!!
+        audioItemsList.has(currentVersePlaying).isTrue {
+            itemToPlay(
+                audioItemsList.apply {
+                    forEachIndexed { index, audioItem ->
+                        audioItem.mediaMetaData?.apply {
+                            mediaId = children[index].mediaId!!
+                            isBrowsable = children[index].isBrowsable
+                            isPlayable = children[index].isPlayable
+                            mediaUri = children[index].description.mediaUri!!
+                        }
                     }
-                }
-            }[currentVersePlaying]
-        )
+                }[currentVersePlaying]
+            )
+        }
     }
 
     override fun getCurrentAudioMetaData(
@@ -90,7 +92,8 @@ class AudioDataProvider : IAudioData, KoinComponent {
 
     private fun createAudioMediaData(audio: Audio) = AudioMediaData.build {
         authorData = tilawatChapterProvider.authorData
-        imageMetaData = imageMetadata.copy(imageDrawableRes = R.drawable.splash_logo, bitmap = setBitmap(context))
+        imageMetaData = imageMetadata.copy(imageDrawableRes = R.drawable.splash_logo)
+            .apply { setBitmap(context) }
         title = tilawatChapterProvider.surahName
         data = this@AudioDataProvider.data.copy(number = tilawatChapterProvider.number.toLong())
         metaData = this@AudioDataProvider.metadata.copy(

@@ -1,6 +1,5 @@
 package com.example.extensions
 
-import android.graphics.BitmapFactory
 import java.util.concurrent.TimeUnit
 
 const val DEFAULT_INT_VALUE = 0

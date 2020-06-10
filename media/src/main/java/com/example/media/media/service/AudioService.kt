@@ -163,6 +163,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         mediaSession.apply {
             isActive = false
             release()
+            setCallback(null)
         }
         serviceJob.cancel()
     }

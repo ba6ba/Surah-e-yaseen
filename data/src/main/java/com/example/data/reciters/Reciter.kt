@@ -1,5 +1,6 @@
 package com.example.data.reciters
 
+import com.example.data.audio.AudioMediaData
 import com.example.data.hasData
 import com.squareup.moshi.Json
 
@@ -23,3 +24,6 @@ val defaultReciter
         id = 7, reciterEngName = "Mishary Rashid Al Afasy",
         reciterTranslatedName = "Mishary Rashid Al Afasy", style = ""
     )
+
+val Reciter.toAuthorData
+    get() = AudioMediaData.AuthorData(id = id, name = reciterEngName, detail = style)

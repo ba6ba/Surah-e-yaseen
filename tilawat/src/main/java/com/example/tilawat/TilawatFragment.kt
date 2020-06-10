@@ -47,7 +47,6 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         audioPlayer.onPlayClick = {
             updateCurrentAudioPlayingLayout(it)
             tilawatViewModel.doFetchOrPlay(it)
-            observeOnce(tilawatViewModel.fetchAudioForVerse(it)) {}
         }
         viewModelObservers()
     }
@@ -77,14 +76,8 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
             }
         }
 
-        observeOnce(tilawatViewModel.networkError) {}
-
-        observeOnce(tilawatViewModel.playAudioLiveData) {
-            tilawatViewModel.playAudio()
-        }
-
         observeOnce(tilawatViewModel.audioMetaData) { metaData ->
-            audioPlayer.updatePlayer(metaData.toAudioPlayerMetaData())
+            audioPlayer.updatePlayer(metaData)
         }
         observeOnce(tilawatViewModel.currentDurationLiveData) { duration ->
             audioPlayer.setCurrentTimeProgress(duration.toTimeStamp())

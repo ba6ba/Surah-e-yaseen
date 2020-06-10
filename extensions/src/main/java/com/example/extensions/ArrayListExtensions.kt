@@ -27,3 +27,15 @@ fun <T> List<T>?.hasData(list: (List<T>) -> Unit) : List<T>? =
         this
     }
     else this!!
+
+fun <T> List<T>.withCapacity(capacity : Int) =
+    arrayListOf<T>()
+        .apply { ensureCapacity(capacity) }
+
+fun <T> listWithCapacity(capacity : Int) =
+    arrayListOf<T>()
+        .apply { ensureCapacity(capacity) }
+
+fun <T> List<T>.hasItem(index : Int) : T? = if (has(index)) this[index] else null
+
+fun <T> List<T>.has(index : Int) : Boolean = index.lessThan(size)

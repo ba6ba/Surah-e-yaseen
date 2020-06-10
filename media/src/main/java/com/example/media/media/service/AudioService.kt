@@ -13,10 +13,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
-import com.example.data.audio.NotificationAudioWrapper
-import com.example.extensions.get
-import com.example.extensions.isFalse
-import com.example.extensions.isTrue
+import com.example.data.audio.AudioMediaData
+import com.example.extensions.*
 import com.example.media.media.Constants.CONTENT_STYLE_BROWSABLE_HINT
 import com.example.media.media.Constants.CONTENT_STYLE_GRID
 import com.example.media.media.Constants.CONTENT_STYLE_LIST
@@ -28,6 +26,7 @@ import com.example.media.media.connection.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
 import com.example.media.media.notification.NOW_PLAYING_NOTIFICATION
 import com.example.media.media.notification.ServiceNotificationHandler
+import com.example.media.media.source.AudioSource
 import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
 import com.example.network.MainDispatcher
@@ -50,13 +49,13 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     companion object {
         val TAG = this::class.java.simpleName
-        val NAME = "com.example.media.media.service.AudioService"
-        val PLAY_AUDIO = "com.example.media.media.service.AudioService.PLAY_AUDIO"
-        val AUDIO_DATA = "com.example.media.media.service.AudioService.AUDIO_DATA"
+        const val NAME = "com.example.media.media.service.AudioService"
+        const val PLAY_AUDIO = "com.example.media.media.service.AudioService.PLAY_AUDIO"
+        const val AUDIO_DATA = "com.example.media.media.service.AudioService.AUDIO_DATA"
     }
 
     private val audioNoisyReceiver : NoisyReceiver by inject()
-    private val audioSource : RemoteSource by inject()
+    private val audioSource : AudioSource by inject()
     private val packageValidator : PackageValidator by inject()
     private val mediaSession: MediaSessionCompat by inject()
     private val mediaController: MediaControllerCompat by inject()
@@ -109,8 +108,8 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     private fun checkForIntent(intent: Intent?) {
         intent ?: return
-        (PLAY_AUDIO == intent.action && intent.hasExtra(AUDIO_DATA) && intent.get(AUDIO_DATA) != null).isTrue {
-            setupAudioClipSource(intent.get(AUDIO_DATA) as NotificationAudioWrapper)
+        (intent.hasDataWithKey(AUDIO_DATA) and intent.hasAction(PLAY_AUDIO)).isTrue {
+            setupAudioClipSource(intent.get(AUDIO_DATA) as List<AudioMediaData.ServiceMetaData>)
         }
     }
 
@@ -142,7 +141,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    private fun setupAudioClipSource(audio: NotificationAudioWrapper) {
+    private fun setupAudioClipSource(audio: List<AudioMediaData.ServiceMetaData>) {
         serviceScope.launch {
             audioSource.load(audio)
         }
@@ -173,8 +172,8 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
             hasInitialized.isTrue {
                 try {
                     result.sendResult(
-                        audioSource.map {
-                            MediaBrowserCompat.MediaItem(it.description, it.flag)
+                        audioSource.map { metadata ->
+                            MediaBrowserCompat.MediaItem(metadata.description, metadata.flag)
                         }.toMutableList()
                     )
                 } catch (e : IllegalStateException) {

@@ -4,10 +4,13 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.data.audio.AudioMediaData
 import com.example.extensions.toTimeStamp
 import com.example.ui.extensions.drawable
 import com.example.ui.extensions.inflate
 import kotlinx.android.synthetic.main.custom_audio_player_layout.view.*
+
+typealias PlaybackState = AudioMediaData.PlaybackState
 
 class CustomAudioPlayer @JvmOverloads constructor(
     context: Context, attributeSet: AttributeSet? = null, defStyleRes: Int = 0
@@ -18,14 +21,14 @@ class CustomAudioPlayer @JvmOverloads constructor(
     private var counterValue: Int = resetValue
     var maxValue: Int = -1
 
-    var playerState: AudioPlayerState = AudioPlayerState.PAUSE
+    var playerState: PlaybackState = PlaybackState.PAUSE
         set(value) {
             field = value
             play.background = getPlayButtonBackground(value)
         }
 
-    private fun getPlayButtonBackground(value: AudioPlayerState): Drawable? =
-        drawable(if (AudioPlayerState.PLAYING == value) R.drawable.stop_icon else R.drawable.play_icon)
+    private fun getPlayButtonBackground(value: AudioMediaData.PlaybackState): Drawable? =
+        drawable(if (PlaybackState.PLAYING == value) PlaybackState.PAUSE.imageRes else PlaybackState.PLAYING.imageRes)
 
     init {
         inflate(R.layout.custom_audio_player_layout)
@@ -60,10 +63,10 @@ class CustomAudioPlayer @JvmOverloads constructor(
         startTime.text = duration
     }
 
-    fun updatePlayer(metaData: AudioPlayerMetaData) {
+    fun updatePlayer(metaData: AudioMediaData.MetaData) {
         setTotalDuration(metaData.displayableDuration)
-        playerState = metaData.playing.toAudioPlayerState
-        seekBar.progress = metaData.duration.toInt()
+        playerState = metaData.playbackState
+        seekBar.progress = metaData.audioProgress.toInt()
     }
 
     private val makeCounterValue

@@ -2,6 +2,7 @@ package com.example.media.media.extensions
 
 import android.os.SystemClock
 import android.support.v4.media.session.PlaybackStateCompat
+import com.example.data.audio.AudioMediaData
 
 inline val PlaybackStateCompat.isPrepared
     get() = (state == PlaybackStateCompat.STATE_BUFFERING) ||
@@ -29,17 +30,16 @@ inline val PlaybackStateCompat.isSkipToNextEnabled
 inline val PlaybackStateCompat.isSkipToPreviousEnabled
     get() = actions and PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS != 0L
 
-inline val PlaybackStateCompat.stateName
+inline val PlaybackStateCompat.audioMediaDataState: AudioMediaData.PlaybackState
     get() = when (state) {
-        PlaybackStateCompat.STATE_NONE -> "STATE_NONE"
-        PlaybackStateCompat.STATE_STOPPED -> "STATE_STOPPED"
-        PlaybackStateCompat.STATE_PAUSED -> "STATE_PAUSED"
-        PlaybackStateCompat.STATE_PLAYING -> "STATE_PLAYING"
-        PlaybackStateCompat.STATE_FAST_FORWARDING -> "STATE_FAST_FORWARDING"
-        PlaybackStateCompat.STATE_REWINDING -> "STATE_REWINDING"
-        PlaybackStateCompat.STATE_BUFFERING -> "STATE_BUFFERING"
-        PlaybackStateCompat.STATE_ERROR -> "STATE_ERROR"
-        else -> "UNKNOWN_STATE"
+        PlaybackStateCompat.STATE_NONE -> AudioMediaData.PlaybackState.NONE
+        PlaybackStateCompat.STATE_STOPPED -> AudioMediaData.PlaybackState.STOP
+        PlaybackStateCompat.STATE_PAUSED -> AudioMediaData.PlaybackState.PAUSE
+        PlaybackStateCompat.STATE_PLAYING -> AudioMediaData.PlaybackState.PLAYING
+        PlaybackStateCompat.STATE_FAST_FORWARDING -> AudioMediaData.PlaybackState.STOP
+        PlaybackStateCompat.STATE_SKIPPING_TO_NEXT -> AudioMediaData.PlaybackState.PLAY_NEXT
+        PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS -> AudioMediaData.PlaybackState.PLAY_PREVIOUS
+        else -> AudioMediaData.PlaybackState.NONE
     }
 
 /**

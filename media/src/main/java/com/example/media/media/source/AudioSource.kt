@@ -2,7 +2,7 @@ package com.example.media.media.source
 
 import android.os.Bundle
 import android.support.v4.media.MediaMetadataCompat
-import com.example.data.audio.NotificationAudioWrapper
+import com.example.data.audio.AudioMediaData
 
 interface AudioSource : Iterable<MediaMetadataCompat> {
 
@@ -10,7 +10,7 @@ interface AudioSource : Iterable<MediaMetadataCompat> {
      * Begins loading the data for this music source.
      */
 
-    suspend fun load(audio: NotificationAudioWrapper)
+    suspend fun load(metaDataList: List<AudioMediaData.ServiceMetaData>)
 
     fun whenReady(performAction: (Boolean) -> Unit): Boolean
 

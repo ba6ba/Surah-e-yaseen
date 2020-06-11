@@ -22,7 +22,7 @@ import org.koin.dsl.module
 
 val mediaModule = module {
 
-    factory {
+    single {
         AudioServiceConnection(
             androidContext(),
             ComponentName(androidContext(), AudioService::class.java)

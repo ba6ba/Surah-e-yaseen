@@ -9,12 +9,6 @@ fun AudioMediaData.ImageMetaData.setBitmap(context: Context) = kotlin.run {
     bitmap = BitmapFactory.decodeResource(context.resources, imageDrawableRes)
 }
 
-fun AudioMediaData.Builder.setBitmap(context: Context) = apply {
-    imageMetaData?.imageDrawableRes?.let {
-        imageMetaData = imageMetaData?.copy(bitmap = BitmapFactory.decodeResource(context.resources, it))
-    }
-}.imageMetaData?.bitmap
-
 val AudioMediaData.toServiceMetaData: AudioMediaData.ServiceMetaData
     get() = AudioMediaData.ServiceMetaData(
         data?.id!!,
@@ -22,7 +16,8 @@ val AudioMediaData.toServiceMetaData: AudioMediaData.ServiceMetaData
         metaData?.url!!,
         title = title,
         audioDuration = metaData?.audioDuration!!,
-        byteArray = imageMetaData?.bitmap.toByteArray
+        byteArray = imageMetaData?.bitmap.toByteArray,
+        audioId = data?.audioId!!
     )
 
 val Bitmap?.toByteArray: ByteArray

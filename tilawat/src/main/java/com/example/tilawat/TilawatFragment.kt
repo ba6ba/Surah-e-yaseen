@@ -79,6 +79,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         observeOnce(tilawatViewModel.audioMetaData) { metaData ->
             audioPlayer.updatePlayer(metaData)
         }
+
         observeOnce(tilawatViewModel.currentDurationLiveData) { duration ->
             audioPlayer.setCurrentTimeProgress(duration.toTimeStamp())
         }

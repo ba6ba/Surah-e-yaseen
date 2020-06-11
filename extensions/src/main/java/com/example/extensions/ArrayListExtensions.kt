@@ -28,10 +28,6 @@ fun <T> List<T>?.hasData(list: (List<T>) -> Unit) : List<T>? =
     }
     else this!!
 
-fun <T> List<T>.withCapacity(capacity : Int) =
-    arrayListOf<T>()
-        .apply { ensureCapacity(capacity) }
-
 fun <T> listWithCapacity(capacity : Int) =
     arrayListOf<T>()
         .apply { ensureCapacity(capacity) }
@@ -39,3 +35,12 @@ fun <T> listWithCapacity(capacity : Int) =
 fun <T> List<T>.hasItem(index : Int) : T? = if (has(index)) this[index] else null
 
 fun <T> List<T>.has(index : Int) : Boolean = index.lessThan(size)
+
+val <T> ArrayList<T>.validLastIndex
+    get() = if (size.greaterThan(0)) lastIndex else size
+
+val <T> List<T>.castToArrayList : ArrayList<T>
+    get() = this as ArrayList<T>
+
+val <T> List<T>.castToMutableList : MutableList<T>
+    get() = this as MutableList<T>

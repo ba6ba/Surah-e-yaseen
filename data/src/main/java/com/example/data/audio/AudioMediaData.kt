@@ -24,8 +24,8 @@ data class AudioMediaData(
     )
 
     data class Data(
-        var id: Int = INVALID_ID,
-        var number: Long = INVALID_PROGRESS, var totalNumber: Long = INVALID_PROGRESS
+        var id: Int = INVALID_ID, var audioId : String = EMPTY_STRING,
+        var totalNumber: Int = INVALID_PROGRESS.toInt()
     )
 
     data class MediaMetaData(
@@ -41,7 +41,7 @@ data class AudioMediaData(
     ) : Serializable
 
     data class MetaData(
-        var url: String = EMPTY_STRING,
+        var url: String = EMPTY_STRING, var number : Long = INVALID_PROGRESS,
         var audioDuration: Long = INVALID_PROGRESS, var audioProgress: Long = INVALID_PROGRESS,
         var displayableDuration: String = EMPTY_STRING, var displayableProgress: String = EMPTY_STRING,
         var playbackState: PlaybackState = PlaybackState.PAUSE, var format: String = EMPTY_STRING
@@ -52,7 +52,8 @@ data class AudioMediaData(
     data class ServiceMetaData constructor(
         var id: Int = INVALID_ID, var authorName: String,
         var url: String = EMPTY_STRING, var byteArray: ByteArray = byteArrayOf(),
-        var title: String = EMPTY_STRING, var audioDuration: Long = INVALID_PROGRESS
+        var title: String = EMPTY_STRING, var audioDuration: Long = INVALID_PROGRESS,
+        var audioId : String = EMPTY_STRING
     ) : Serializable {
 
         override fun equals(other: Any?): Boolean {

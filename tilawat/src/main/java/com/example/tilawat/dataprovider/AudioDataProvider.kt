@@ -21,54 +21,54 @@ class AudioDataProvider : IAudioData, KoinComponent {
     private var currentVersePlaying: Int = 0
     private val audioItemsList: ArrayList<AudioMediaData> = listWithCapacity(0)
     private val tilawatChapterProvider: TilawatChapterProvider by inject()
-    private val context : Context by inject()
+    private val context: Context by inject()
 
     override fun loadAudioData(audio: Audio?, callBack: List<AudioMediaData.ServiceMetaData>.() -> Unit) {
         audio.nonNull {
             createAudioMediaData(this)
-                .also { audioItemsList.add(currentVersePlaying, it) }
+                .also {
+                    audioItemsList.add(it)
+                }
             callBack(mapMetaDataFromList())
         }
     }
 
     override fun fetchFromRemoteOrPlayFromLocal(verseNumber: Int, fetchFromRemote: (Boolean) -> Unit) {
         currentVersePlaying = verseNumber
-        fetchFromRemote(audioItemsList.has(verseNumber))
+        fetchFromRemote(getAll().find { it.data?.id == currentVersePlaying } != null)
     }
 
     override fun transformMediaItemDataToAudioMediaData(
         children: MutableList<MediaBrowserCompat.MediaItem>,
-        itemToPlay: AudioMediaData.() -> Unit) {
-        audioItemsList.has(currentVersePlaying).isTrue {
-            itemToPlay(
-                audioItemsList.apply {
-                    forEachIndexed { index, audioItem ->
-                        audioItem.mediaMetaData?.apply {
-                            mediaId = children[index].mediaId!!
-                            isBrowsable = children[index].isBrowsable
-                            isPlayable = children[index].isPlayable
-                            mediaUri = children[index].description.mediaUri!!
-                        }
-                    }
-                }[currentVersePlaying]
-            )
-        }
+        itemToPlay: AudioMediaData.() -> Unit
+    ) {
+        getAll().apply {
+            forEachIndexed { index, audioItem ->
+                audioItem.mediaMetaData?.apply {
+                    mediaId = children[index].mediaId!!
+                    isBrowsable = children[index].isBrowsable
+                    isPlayable = children[index].isPlayable
+                    mediaUri = children[index].description.mediaUri!!
+                }
+            }
+        }.find { it.data?.id == currentVersePlaying }.nonNull(itemToPlay)
     }
 
     override fun getCurrentAudioMetaData(
         playbackState: PlaybackStateCompat,
-        mediaMetadata: MediaMetadataCompat): AudioMediaData.MetaData? =
-        audioItemsList.hasItem(currentVersePlaying)?.apply {
-            metaData?.apply {
-                this.playbackState = State.get(playbackState.isPlaying, getPlayingState, getPauseState)
-            }
-        }?.metaData
+        mediaMetadata: MediaMetadataCompat
+    ): AudioMediaData.MetaData? =
+        getAll().find { it.data?.id == currentVersePlaying }?.metaData
+            ?.copy(playbackState = State.get(playbackState.isPlaying, getPlayingState, getPauseState))
 
-    override fun getAll(): List<AudioMediaData> = audioItemsList
+    override fun getAll(): List<AudioMediaData> = audioItemsList.apply {
+        sortedBy { it.data?.audioId }
+    }
 
-    override fun getCurrentPlayingMediaMetadata(): AudioMediaData.MediaMetaData = audioItemsList[currentVersePlaying].mediaMetaData!!
+    override fun getCurrentPlayingMediaMetadata(): AudioMediaData.MediaMetaData =
+        getAll().find { it.data?.id == currentVersePlaying }?.mediaMetaData!!
 
-    override fun get(index: Int): AudioMediaData = audioItemsList[index]
+    override fun get(index: Int): AudioMediaData = getAll()[index]
 
     override val data: AudioMediaData.Data by lazy {
         AudioMediaData.Data()
@@ -95,26 +95,29 @@ class AudioDataProvider : IAudioData, KoinComponent {
         imageMetaData = imageMetadata.copy(imageDrawableRes = R.drawable.splash_logo)
             .apply { setBitmap(context) }
         title = tilawatChapterProvider.surahName
-        data = this@AudioDataProvider.data.copy(number = tilawatChapterProvider.number.toLong())
         metaData = this@AudioDataProvider.metadata.copy(
             url = audio.url, format = audio.format, audioDuration = audio.duration.toSeconds,
             displayableDuration = audio.duration.toSeconds.toTimeStamp(),
             playbackState = getPlayingState
         )
+        data = this@AudioDataProvider.data.copy(
+            totalNumber = tilawatChapterProvider.tilawatChapterData.numberOfVerses, audioId = audio.url.getIdFromUrl(),
+            id = currentVersePlaying
+        )
     }
 
     private fun mapMetaDataFromList(): List<AudioMediaData.ServiceMetaData> =
-        audioItemsList.map {
+        getAll().map {
             it.toServiceMetaData
         }
 
-    private val getPlayingState : State
+    private val getPlayingState: State
         get() = State.PLAYING
             .apply {
                 imageRes = R.drawable.play_icon
             }
 
-    private val getPauseState : State
+    private val getPauseState: State
         get() = State.PAUSE
             .apply {
                 imageRes = R.drawable.stop_icon

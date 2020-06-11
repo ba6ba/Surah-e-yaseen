@@ -6,10 +6,7 @@ import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import com.example.data.audio.*
-import com.example.extensions.getBitmap
-import com.example.extensions.toSeconds
-import com.example.extensions.toTimeStamp
-import com.example.extensions.toUri
+import com.example.extensions.*
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -285,6 +282,9 @@ fun List<MediaMetadataCompat>.toMediaSource(
     return concatenatingMediaSource
 }
 
+val MediaMetadataCompat.isValid : Boolean
+    get() = trackNumber > 0 && duration > 0 && mediaUri.toString().isNotEmpty() && id.isNullOrEmpty().not()
+
 /**
  * Custom property that holds whether an item is [MediaItem.FLAG_BROWSABLE] or
  * [MediaItem.FLAG_PLAYABLE].
@@ -294,12 +294,13 @@ const val METADATA_KEY_FLAGS = "com.example.media.media.METADATA_KEY_FLAGS"
 fun MediaMetadataCompat.Builder.from(serviceMetaData: AudioMediaData.ServiceMetaData): MediaMetadataCompat.Builder {
     // The duration from the JSON is given in seconds, but the rest of the code works in
     // milliseconds. Here's where we convert to the proper units.
-    id = serviceMetaData.url.getIdFromUrl(to = ".mp3") ?: UUID.randomUUID().toString()
+    id = serviceMetaData.audioId
     title = serviceMetaData.title
     duration = serviceMetaData.audioDuration
     mediaUri = serviceMetaData.url
     albumArt = serviceMetaData.byteArray.getBitmap
     flag = MediaItem.FLAG_PLAYABLE
+    trackNumber = serviceMetaData.id.toLong()
 
     // To make things easier for *displaying* these, set the display properties as well.
     displayTitle = serviceMetaData.title
@@ -315,5 +316,3 @@ fun MediaMetadataCompat.Builder.from(serviceMetaData: AudioMediaData.ServiceMeta
     // Allow it to be used in the typical builder style.
     return this
 }
-
-fun String.getIdFromUrl(to : String) = toUri().lastPathSegment?.substringBefore(to)

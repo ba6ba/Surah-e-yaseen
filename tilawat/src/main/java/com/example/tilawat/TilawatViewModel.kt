@@ -76,9 +76,9 @@ class TilawatViewModel constructor(
 
     private val subscriptionCallback = object : MediaBrowserCompat.SubscriptionCallback() {
         override fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>) {
-            audioDataProvider.transformMediaItemDataToAudioMediaData(children) {
+            audioDataProvider.transformMediaItemDataToAudioMediaData(children.sortedBy { it.mediaId }.castToMutableList) {
                 mediaMetaData.nonNull {
-                    playMedia(this)
+                    playMediaId(mediaId)
                 }
             }
         }
@@ -141,13 +141,6 @@ class TilawatViewModel constructor(
         map {
             it.metaData?.playbackState = if (mediaMetadata.id == it.mediaMetaData?.mediaId && playbackState.isPlaying)
                 AudioMediaData.PlaybackState.PLAYING else AudioMediaData.PlaybackState.PAUSE
-        }
-    }
-
-    private fun playMedia(mediaMetadata: AudioMediaData.MediaMetaData) {
-        audioConnection.nowPlaying.value?.apply {
-//            if (id == mediaMetadata.mediaId) id ?: mediaMetadata.mediaId else mediaMetadata.mediaId
-            playMediaId(mediaMetadata.mediaId)
         }
     }
 

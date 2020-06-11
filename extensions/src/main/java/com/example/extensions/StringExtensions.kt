@@ -23,3 +23,5 @@ fun String?.containsCaseInsensitive(other: String?) =
     }
 
 fun String?.asFormatted(format : String) = String.format(format, this)
+
+fun String.getIdFromUrl(to : String = ".mp3") = toUri().lastPathSegment?.substringBefore(to)!!

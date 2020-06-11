@@ -26,6 +26,7 @@
     <dimen name="common_large_text_size">26sp</dimen>
     <dimen name="general_large_text_size">28sp</dimen>
     <dimen name="normal_large_text_size">30sp</dimen>
+    <dimen name="very_large_text_size">56sp</dimen>
     <dimen name="side_sheet_width">240dp</dimen>
 
     <dimen name="custom_horizontal_cell_corner_radius">10dp</dimen>

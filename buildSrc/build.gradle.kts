@@ -27,6 +27,7 @@ object Plugins {
     const val gradleDependency = "com.android.tools.build:gradle:${PluginVersions.gradle}"
     const val kotlinGradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${PluginVersions.kotlin}"
     const val googleServices = "com.google.gms:google-services:${PluginVersions.googleServices}"
+    //TODO - apply koin plugin -  https://medium.com/koin-developers/unboxing-koin-2-1-7f1133ebb790
 }
 
 dependencies {

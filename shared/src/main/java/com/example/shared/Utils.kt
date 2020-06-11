@@ -1,4 +1,4 @@
-package com.example.core
+package com.example.shared
 
 const val SURAH_E_YASEEN = "SURAH_E_YASEEN"
 const val SURAH_E_FATIHA = "SURAH_E_YASEEN"
@@ -10,6 +10,5 @@ private val chaptersData = mapOf(
 
 fun getChapterNumber(name : String) = chaptersData[name]!!
 
-enum class Do {
-    NOTHING
-}
+val getSurahYaseen
+    get() = getChapterNumber(SURAH_E_YASEEN)

@@ -18,7 +18,8 @@ object BuildDependenciesVersions {
     const val cardview = "1.0.0"
     const val swiperefreshlayout = "1.1.0-beta01"
     const val koin = "2.1.5"
-
+    const val exoPlayer = "2.10.0"
+    const val media = "1.1.0"
 
     const val jUnitTest = "4.12"
     const val mockk = "1.9.3"

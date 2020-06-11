@@ -6,11 +6,10 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
-import com.example.core.FlowData
+import com.example.shared.FlowData
 import com.example.extensions.observeOnce
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.koin.androidx.viewmodel.compat.ViewModelCompat.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment(R.layout.fragment_home) {
@@ -53,7 +52,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observeOnce(homeViewModel.fetchChapterInfo()) {
+        observeOnce(homeViewModel.fetchTilawatData()) {
             // handles in viewmodel and provider
         }
     }

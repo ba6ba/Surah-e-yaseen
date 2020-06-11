@@ -1,7 +1,6 @@
 package com.example.tilawat
 
 import com.example.data.Chapter
-import java.util.*
 
 fun Chapter?.toTilawatChapterData() =
     TilawatChapterData(

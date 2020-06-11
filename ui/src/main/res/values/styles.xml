@@ -45,6 +45,13 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="VeryLargeTextStyle.Accent50.Bold" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/very_large_text_size</item>
+        <item name="android:fontFamily">@font/muli_semibold</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorGreyLight</item>
+    </style>
+
     <style name="SmallTextStyle.Accent.Italic" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:layout_width">wrap_content</item>

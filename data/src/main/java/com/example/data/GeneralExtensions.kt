@@ -1,7 +1,5 @@
 package com.example.data
 
-import com.example.data.reciters.ReciterWrapper
-
 fun Any?.isNotNull() = this != null
 
 fun <T> List<T>?.hasData(list: (List<T>) -> Unit) : List<T>? =
@@ -10,3 +8,5 @@ fun <T> List<T>?.hasData(list: (List<T>) -> Unit) : List<T>? =
         this
     }
     else this!!
+
+fun <T> List<T>?.hasData() : Boolean = isNullOrEmpty().not()

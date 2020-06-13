@@ -12,7 +12,7 @@ fun AudioMediaData.ImageMetaData.setBitmap(context: Context) = kotlin.run {
 val AudioMediaData.toServiceMetaData: AudioMediaData.ServiceMetaData
     get() = AudioMediaData.ServiceMetaData(
         data?.id!!,
-        authorData?.name!!,
+        authorData?.name ?: "Author Name",
         metaData?.url!!,
         title = title,
         audioDuration = metaData?.audioDuration!!,
@@ -22,3 +22,6 @@ val AudioMediaData.toServiceMetaData: AudioMediaData.ServiceMetaData
 
 val Bitmap?.toByteArray: ByteArray
     get() = ByteArrayOutputStream().apply { this@toByteArray?.compress(Bitmap.CompressFormat.PNG, 50, this) }.toByteArray()
+
+val AudioMediaData.MediaMetaData.isValid
+    get() = mediaId.isNotEmpty() and mediaUri.toString().isNotEmpty()

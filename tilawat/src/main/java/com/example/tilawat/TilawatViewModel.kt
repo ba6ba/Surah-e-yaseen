@@ -20,7 +20,6 @@ import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaHelper
 import com.example.network.error.ApiErrorType
 import com.example.reciters.RecitersProvider
-import com.example.shared.Do
 import com.example.tilawat.dataprovider.IAudioData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,7 +46,7 @@ class TilawatViewModel constructor(
         }
     }
 
-    private var mediaId: String = MediaHelper.ROOT_ID
+    private var rootMediaId: String = MediaHelper.ROOT_ID
     private var needToUpdatePosition: Boolean = true
     private var playbackState = EMPTY_PLAYBACK_STATE
     var formatToDisplayVerseCount: String = "%02d"
@@ -78,7 +77,7 @@ class TilawatViewModel constructor(
         override fun onChildrenLoaded(parentId: String, children: MutableList<MediaBrowserCompat.MediaItem>) {
             audioDataProvider.transformMediaItemDataToAudioMediaData(children.sortedBy { it.mediaId }.castToMutableList) {
                 mediaMetaData.nonNull {
-                    playMediaId(mediaId)
+                    playMediaIfHasValidId(this)
                 }
             }
         }
@@ -106,7 +105,7 @@ class TilawatViewModel constructor(
     }
 
     private val localAudioConnection = audioConnection.also {
-        it.subscribe(mediaId, subscriptionCallback)
+        it.subscribe(rootMediaId, subscriptionCallback)
         it.playbackState.observeForever(playbackStateObserver)
         it.nowPlaying.observeForever(mediaMetadataObserver)
         checkForPlaybackPosition()
@@ -115,7 +114,7 @@ class TilawatViewModel constructor(
     private fun checkForPlaybackPosition() {
         viewModelScope.launch {
             delay(100L)
-            (currentDurationLiveData.value != playbackState.currentPlayBackPosition).isTrue {
+            ((playbackState.isPlaying) and (currentDurationLiveData.value != playbackState.currentPlayBackPosition)).isTrue {
                 currentDurationLiveData.postValue(playbackState.currentPlayBackPosition)
             }
             needToUpdatePosition.isTrue {
@@ -129,7 +128,7 @@ class TilawatViewModel constructor(
         localAudioConnection.apply {
             playbackState.removeObserver(playbackStateObserver)
             nowPlaying.removeObserver(mediaMetadataObserver)
-            unsubscribe(mediaId, subscriptionCallback)
+            unsubscribe(this@TilawatViewModel.rootMediaId, subscriptionCallback)
         }
         needToUpdatePosition = false
     }
@@ -188,8 +187,16 @@ class TilawatViewModel constructor(
     fun doFetchOrPlay(verseNumber: Int) {
         audioDataProvider.fetchFromRemoteOrPlayFromLocal(verseNumber) {
             it.isTrue {
-                playMediaId(audioDataProvider.getCurrentPlayingMediaMetadata().mediaId)
+                audioDataProvider.getCurrentPlayingMediaMetadata().nonNull {
+                    playMediaIfHasValidId(this)
+                }
             } ?: fetchAudioForVerse(verseNumber)
+        }
+    }
+
+    private fun playMediaIfHasValidId(mediaMetadata: AudioMediaData.MediaMetaData) {
+        mediaMetadata.apply {
+            isValid.isTrue { playMediaId(mediaId) } ?: onError(ApiErrorType.INVALID_AUDIO_DATA)
         }
     }
 }

@@ -1,20 +1,13 @@
 package com.example.media.media.notification
 
 import android.app.Notification
-import android.content.Intent
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import com.example.extensions.isFalse
 import com.example.extensions.isTrue
-import com.example.media.media.service.AudioService
 import com.example.media.media.service.NoisyReceiver
-import com.example.network.MainDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class ServiceNotificationHandler(
     private val mediaSession: MediaSessionCompat,
@@ -24,16 +17,12 @@ class ServiceNotificationHandler(
     private val mediaController: MediaControllerCompat
 ) {
 
-    private val serviceJob = SupervisorJob()
-    private val serviceScope = CoroutineScope(MainDispatcher + serviceJob)
     private var isForegroundService = false
-    lateinit var serviceHandler : (ServiceHandler, Any?) -> Unit
+    lateinit var serviceHandler: (ServiceHandler, Any?) -> Unit
 
-    fun handleMediaCallbacksAndNotification(state: PlaybackStateCompat?) {
+    suspend fun handleMediaCallbacksAndNotification(state: PlaybackStateCompat?) {
         state?.let {
-            serviceScope.launch {
-                updateNotification(state)
-            }
+            updateNotification(state)
         }
     }
 
@@ -42,12 +31,15 @@ class ServiceNotificationHandler(
         val notification = if (mediaController.metadata != null
             && updatedState != PlaybackStateCompat.STATE_NONE
         ) {
-            notificationBuilder.buildNotification(mediaSession.sessionToken)
+            buildNotification()
         } else {
             null
         }
         checkForNotification(updatedState, notification)
     }
+
+    private suspend fun buildNotification(): Notification? =
+        notificationBuilder.buildNotification(mediaSession.sessionToken)
 
     private fun checkForNotification(updatedState: Int, notification: Notification?) {
         when (updatedState) {
@@ -56,8 +48,9 @@ class ServiceNotificationHandler(
                 startPlayingAudio(notification)
             }
             else -> {
-                stopPlayingAudio(notification)
-                stopService(updatedState)
+                stopPlayingAudio(notification) {
+                    stopService(updatedState)
+                }
             }
         }
     }
@@ -80,11 +73,12 @@ class ServiceNotificationHandler(
         }
     }
 
-    private fun stopPlayingAudio(notification: Notification?) {
+    private fun stopPlayingAudio(notification: Notification?, stopService: () -> Unit) {
         audioNoisyReceiver.unregister()
         isForegroundService.isTrue {
             isForegroundService = false
             removeNowPlayingNotification(false)
+            stopService()
             notification?.let {
                 notificationManager.notify(NOW_PLAYING_NOTIFICATION, notification)
             } ?: removeNowPlayingNotification(true)

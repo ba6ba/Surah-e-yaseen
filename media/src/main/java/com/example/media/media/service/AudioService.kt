@@ -14,6 +14,7 @@ import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.example.data.audio.AudioMediaData
+import com.example.data.audio.ServiceMetaData
 import com.example.extensions.*
 import com.example.media.media.Constants.USER_AGENT
 import com.example.media.media.connection.NETWORK_FAILURE
@@ -102,7 +103,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
     private fun checkForIntent(intent: Intent?) {
         intent ?: return
         (intent.hasDataWithKey(AUDIO_DATA) and intent.hasAction(PLAY_AUDIO)).isTrue {
-            setupAudioClipSource(intent.get(AUDIO_DATA) as List<AudioMediaData.ServiceMetaData>)
+            setupAudioClipSource(intent.get(AUDIO_DATA) as List<ServiceMetaData>)
         }
     }
 
@@ -134,7 +135,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    private fun setupAudioClipSource(audio: List<AudioMediaData.ServiceMetaData>) {
+    private fun setupAudioClipSource(audio: List<ServiceMetaData>) {
         serviceScope.launch {
             audioSource.load(audio)
         }

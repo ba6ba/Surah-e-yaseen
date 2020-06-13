@@ -4,10 +4,7 @@ import android.content.Context
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.example.data.audio.Audio
-import com.example.data.audio.AudioMediaData
-import com.example.data.audio.setBitmap
-import com.example.data.audio.toServiceMetaData
+import com.example.data.audio.*
 import com.example.extensions.*
 import com.example.media.media.extensions.isPlaying
 import com.example.tilawat.*
@@ -23,7 +20,7 @@ class AudioDataProvider : IAudioData, KoinComponent {
     private val tilawatChapterProvider: TilawatChapterProvider by inject()
     private val context: Context by inject()
 
-    override fun loadAudioData(audio: Audio?, callBack: List<AudioMediaData.ServiceMetaData>.() -> Unit) {
+    override fun loadAudioData(audio: Audio?, callBack: List<ServiceMetaData>.() -> Unit) {
         audio.nonNull {
             createAudioMediaData(this)
                 .also {
@@ -68,6 +65,9 @@ class AudioDataProvider : IAudioData, KoinComponent {
     override fun getCurrentPlayingMediaMetadata(): AudioMediaData.MediaMetaData =
         getAll().find { it.data?.id == currentVersePlaying }?.mediaMetaData!!
 
+    override fun getCurrentPlayingMetadata(): AudioMediaData.MetaData? =
+        getAll().find { it.data?.id == currentVersePlaying }?.metaData
+
     override fun get(index: Int): AudioMediaData = getAll()[index]
 
     override val data: AudioMediaData.Data by lazy {
@@ -106,7 +106,7 @@ class AudioDataProvider : IAudioData, KoinComponent {
         )
     }
 
-    private fun mapMetaDataFromList(): List<AudioMediaData.ServiceMetaData> =
+    private fun mapMetaDataFromList(): List<ServiceMetaData> =
         getAll().map {
             it.toServiceMetaData
         }

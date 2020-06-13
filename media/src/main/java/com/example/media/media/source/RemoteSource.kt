@@ -2,6 +2,7 @@ package com.example.media.media.source
 
 import android.support.v4.media.MediaMetadataCompat
 import com.example.data.audio.AudioMediaData
+import com.example.data.audio.ServiceMetaData
 import com.example.media.media.extensions.from
 import com.example.network.DefaultDispatcher
 import kotlinx.coroutines.withContext
@@ -14,7 +15,7 @@ class RemoteSource : AbstractAudioSource() {
         state = STATE_INITIALIZING
     }
 
-    override suspend fun load(metaDataList: List<AudioMediaData.ServiceMetaData>) {
+    override suspend fun load(metaDataList: List<ServiceMetaData>) {
         transformAudioMetadataToMediaMetadata(metaDataList)?.let { newList ->
             audioList = newList
             state = STATE_INITIALIZED
@@ -26,7 +27,7 @@ class RemoteSource : AbstractAudioSource() {
 
     override fun iterator(): Iterator<MediaMetadataCompat> = audioList.iterator()
 
-    private suspend fun transformAudioMetadataToMediaMetadata(metaDataList: List<AudioMediaData.ServiceMetaData>): List<MediaMetadataCompat>? {
+    private suspend fun transformAudioMetadataToMediaMetadata(metaDataList: List<ServiceMetaData>): List<MediaMetadataCompat>? {
         return withContext(DefaultDispatcher) {
             arrayListOf<MediaMetadataCompat>().apply {
                 metaDataList.forEach { audioMediaData ->

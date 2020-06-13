@@ -116,6 +116,10 @@ class TilawatViewModel constructor(
             delay(100L)
             ((playbackState.isPlaying) and (currentDurationLiveData.value != playbackState.currentPlayBackPosition)).isTrue {
                 currentDurationLiveData.postValue(playbackState.currentPlayBackPosition)
+                audioDataProvider.getCurrentPlayingMetadata().nonNull {
+                    audioProgress = this@TilawatViewModel.playbackState.currentPlayBackPosition
+                    displayableProgress = audioProgress.toTimeStamp()
+                }
             }
             needToUpdatePosition.isTrue {
                 checkForPlaybackPosition()
@@ -175,7 +179,7 @@ class TilawatViewModel constructor(
         }
     }
 
-    private fun sendBroadcastToServiceViaIntent(metaData: List<AudioMediaData.ServiceMetaData>) {
+    private fun sendBroadcastToServiceViaIntent(metaData: List<ServiceMetaData>) {
         context.apply {
             ContextCompat.startForegroundService(
                 this,
@@ -201,9 +205,9 @@ class TilawatViewModel constructor(
     }
 }
 
-fun Context.createAudioServiceIntent(name: String, action: String, data: List<AudioMediaData.ServiceMetaData>) =
+fun Context.createAudioServiceIntent(name: String, action: String, data: List<ServiceMetaData>) =
     Intent(this, Class.forName(name))
         .apply {
             this.action = action
-            putExtra(AudioService.AUDIO_DATA, data as ArrayList<AudioMediaData.ServiceMetaData>)
+            putExtra(AudioService.AUDIO_DATA, data as ArrayList<ServiceMetaData>)
         }

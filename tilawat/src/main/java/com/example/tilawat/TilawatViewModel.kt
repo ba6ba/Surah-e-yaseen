@@ -61,12 +61,12 @@ class TilawatViewModel constructor(
         }
 
     fun getTranslators(): LiveData<Reciters> = liveData {
-        (recitersProvider.getReciters(this@TilawatViewModel)?.recitations.toWrapperList() ?: arrayListOf()).also { list ->
-            list.hasDataToShow {
-                setCurrentReciter(first())
+        recitersProvider.getReciters(this@TilawatViewModel)
+            ?.recitations
+            ?.toWrapperList()
+            ?.also { list -> list.hasDataToShow { setCurrentReciter(first()) }
+                emit(list)
             }
-            emit(list)
-        }
     }
 
     fun setCurrentReciter(reciter: ReciterWrapper) {

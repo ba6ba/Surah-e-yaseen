@@ -21,7 +21,7 @@ class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
     var chapter: Chapter? = null
         set(value) {
             field = value
-            postTilawatChapterLiveData(tilawatChapterDataFromChapter)
+            tilawatChapterData = convertChapterToTilawatChapterData
         }
 
     fun setCurrentReciter(reciter: ReciterWrapper) {
@@ -31,8 +31,8 @@ class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
 
     private fun postTilawatChapterLiveData(data: TilawatChapterData = tilawatChapterData) = getTilawatChapterLiveData.postValue(data)
 
-    private val tilawatChapterDataFromChapter
-        get() = chapter.toTilawatChapterData().also { tilawatChapterData = it }
+    private val convertChapterToTilawatChapterData
+        get() = chapter.toTilawatChapterData()
 
     suspend fun getAudioData(number: Int, errorHandler: ErrorHandler) = tilawatRepository.getTilawatAudio(getAudioModel(number), errorHandler)
 

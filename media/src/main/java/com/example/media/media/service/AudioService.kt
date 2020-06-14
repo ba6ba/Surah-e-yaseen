@@ -14,20 +14,14 @@ import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
 import com.example.data.audio.AudioMediaData
+import com.example.data.audio.ServiceMetaData
 import com.example.extensions.*
-import com.example.media.media.Constants.CONTENT_STYLE_BROWSABLE_HINT
-import com.example.media.media.Constants.CONTENT_STYLE_GRID
-import com.example.media.media.Constants.CONTENT_STYLE_LIST
-import com.example.media.media.Constants.CONTENT_STYLE_PLAYABLE_HINT
-import com.example.media.media.Constants.CONTENT_STYLE_SUPPORTED
-import com.example.media.media.Constants.MEDIA_SEARCH_SUPPORTED
 import com.example.media.media.Constants.USER_AGENT
 import com.example.media.media.connection.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
 import com.example.media.media.notification.NOW_PLAYING_NOTIFICATION
 import com.example.media.media.notification.ServiceNotificationHandler
 import com.example.media.media.source.AudioSource
-import com.example.media.media.source.RemoteSource
 import com.example.media.media.validator.PackageValidator
 import com.example.network.MainDispatcher
 import com.google.android.exoplayer2.C
@@ -41,7 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.lang.IllegalStateException
+import timber.log.Timber
 
 typealias ServiceHandlerState = com.example.media.media.notification.ServiceHandler
 
@@ -54,9 +48,9 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         const val AUDIO_DATA = "com.example.media.media.service.AudioService.AUDIO_DATA"
     }
 
-    private val audioNoisyReceiver : NoisyReceiver by inject()
-    private val audioSource : AudioSource by inject()
-    private val packageValidator : PackageValidator by inject()
+    private val audioNoisyReceiver: NoisyReceiver by inject()
+    private val audioSource: AudioSource by inject()
+    private val packageValidator: PackageValidator by inject()
     private val mediaSession: MediaSessionCompat by inject()
     private val mediaController: MediaControllerCompat by inject()
     private val mediaSessionConnector: MediaSessionConnector by inject()
@@ -73,7 +67,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
             .build()
     }
 
-    private val exoPlayer : ExoPlayer by lazy {
+    private val exoPlayer: ExoPlayer by lazy {
         ExoPlayerFactory.newSimpleInstance(this).apply {
             setAudioAttributes(audioAttribute, true)
         }
@@ -81,7 +75,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     private val sessionActivityPendingIntent by lazy {
         packageManager?.getLaunchIntentForPackage(packageName)?.let { sessionIntent ->
-            PendingIntent.getActivity(this, 0, sessionIntent,PendingIntent.FLAG_CANCEL_CURRENT)
+            PendingIntent.getActivity(this, 0, sessionIntent, PendingIntent.FLAG_CANCEL_CURRENT)
         }
     }
 
@@ -109,7 +103,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
     private fun checkForIntent(intent: Intent?) {
         intent ?: return
         (intent.hasDataWithKey(AUDIO_DATA) and intent.hasAction(PLAY_AUDIO)).isTrue {
-            setupAudioClipSource(intent.get(AUDIO_DATA) as List<AudioMediaData.ServiceMetaData>)
+            setupAudioClipSource(intent.get(AUDIO_DATA) as List<ServiceMetaData>)
         }
     }
 
@@ -141,7 +135,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    private fun setupAudioClipSource(audio: List<AudioMediaData.ServiceMetaData>) {
+    private fun setupAudioClipSource(audio: List<ServiceMetaData>) {
         serviceScope.launch {
             audioSource.load(audio)
         }
@@ -169,15 +163,15 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
     }
 
     override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
-        val resultSent = audioSource.whenReady { hasInitialized ->
+        result.detach()
+        audioSource.whenReady { hasInitialized ->
             hasInitialized.isTrue {
                 try {
-                    result.sendResult(
-                        audioSource.map { metadata ->
-                            MediaBrowserCompat.MediaItem(metadata.description, metadata.flag)
-                        }.toMutableList()
-                    )
-                } catch (e : IllegalStateException) {
+                    val items = audioSource.map { metadata ->
+                        MediaBrowserCompat.MediaItem(metadata.description, metadata.flag)
+                    }.toMutableList()
+                    result.sendResult(items)
+                } catch (e: IllegalStateException) {
                     notifyChildrenChanged(parentId)
                 }
             } ?: kotlin.run {
@@ -185,23 +179,11 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
                 result.sendResult(null)
             }
         }
-        resultSent.isFalse {
-            result.detach()
-        }
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
         val isKnownCaller = packageValidator.isKnownCaller(clientPackageName, clientUid)
-        val rootExtras = Bundle().apply {
-            putBoolean(
-                MEDIA_SEARCH_SUPPORTED,
-                isKnownCaller
-            )
-            putBoolean(CONTENT_STYLE_SUPPORTED, true)
-            putInt(CONTENT_STYLE_BROWSABLE_HINT, CONTENT_STYLE_GRID)
-            putInt(CONTENT_STYLE_PLAYABLE_HINT, CONTENT_STYLE_LIST)
-        }
-        return BrowserRoot(if (isKnownCaller) MediaHelper.ROOT_ID else MediaHelper.EMPTY_ROOT_ID, rootExtras)
+        return BrowserRoot(if (isKnownCaller) MediaHelper.ROOT_ID else MediaHelper.EMPTY_ROOT_ID, null)
     }
 
     override fun onSearch(query: String, extras: Bundle?, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
@@ -222,13 +204,17 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
         mediaController.playbackState?.let { state ->
-            serviceNotificationHandler.handleMediaCallbacksAndNotification(state)
+            serviceScope.launch {
+                serviceNotificationHandler.handleMediaCallbacksAndNotification(state)
+            }
         }
     }
 
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
         state?.let {
-            serviceNotificationHandler.handleMediaCallbacksAndNotification(state)
+            serviceScope.launch {
+                serviceNotificationHandler.handleMediaCallbacksAndNotification(state)
+            }
         }
     }
 }

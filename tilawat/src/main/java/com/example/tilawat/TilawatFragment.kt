@@ -2,6 +2,7 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.distinctUntilChanged
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.shared.FlowData
@@ -66,7 +67,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
             updateViews(chapter)
         }
 
-        observeOnce(tilawatViewModel.getTranslators()) { dataList ->
+        observeDistinctUntilChanged(tilawatViewModel.getTranslators()) { dataList ->
             recitersListView.apply {
                 itemClickListener = {
                     tilawatViewModel.setCurrentReciter(it)
@@ -76,23 +77,22 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
             }
         }
 
-        observeOnce(tilawatViewModel.audioMetaData) { metaData ->
+        observeDistinctUntilChanged(tilawatViewModel.audioMetaData) { metaData ->
             audioPlayer.updatePlayer(metaData)
         }
 
-        observeOnce(tilawatViewModel.currentDurationLiveData) { duration ->
-            audioPlayer.setCurrentTimeProgress(duration.toTimeStamp())
+        observeDistinctUntilChanged(tilawatViewModel.currentDurationLiveData) { duration ->
+            audioPlayer.updatePlayerProgress(duration)
         }
     }
 
     private fun updateViews(chapter: TilawatChapterData) {
-        //TODO - reciter not setting properly
         revelationPlace.text = chapter.revelationPlace
         surahNumber.value = chapter.surahNumber.toString()
         surahName.text = chapter.surahNameEnglish
-        reciterName.setTextIfEmptyOrNull(chapter.reciter?.reciter?.reciterEngName)
+        reciterName.setTextIfEmptyOrNull(chapter.reciterName)
         numberOfVerses.value = chapter.numberOfVerses.also {
-            audioPlayer.maxValue = chapter.numberOfVerses
+            audioPlayer.maxProgressValue = chapter.numberOfVerses
         }.toString().also {
             tilawatViewModel.formatToDisplayVerseCount = it.length.toString()
         }

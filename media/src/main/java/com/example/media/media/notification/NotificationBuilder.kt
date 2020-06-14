@@ -25,7 +25,6 @@ import kotlinx.coroutines.withContext
 
 const val NOW_PLAYING_CHANNEL: String = "com.example.media.service.NOW_PLAYING"
 const val NOW_PLAYING_NOTIFICATION: Int = 0xb339
-private const val MODE_READ_ONLY = "r"
 
 class NotificationBuilder(private val context: Context,
     private val notificationActions: NotificationActions = NotificationActions(context)) {

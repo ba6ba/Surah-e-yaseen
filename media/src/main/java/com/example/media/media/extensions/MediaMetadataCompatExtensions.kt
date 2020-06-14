@@ -291,7 +291,7 @@ val MediaMetadataCompat.isValid : Boolean
  */
 const val METADATA_KEY_FLAGS = "com.example.media.media.METADATA_KEY_FLAGS"
 
-fun MediaMetadataCompat.Builder.from(serviceMetaData: AudioMediaData.ServiceMetaData): MediaMetadataCompat.Builder {
+fun MediaMetadataCompat.Builder.from(serviceMetaData: ServiceMetaData): MediaMetadataCompat.Builder {
     // The duration from the JSON is given in seconds, but the rest of the code works in
     // milliseconds. Here's where we convert to the proper units.
     id = serviceMetaData.audioId

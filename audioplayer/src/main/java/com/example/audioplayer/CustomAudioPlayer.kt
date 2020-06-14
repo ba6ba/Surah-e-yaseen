@@ -9,17 +9,21 @@ import com.example.extensions.toTimeStamp
 import com.example.ui.extensions.drawable
 import com.example.ui.extensions.inflate
 import kotlinx.android.synthetic.main.custom_audio_player_layout.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 typealias PlaybackState = AudioMediaData.PlaybackState
 
 class CustomAudioPlayer @JvmOverloads constructor(
     context: Context, attributeSet: AttributeSet? = null, defStyleRes: Int = 0
-) : ConstraintLayout(context, attributeSet, defStyleRes) {
+) : ConstraintLayout(context, attributeSet, defStyleRes){
 
     private val resetValue: Int = 1
     lateinit var onPlayClick: (Int) -> Unit
     private var counterValue: Int = resetValue
-    var maxValue: Int = -1
+    var maxProgressValue: Int = -1
 
     var playerState: PlaybackState = PlaybackState.PAUSE
         set(value) {
@@ -32,8 +36,8 @@ class CustomAudioPlayer @JvmOverloads constructor(
 
     init {
         inflate(R.layout.custom_audio_player_layout)
-        setTotalDuration(0L.toTimeStamp())
-        setCurrentTimeProgress(0L.toTimeStamp())
+        setTotalDuration()
+        updatePlayerProgress()
         play.setOnClickListener {
             actionOnCounter()
         }
@@ -55,18 +59,23 @@ class CustomAudioPlayer @JvmOverloads constructor(
         onPlayClick(makeCounterValue)
     }
 
-    private fun setTotalDuration(duration: String) {
+    private fun setTotalDuration(duration: String = 0L.toTimeStamp()) {
         completionTime.text = duration
     }
 
-    fun setCurrentTimeProgress(duration: String) {
+    private fun setCurrentTimeProgress(duration: String) {
         startTime.text = duration
     }
 
+    fun updatePlayerProgress(progress: Long = 0L) {
+        setCurrentTimeProgress(progress.toTimeStamp())
+        seekBar.progress = progress.toInt()
+    }
+
     fun updatePlayer(metaData: AudioMediaData.MetaData) {
+        seekBar.max = metaData.audioDuration.toInt()
         setTotalDuration(metaData.displayableDuration)
         playerState = metaData.playbackState
-        seekBar.progress = metaData.audioProgress.toInt()
     }
 
     private val makeCounterValue
@@ -74,5 +83,5 @@ class CustomAudioPlayer @JvmOverloads constructor(
 
     private fun canPlayOnPreviousIndex() = if (counterValue == resetValue) null else counterValue.dec().also { counterValue = it }
 
-    private fun canPlayOnNextIndex() = if (counterValue == maxValue) null else counterValue.inc().also { counterValue = it }
+    private fun canPlayOnNextIndex() = if (counterValue == maxProgressValue) null else counterValue.inc().also { counterValue = it }
 }

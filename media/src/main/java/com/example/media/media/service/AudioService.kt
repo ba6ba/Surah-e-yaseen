@@ -1,5 +1,6 @@
 package com.example.media.media.service
 
+import android.app.Activity
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
@@ -10,12 +11,14 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Pair
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.media.MediaBrowserServiceCompat
-import com.example.data.audio.AudioMediaData
 import com.example.data.audio.ServiceMetaData
-import com.example.extensions.*
+import com.example.extensions.hasOrNull
+import com.example.extensions.isFalse
+import com.example.extensions.isTrue
 import com.example.media.media.Constants.USER_AGENT
 import com.example.media.media.connection.NETWORK_FAILURE
 import com.example.media.media.extensions.flag
@@ -35,7 +38,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 typealias ServiceHandlerState = com.example.media.media.notification.ServiceHandler
 
@@ -46,6 +48,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         const val NAME = "com.example.media.media.service.AudioService"
         const val PLAY_AUDIO = "com.example.media.media.service.AudioService.PLAY_AUDIO"
         const val AUDIO_DATA = "com.example.media.media.service.AudioService.AUDIO_DATA"
+        const val REFRESH_AUDIO_DATA = "com.example.media.media.service.AudioService.REFRESH_AUDIO_DATA"
     }
 
     private val audioNoisyReceiver: NoisyReceiver by inject()
@@ -90,7 +93,7 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     private fun handleServiceNotificationHandlerCallbacks() {
         serviceNotificationHandler.serviceHandler = { state, data ->
-            when(state) {
+            when (state) {
                 ServiceHandlerState.STOP_SELF -> stopSelf()
                 ServiceHandlerState.START_SELF -> startForeground(NOW_PLAYING_NOTIFICATION, data as Notification)
                 ServiceHandlerState.START_FOREGROUND ->
@@ -100,20 +103,28 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
         }
     }
 
-    private fun checkForIntent(intent: Intent?) {
-        intent ?: return
-        (intent.hasDataWithKey(AUDIO_DATA) and intent.hasAction(PLAY_AUDIO)).isTrue {
-            setupAudioClipSource(intent.get(AUDIO_DATA) as List<ServiceMetaData>)
-        }
-    }
-
     private fun setupMediaSessionConnector() {
         mediaSessionConnector.apply {
-            val dataSourceFactory = DefaultDataSourceFactory(this@AudioService,
-                Util.getUserAgent(this@AudioService, USER_AGENT), null)
+            val dataSourceFactory = DefaultDataSourceFactory(
+                this@AudioService,
+                Util.getUserAgent(this@AudioService, USER_AGENT), null
+            )
             setPlayer(exoPlayer)
             setPlaybackPreparer(PlaybackPreparer(audioSource, exoPlayer, dataSourceFactory))
             setQueueNavigator(queueNavigator)
+            registerCustomCommandReceiver(AudioServiceCustomCommandReceiver()
+                .apply {
+                    onRefreshAudioListCommandCallback = { extras, callback ->
+                        var result = Activity.RESULT_OK
+                        extras.hasOrNull<List<ServiceMetaData>>(AUDIO_DATA) {
+                            setupAudioClipSource(this)
+                        } ?: kotlin.run {
+                            result = Activity.RESULT_CANCELED
+                        }
+                        callback?.send(result, Bundle.EMPTY)
+                        true
+                    }
+                })
         }
     }
 
@@ -143,7 +154,6 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
 
     @CallSuper
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        checkForIntent(intent)
         return Service.START_NOT_STICKY
     }
 

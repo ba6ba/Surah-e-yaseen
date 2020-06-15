@@ -1,11 +1,9 @@
 package com.example.tilawat
 
-import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import com.example.core.BaseViewModel
 import com.example.data.audio.*
@@ -25,11 +23,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.ArrayList
+import kotlin.time.Duration
 
 typealias Reciters = List<ReciterWrapper>
 
 class TilawatViewModel constructor(
-    private val context: Context,
     private val tilawatChapterProvider: TilawatChapterProvider,
     private val recitersProvider: RecitersProvider,
     private val audioConnection: AudioServiceConnection,
@@ -61,6 +59,9 @@ class TilawatViewModel constructor(
         }
 
     fun getTranslators(): LiveData<Reciters> = liveData {
+        // set delay because reciters are dependent on chapter info and chapter info api
+        // calling from home module due to which can't chain both requests.
+        delay(300)
         recitersProvider.getReciters(this@TilawatViewModel)
             ?.recitations
             ?.toWrapperList()
@@ -173,19 +174,16 @@ class TilawatViewModel constructor(
         viewModelScope.launch {
             tilawatChapterProvider.getAudioData(verseNumber, this@TilawatViewModel).nonNull {
                 audioDataProvider.loadAudioData(audio) {
-                    sendBroadcastToServiceViaIntent(this)
+                    sendCommandToService(this)
                 }
             }
         }
     }
 
-    private fun sendBroadcastToServiceViaIntent(metaData: List<ServiceMetaData>) {
-        context.apply {
-            ContextCompat.startForegroundService(
-                this,
-                createAudioServiceIntent(AudioService.NAME, AudioService.PLAY_AUDIO, metaData)
-            )
-        }
+    private fun sendCommandToService(metaData: List<ServiceMetaData>) {
+        audioConnection.sendCommand(AudioService.REFRESH_AUDIO_DATA, Bundle().apply {
+            putSerializable(AudioService.AUDIO_DATA, metaData as ArrayList<ServiceMetaData>)
+        }) { _, _ -> }
     }
 
     fun doFetchOrPlay(verseNumber: Int) {
@@ -204,10 +202,3 @@ class TilawatViewModel constructor(
         }
     }
 }
-
-fun Context.createAudioServiceIntent(name: String, action: String, data: List<ServiceMetaData>) =
-    Intent(this, Class.forName(name))
-        .apply {
-            this.action = action
-            putExtra(AudioService.AUDIO_DATA, data as ArrayList<ServiceMetaData>)
-        }

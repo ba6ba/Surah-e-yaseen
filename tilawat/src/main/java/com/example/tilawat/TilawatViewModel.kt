@@ -59,9 +59,6 @@ class TilawatViewModel constructor(
         }
 
     fun getTranslators(): LiveData<Reciters> = liveData {
-        // set delay because reciters are dependent on chapter info and chapter info api
-        // calling from home module due to which can't chain both requests.
-        delay(300)
         recitersProvider.getReciters(this@TilawatViewModel)
             ?.recitations
             ?.toWrapperList()
@@ -94,6 +91,7 @@ class TilawatViewModel constructor(
     }
 
     private fun postMetadataToUI(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat) {
+//        audioDataProvider.updateCurrentVerse(mediaMetadata.trackNumber)
         audioMetaData.postValue(audioDataProvider.getCurrentAudioMetaData(playbackState, mediaMetadata))
     }
 

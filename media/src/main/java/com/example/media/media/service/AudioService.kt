@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Bundle
+import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
@@ -115,17 +116,21 @@ class AudioService : MediaBrowserServiceCompat(), MediaControllerCallback {
             registerCustomCommandReceiver(AudioServiceCustomCommandReceiver()
                 .apply {
                     onRefreshAudioListCommandCallback = { extras, callback ->
-                        var result = Activity.RESULT_OK
-                        extras.hasOrNull<List<ServiceMetaData>>(AUDIO_DATA) {
-                            setupAudioClipSource(this)
-                        } ?: kotlin.run {
-                            result = Activity.RESULT_CANCELED
-                        }
-                        callback?.send(result, Bundle.EMPTY)
-                        true
+                        handleOnCommandCallback(extras, callback)
                     }
                 })
         }
+    }
+
+    private fun handleOnCommandCallback(extras: Bundle, callback: ResultReceiver?) : Boolean {
+        var result = Activity.RESULT_OK
+        extras.hasOrNull<List<ServiceMetaData>>(AUDIO_DATA) {
+            setupAudioClipSource(this)
+        } ?: kotlin.run {
+            result = Activity.RESULT_CANCELED
+        }
+        callback?.send(result, Bundle.EMPTY)
+        return true
     }
 
     private fun setupMediaController() {

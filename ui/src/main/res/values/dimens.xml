@@ -40,9 +40,9 @@
     <dimen name="audio_player_play_button_width">52dp</dimen>
     <dimen name="audio_player_play_button_height">56dp</dimen>
     <dimen name="audio_player_backward_button_width">40dp</dimen>
-    <dimen name="audio_player_backward_button_height">32dp</dimen>
+    <dimen name="audio_player_backward_button_height">34dp</dimen>
     <dimen name="audio_player_forward_button_width">40dp</dimen>
-    <dimen name="audio_player_forward_button_height">32dp</dimen>
+    <dimen name="audio_player_forward_button_height">34dp</dimen>
     <dimen name="audio_player_seek_bar_height">1dp</dimen>
 
 </resources>

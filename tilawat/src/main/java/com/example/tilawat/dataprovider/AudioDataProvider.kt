@@ -11,8 +11,6 @@ import com.example.tilawat.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-typealias State = AudioMediaData.PlaybackState
-
 class AudioDataProvider : IAudioData, KoinComponent {
 
     private var currentVersePlaying: Int = 0
@@ -56,7 +54,12 @@ class AudioDataProvider : IAudioData, KoinComponent {
         mediaMetadata: MediaMetadataCompat
     ): AudioMediaData.MetaData? =
         getAll().find { it.data?.id == currentVersePlaying }?.metaData
-            ?.copy(playbackState = State.get(playbackState.isPlaying, getPlayingState, getPauseState))
+            ?.copy(playbackState = State.get(playbackState.isPlaying, getPlayingState, getPauseState),
+                number = currentVersePlaying.toLong())
+
+    override fun updateCurrentVerse(verseNumber: Number) {
+        currentVersePlaying = verseNumber.toInt()
+    }
 
     override fun getAll(): List<AudioMediaData> = audioItemsList.apply {
         sortedBy { it.data?.audioId }
@@ -114,12 +117,12 @@ class AudioDataProvider : IAudioData, KoinComponent {
     private val getPlayingState: State
         get() = State.PLAYING
             .apply {
-                imageRes = R.drawable.play_icon
+                imageRes = R.drawable.ic_play_icon
             }
 
     private val getPauseState: State
         get() = State.PAUSE
             .apply {
-                imageRes = R.drawable.stop_icon
+                imageRes = R.drawable.ic_pause_icon
             }
 }

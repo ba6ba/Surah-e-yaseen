@@ -93,6 +93,10 @@ inline fun View.isGone(crossinline showed : View.() -> Unit) = run {
     if (isGone) showed(this)
 }
 
+inline fun View.isInvisible(crossinline showed : View.() -> Unit) {
+    if (isInvisible) showed(this)
+}
+
 fun View.animateByPushingLeftIn(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
     doAnimation(context, R.anim.push_left_in, animationCompleted)
     this
@@ -165,6 +169,11 @@ fun View.animateByBottomToTopIn(context: Context, animationCompleted: ((Boolean)
 
 fun View.animateByBottomToTopOut(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = run {
     doAnimation(context, R.anim.bottom_to_top_out, animationCompleted)
+    this
+}
+
+fun View.animateByRotating(context: Context, animationCompleted: ((Boolean) -> Unit)? = null) = kotlin.run {
+    doAnimation(context, R.anim.rotate, animationCompleted)
     this
 }
 

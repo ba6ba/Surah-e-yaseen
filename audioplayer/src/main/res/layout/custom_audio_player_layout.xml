@@ -56,37 +56,39 @@
             app:text="05:49"
             tools:text="05:49" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/play"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/playPause"
             android:layout_width="@dimen/audio_player_play_button_width"
             android:layout_height="@dimen/audio_player_play_button_height"
             android:layout_marginTop="@dimen/medium_large_space"
             android:layout_marginBottom="@dimen/medium_large_space"
-            android:background="@drawable/play_icon"
+            android:background="@drawable/ic_play_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/completionTime" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/audio_player_forward_button_width"
             android:layout_height="@dimen/audio_player_forward_button_height"
             android:layout_marginStart="@dimen/large_space"
-            app:layout_constraintBottom_toBottomOf="@+id/play"
-            app:layout_constraintStart_toEndOf="@id/play"
+            app:layout_constraintBottom_toBottomOf="@+id/playPause"
+            app:layout_constraintStart_toEndOf="@id/playPause"
             android:id="@+id/nextButton"
-            app:layout_constraintTop_toTopOf="@+id/play"
-            android:background="@drawable/forward_icon" />
+            app:layout_constraintTop_toTopOf="@+id/playPause"
+            android:visibility="invisible"
+            android:src="@drawable/ic_forward_icon" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/audio_player_forward_button_width"
             android:layout_height="@dimen/audio_player_forward_button_height"
             android:layout_marginEnd="@dimen/large_space"
-            app:layout_constraintBottom_toBottomOf="@+id/play"
-            app:layout_constraintEnd_toStartOf="@id/play"
-            app:layout_constraintTop_toTopOf="@+id/play"
+            app:layout_constraintBottom_toBottomOf="@+id/playPause"
+            app:layout_constraintEnd_toStartOf="@id/playPause"
+            app:layout_constraintTop_toTopOf="@+id/playPause"
+            android:visibility="invisible"
             android:id="@+id/previousButton"
-            android:background="@drawable/backward_icon" />
+            android:src="@drawable/ic_backward_icon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

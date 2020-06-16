@@ -2,7 +2,6 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.distinctUntilChanged
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.shared.FlowData
@@ -59,14 +58,31 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
             }
             audioPlayer.animateByBottomToTopOut(requireContext())
         }
-        currentAudioNumber.text = number.inc().asFormatted(format = tilawatViewModel.formatToDisplayVerseCount)
+        setVerseCounterText(number)
+    }
+
+    private fun setVerseCounterText(number: Number) {
+        currentAudioNumber.text = number.toInt().inc().asFormatted(format = tilawatViewModel.formatToDisplayVerseCount)
     }
 
     private fun viewModelObservers() {
         observeOnce(tilawatViewModel.tilawatChapterData) { chapter ->
-            updateViews(chapter)
+            chapter.hasValidReciter.isTrue {
+                updateViews(chapter)
+            } ?: observeReciters()
         }
 
+        observeDistinctUntilChanged(tilawatViewModel.audioMetaData) { metaData ->
+            audioPlayer.updatePlayer(metaData)
+            setVerseCounterText(metaData.number)
+        }
+
+        observeDistinctUntilChanged(tilawatViewModel.currentDurationLiveData) { duration ->
+            audioPlayer.updatePlayerProgress(duration)
+        }
+    }
+
+    private fun observeReciters() {
         observeDistinctUntilChanged(tilawatViewModel.getTranslators()) { dataList ->
             recitersListView.apply {
                 itemClickListener = {
@@ -76,14 +92,6 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
                 init(sideSheet.childView, dataList)
             }
         }
-
-        observeDistinctUntilChanged(tilawatViewModel.audioMetaData) { metaData ->
-            audioPlayer.updatePlayer(metaData)
-        }
-
-        observeDistinctUntilChanged(tilawatViewModel.currentDurationLiveData) { duration ->
-            audioPlayer.updatePlayerProgress(duration)
-        }
     }
 
     private fun updateViews(chapter: TilawatChapterData) {
@@ -92,7 +100,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         surahName.text = chapter.surahNameEnglish
         reciterName.setTextIfEmptyOrNull(chapter.reciterName)
         numberOfVerses.value = chapter.numberOfVerses.also {
-            audioPlayer.maxProgressValue = chapter.numberOfVerses
+            audioPlayer.maxCounterValue = chapter.numberOfVerses
         }.toString().also {
             tilawatViewModel.formatToDisplayVerseCount = it.length.toString()
         }

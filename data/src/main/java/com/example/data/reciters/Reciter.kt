@@ -22,7 +22,7 @@ fun List<Reciter>?.toWrapperList() = this?.map { it.toReciterWrapper() }?.hasDat
 val defaultReciter
     get() = Reciter(
         id = 7, reciterEngName = "Mishary Rashid Al Afasy",
-        reciterTranslatedName = "Mishary Rashid Al Afasy", style = ""
+        reciterTranslatedName = "", style = ""
     )
 
 val Reciter.toAuthorData

@@ -21,4 +21,5 @@ interface IAudioData {
     fun fetchFromRemoteOrPlayFromLocal(verseNumber: Int, fetchFromRemote : (Boolean) -> Unit)
     fun transformMediaItemDataToAudioMediaData(children: MutableList<MediaBrowserCompat.MediaItem>, itemToPlay: AudioMediaData.() -> Unit)
     fun getCurrentAudioMetaData(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat): AudioMediaData.MetaData?
+    fun updateCurrentVerse(verseNumber: Number)
 }

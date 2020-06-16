@@ -20,3 +20,13 @@ fun View.hide() = run {
 fun View.visibility(show: Boolean, invisible: Boolean = false) = run {
     if (show) show() else if (invisible) invisible() else hide()
 }
+
+inline fun View.visibility(
+    show: Boolean, invisible: Boolean = false,
+    noinline showed: ((View) -> Unit)? = null, noinline hide: ((View) -> Unit)? = null
+) = run {
+        if (show) show() else if (invisible) invisible() else hide()
+        show.checkForTrue {
+            showed.nonNull { invoke(this@visibility) }
+        } ?: hide.nonNull { invoke(this@visibility) }
+    }

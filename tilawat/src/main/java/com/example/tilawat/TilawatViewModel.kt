@@ -84,22 +84,21 @@ class TilawatViewModel constructor(
     private val playbackStateObserver = Observer<PlaybackStateCompat> {
         playbackState = it ?: EMPTY_PLAYBACK_STATE
         val metadata = audioConnection.nowPlaying.value ?: NOTHING_PLAYING
-        if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
-            updateState(playbackState, metadata)
+        metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID).nonNull {
             postMetadataToUI(playbackState, metadata)
         }
     }
 
     private fun postMetadataToUI(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat) {
-//        audioDataProvider.updateCurrentVerse(mediaMetadata.trackNumber)
+        audioDataProvider.updateCurrentVerse(mediaMetadata.trackNumber)
         audioMetaData.postValue(audioDataProvider.getCurrentAudioMetaData(playbackState, mediaMetadata))
     }
 
     private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
         val playbackState = audioConnection.playbackState.value ?: EMPTY_PLAYBACK_STATE
         val metadata = it ?: NOTHING_PLAYING
-        if (metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID) != null) {
-            updateState(playbackState, metadata)
+        metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID).nonNull {
+            postMetadataToUI(playbackState, metadata)
         }
     }
 
@@ -134,16 +133,6 @@ class TilawatViewModel constructor(
             unsubscribe(this@TilawatViewModel.rootMediaId, subscriptionCallback)
         }
         needToUpdatePosition = false
-    }
-
-    private fun updateState(
-        playbackState: PlaybackStateCompat,
-        mediaMetadata: MediaMetadataCompat
-    ): List<AudioMediaData> = audioDataProvider.getAll().apply {
-        map {
-            it.metaData?.playbackState = if (mediaMetadata.id == it.mediaMetaData?.mediaId && playbackState.isPlaying)
-                AudioMediaData.PlaybackState.PLAYING else AudioMediaData.PlaybackState.PAUSE
-        }
     }
 
     private fun playMediaId(mediaId: String) {

@@ -14,7 +14,7 @@ import org.koin.core.inject
 class AudioDataProvider : IAudioData, KoinComponent {
 
     private var currentVersePlaying: Int = 0
-    private val audioItemsList: ArrayList<AudioMediaData> = listWithCapacity(0)
+    private val audioItemsList: ArrayList<AudioMediaData> = arrayListOf()
     private val tilawatChapterProvider: TilawatChapterProvider by inject()
     private val context: Context by inject()
 

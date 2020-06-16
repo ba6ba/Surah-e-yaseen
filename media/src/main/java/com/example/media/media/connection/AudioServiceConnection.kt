@@ -8,21 +8,19 @@ import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.MutableLiveData
-import androidx.media.MediaBrowserServiceCompat
 import com.example.media.media.extensions.id
 import com.example.media.media.service.MediaControllerCallback
 import com.example.media.media.service.MediaControllerCallbackHandler
+import org.koin.java.KoinJavaComponent.inject
 
 const val NETWORK_FAILURE = "com.example.media.session.NETWORK_FAILURE"
 
 class AudioServiceConnection(private val context: Context, serviceComponent: ComponentName) : AudioBrowserConnectionCallback,
     MediaControllerCallback {
 
-    private lateinit var mediaController: MediaControllerCompat
-    val rootMediaId: String get() = mediaBrowser.root
+    private val mediaController: MediaControllerCompat by inject(MediaControllerCompat::class.java)
 
     private val isConnected = MutableLiveData<Boolean>()
         .apply { postValue(false) }
@@ -74,9 +72,7 @@ class AudioServiceConnection(private val context: Context, serviceComponent: Com
 
     override fun onConnectionSuccessful() {
         isConnected.postValue(true)
-        mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken).apply {
-            registerCallback(MediaControllerCallbackHandler(this@AudioServiceConnection))
-        }
+        mediaController.registerCallback(MediaControllerCallbackHandler(this@AudioServiceConnection))
     }
 
     override fun onConnectionFailure() {

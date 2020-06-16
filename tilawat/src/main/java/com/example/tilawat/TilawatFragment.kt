@@ -2,6 +2,7 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.shared.FlowData
@@ -72,7 +73,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
             } ?: observeReciters()
         }
 
-        observeDistinctUntilChanged(tilawatViewModel.audioMetaData) { metaData ->
+        observeOnce(tilawatViewModel.audioMetaData) { metaData ->
             audioPlayer.updatePlayer(metaData)
             setVerseCounterText(metaData.number)
         }

@@ -11,12 +11,11 @@ import com.example.extensions.visibility
 import com.example.ui.extensions.*
 import kotlinx.android.synthetic.main.custom_audio_player_layout.view.*
 
-private const val resetValue: Int = 1
-
 class CustomAudioPlayer @JvmOverloads constructor(
     context: Context, attributeSet: AttributeSet? = null, defStyleRes: Int = 0
 ) : ConstraintLayout(context, attributeSet, defStyleRes) {
 
+    private val resetValue: Int = 1
     lateinit var onPlayClick: (Int) -> Unit
     private var counterValue: Int = resetValue
         set(value) {

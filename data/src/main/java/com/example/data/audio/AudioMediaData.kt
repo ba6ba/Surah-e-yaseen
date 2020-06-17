@@ -9,6 +9,8 @@ internal const val INVALID_PROGRESS = -1L
 internal const val INVALID_ID = -1
 internal const val EMPTY_STRING = ""
 
+typealias State = AudioMediaData.PlaybackState
+
 data class AudioMediaData(
     var title: String = EMPTY_STRING, var subTitle: String = EMPTY_STRING,
     var album: String = title, var genre: String = GENRE, var data: Data? = null,

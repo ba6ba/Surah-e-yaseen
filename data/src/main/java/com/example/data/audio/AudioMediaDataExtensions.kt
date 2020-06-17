@@ -3,6 +3,7 @@ package com.example.data.audio
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.example.data.reciters.defaultReciter
 import java.io.ByteArrayOutputStream
 
 fun AudioMediaData.ImageMetaData.setBitmap(context: Context) = kotlin.run {
@@ -12,7 +13,7 @@ fun AudioMediaData.ImageMetaData.setBitmap(context: Context) = kotlin.run {
 val AudioMediaData.toServiceMetaData: ServiceMetaData
     get() = ServiceMetaData(
         data?.id!!,
-        authorData?.name!!,
+        authorData?.name ?: defaultReciter.reciterEngName,
         metaData?.url!!,
         title = title,
         audioDuration = metaData?.audioDuration!!,

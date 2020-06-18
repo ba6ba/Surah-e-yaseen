@@ -17,4 +17,5 @@ object BuildModules {
     const val audioplayer = ":audioplayer"
     const val media = ":media"
     const val shared = ":shared"
+    const val storage = ":storage"
 }

@@ -17,7 +17,8 @@ include(
     ":data",
     ":audioplayer",
     ":media",
-    ":shared"
+    ":shared",
+    ":storage"
 )
 
 rootProject.buildFileName = "build.gradle.kts"

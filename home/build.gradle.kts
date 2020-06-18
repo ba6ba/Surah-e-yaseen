@@ -8,4 +8,5 @@ dependencies {
 	implementation(project(BuildModules.recitation))
     implementation(project(BuildModules.data))
     implementation(project(BuildModules.shared))
+    implementation(project(BuildModules.storage))
 }

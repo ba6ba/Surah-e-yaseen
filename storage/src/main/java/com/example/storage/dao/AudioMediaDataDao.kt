@@ -1,5 +1,6 @@
 package com.example.storage.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.storage.model.AudioMediaData
 
@@ -19,5 +20,5 @@ interface AudioMediaDataDao {
     fun get(id: String): AudioMediaData
 
     @Query("SELECT * FROM AudioMediaData")
-    fun getAll(): List<AudioMediaData>
+    fun getAll(): LiveData<List<AudioMediaData>>
 }

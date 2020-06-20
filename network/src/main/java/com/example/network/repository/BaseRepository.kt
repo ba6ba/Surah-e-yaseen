@@ -2,7 +2,7 @@ package com.example.network.repository
 
 import com.example.network.IODispatcher
 import com.example.network.MainDispatcher
-import com.example.network.error.ApiErrorType.*
+import com.example.network.error.ErrorType.*
 import com.example.network.error.ErrorHandler
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody

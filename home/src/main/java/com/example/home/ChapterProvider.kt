@@ -1,7 +1,7 @@
 package com.example.home
 
 import com.example.data.Chapter
-import com.example.network.error.ApiErrorType
+import com.example.network.error.ErrorType
 import com.example.network.error.ErrorHandler
 import com.example.network.repository.ChapterRepository
 import com.example.recitation.RecitationChapterProvider
@@ -23,7 +23,7 @@ class ChapterProvider constructor(
     }
 
     private fun emitEmptyDataError(errorHandler: ErrorHandler) {
-        errorHandler.onError(ApiErrorType.NETWORK)
+        errorHandler.onError(ErrorType.NETWORK)
     }
 
     suspend fun fetchChapterSpecificVerse(chapterNumber: Int = getSurahYaseen, numberOfVerses: Int = 0) =

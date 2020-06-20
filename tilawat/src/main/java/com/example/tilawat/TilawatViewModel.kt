@@ -16,14 +16,13 @@ import com.example.media.media.connection.NOTHING_PLAYING
 import com.example.media.media.extensions.*
 import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaHelper
-import com.example.network.error.ApiErrorType
+import com.example.network.error.ErrorType
 import com.example.reciters.RecitersProvider
 import com.example.tilawat.dataprovider.IAudioData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.ArrayList
-import kotlin.time.Duration
 
 typealias Reciters = List<ReciterWrapper>
 
@@ -38,7 +37,7 @@ class TilawatViewModel constructor(
         viewModelScope.launch {
             Transformations.map(audioConnection.networkFailure) {
                 it.isTrue {
-                    onError(ApiErrorType.NETWORK)
+                    onError(ErrorType.NETWORK)
                 }
             }
         }
@@ -185,7 +184,7 @@ class TilawatViewModel constructor(
 
     private fun playMediaIfHasValidId(mediaMetadata: AudioMediaData.MediaMetaData) {
         mediaMetadata.apply {
-            isValid.isTrue { playMediaId(mediaId) } ?: onError(ApiErrorType.INVALID_AUDIO_DATA)
+            isValid.isTrue { playMediaId(mediaId) } ?: onError(ErrorType.INVALID_AUDIO_DATA)
         }
     }
 }

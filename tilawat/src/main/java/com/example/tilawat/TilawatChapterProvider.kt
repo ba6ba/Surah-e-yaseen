@@ -2,19 +2,16 @@ package com.example.tilawat
 
 import androidx.lifecycle.MutableLiveData
 import com.example.data.Chapter
-import com.example.data.TilawatAudioModel
+import com.example.data.AudioClipModel
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.reciters.defaultReciter
 import com.example.data.reciters.toAuthorData
-import com.example.extensions.checkForTrue
 import com.example.extensions.getMemberFromIndex
 import com.example.network.error.ErrorHandler
-import com.example.network.repository.TilawatRepository
-import com.example.shared.Do
-import com.example.shared.DoNothingLiveData
+import com.example.network.repository.AudioNetworkRepository
 import com.example.shared.getSurahYaseen
 
-class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
+class TilawatChapterProvider(private val audioNetworkRepository: AudioNetworkRepository) {
 
     var getTilawatChapterLiveData: MutableLiveData<TilawatChapterData> = MutableLiveData()
     var tilawatChapterData: TilawatChapterData = TilawatChapterData()
@@ -40,10 +37,10 @@ class TilawatChapterProvider(private val tilawatRepository: TilawatRepository) {
     private val convertChapterToTilawatChapterData
         get() = chapter.toTilawatChapterData()
 
-    suspend fun getAudioData(number: Int, errorHandler: ErrorHandler) = tilawatRepository.getTilawatAudio(getAudioModel(number), errorHandler)
+    suspend fun getAudioData(number: Int, errorHandler: ErrorHandler) = audioNetworkRepository.getAudioClipData(getAudioModel(number), errorHandler)
 
     private fun getAudioModel(number: Int) =
-        TilawatAudioModel(getSurahYaseen, tilawatAudioClipRange.getMemberFromIndex(number),
+        AudioClipModel(getSurahYaseen, tilawatAudioClipRange.getMemberFromIndex(number),
             tilawatChapterData.reciterId ?: defaultReciter.id)
             .also {
                 tilawatChapterData.currentVerseNumber = number

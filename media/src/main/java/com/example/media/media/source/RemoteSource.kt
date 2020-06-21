@@ -1,7 +1,6 @@
 package com.example.media.media.source
 
 import android.support.v4.media.MediaMetadataCompat
-import com.example.data.audio.AudioMediaData
 import com.example.data.audio.ServiceMetaData
 import com.example.media.media.extensions.from
 import com.example.network.DefaultDispatcher

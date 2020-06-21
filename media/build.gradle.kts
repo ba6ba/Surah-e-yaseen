@@ -9,7 +9,7 @@ dependencies {
     implementation(project(BuildModules.extensions))
     implementation(project(BuildModules.network))
     implementation(project(BuildModules.shared))
-    implementation(project(BuildModules.data))
+    implementation(project(BuildModules.daos))
     implementation(project(BuildModules.di))
     implementation(UIDependencies.recyclerView)
     implementation(ThirdPartyDependencies.exoPlayerCore)

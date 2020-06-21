@@ -95,8 +95,8 @@ class AudioDataProvider : IAudioData, KoinComponent {
 
     private fun createAudioMediaData(audio: Audio) = AudioMediaData.build {
         authorData = tilawatChapterProvider.authorData
-        imageMetaData = imageMetadata.copy(imageDrawableRes = R.drawable.splash_logo)
-            .apply { setBitmap(context) }
+//        imageMetaData = imageMetadata.copy(imageDrawableRes = R.drawable.splash_logo)
+//            .apply { setBitmap(context) }
         title = tilawatChapterProvider.surahName
         metaData = this@AudioDataProvider.metadata.copy(
             url = audio.url, format = audio.format, audioDuration = audio.duration.toSeconds,

@@ -13,12 +13,14 @@ include(
     ":sidesheet",
     ":reciters",
     ":listpager",
-    ":network",
-    ":data",
+    ":daos",
     ":audioplayer",
     ":media",
     ":shared",
-    ":storage"
+    ":repository",
+    ":repository:network",
+    ":repository:storage",
+    ":repository:daos"
 )
 
 rootProject.buildFileName = "build.gradle.kts"

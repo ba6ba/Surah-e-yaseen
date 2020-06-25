@@ -4,22 +4,22 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.example.data.audio.Audio
+import com.example.data.audio.AudioHelperData
 import com.example.data.audio.AudioMediaData
 import com.example.data.audio.ServiceMetaData
 
 interface IAudioData {
-    val data : AudioMediaData.Data
-    val metadata : AudioMediaData.MetaData
     val authorData : AudioMediaData.AuthorData
     val mediaMetadata : AudioMediaData.MediaMetaData
-    val imageMetadata : AudioMediaData.ImageMetaData
     fun getAll() : List<AudioMediaData>
     fun getCurrentPlayingMediaMetadata() : AudioMediaData.MediaMetaData
     fun getCurrentPlayingMetadata() : AudioMediaData.MetaData?
     fun get(index : Int) : AudioMediaData
-    fun loadAudioData(audio: Audio?, callBack : List<ServiceMetaData>.() -> Unit)
-    fun fetchFromRemoteOrPlayFromLocal(verseNumber: Int, fetchFromRemote : (Boolean) -> Unit)
+    fun canPlayFromLocalList(verseNumber: Int, fetchFromRepository : (Boolean) -> Unit)
     fun transformMediaItemDataToAudioMediaData(children: MutableList<MediaBrowserCompat.MediaItem>, itemToPlay: AudioMediaData.() -> Unit)
     fun getCurrentAudioMetaData(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat): AudioMediaData.MetaData?
     fun updateCurrentVerse(verseNumber: Number)
+    fun buildAudioHelperData(verseNumber: Int) : AudioHelperData
+    fun updateList(list: List<AudioMediaData>)
+    fun mapMetaDataFromList(): List<ServiceMetaData>
 }

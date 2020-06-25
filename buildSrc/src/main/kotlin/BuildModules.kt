@@ -19,5 +19,4 @@ object BuildModules {
     const val repository = ":repository"
     const val network = ":repository:network"
     const val storage = ":repository:storage"
-    const val repositoryDaos = ":repository:daos"
 }

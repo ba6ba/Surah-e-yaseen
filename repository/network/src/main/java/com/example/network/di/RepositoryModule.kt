@@ -5,7 +5,7 @@ import com.example.network.providers.recitersRepositoryProvider
 import com.example.network.providers.tilawatRepositoryProvider
 import org.koin.dsl.module
 
-val repositoryModule = module {
+val networkRepositoryModule = module {
     factory { chapterRepositoryProvider(get()) }
     factory { recitersRepositoryProvider(get()) }
     factory { tilawatRepositoryProvider(get()) }

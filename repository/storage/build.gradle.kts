@@ -11,5 +11,6 @@ dependencies {
     implementation(project(BuildModules.extensions))
     implementation(project(BuildModules.shared))
     implementation(project(BuildModules.di))
-    implementation(project(BuildModules.repositoryDaos))
+    implementation(project(BuildModules.daos))
+    kapt(RoomDependencies.roomCompiler)
 }

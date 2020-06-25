@@ -19,8 +19,7 @@ include(
     ":shared",
     ":repository",
     ":repository:network",
-    ":repository:storage",
-    ":repository:daos"
+    ":repository:storage"
 )
 
 rootProject.buildFileName = "build.gradle.kts"

@@ -1,6 +1,6 @@
 package com.example.network.services
 
-import com.example.daos.AudioApiResponse
+import com.example.data.audio.AudioApiResponse
 import com.example.network.LanguageProvider
 import retrofit2.Response
 import retrofit2.http.GET

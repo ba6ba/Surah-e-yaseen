@@ -2,7 +2,7 @@ package com.example.tilawat
 
 import androidx.lifecycle.MutableLiveData
 import com.example.data.Chapter
-import com.example.data.AudioClipModel
+import com.example.data.audio.AudioClipModel
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.reciters.defaultReciter
 import com.example.data.reciters.toAuthorData
@@ -15,7 +15,7 @@ class TilawatChapterProvider(private val audioNetworkRepository: AudioNetworkRep
 
     var getTilawatChapterLiveData: MutableLiveData<TilawatChapterData> = MutableLiveData()
     var tilawatChapterData: TilawatChapterData = TilawatChapterData()
-    private val tilawatAudioClipRange: IntRange by lazy {
+    val tilawatAudioClipRange: IntRange by lazy {
         tilawatChapterData.getRangeForAudioVerses
     }
     var chapter: Chapter? = null

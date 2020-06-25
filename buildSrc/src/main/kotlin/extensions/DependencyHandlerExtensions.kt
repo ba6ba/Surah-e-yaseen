@@ -62,3 +62,13 @@ fun DependencyHandler.kapt(dependencyNotation: String): Dependency? =
  */
 fun DependencyHandler.api(dependencyNotation: String): Dependency? =
     add("api", dependencyNotation)
+
+/**
+ * Adds a dependency to the `annotationProcessor` configuration.
+ *
+ * @param dependencyNotation name of dependency to add at specific configuration
+ *
+ * @return the dependency
+ */
+fun DependencyHandler.annotationProcessor(dependencyNotation: String): Dependency? =
+    add("annotationProcessor", dependencyNotation)

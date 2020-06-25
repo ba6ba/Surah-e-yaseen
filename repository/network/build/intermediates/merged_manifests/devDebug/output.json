@@ -1,0 +1,1 @@
+[{"outputType":{"type":"MERGED_MANIFESTS"},"apkData":{"type":"MAIN","splits":[],"versionCode":-1,"versionName":"-dev","enabled":true,"outputFile":"network-dev-debug.aar","fullName":"devDebug","baseName":"dev-debug","dirName":""},"path":"../../library_manifest/devDebug/AndroidManifest.xml","properties":{"packageId":"com.example.network","split":""}}]

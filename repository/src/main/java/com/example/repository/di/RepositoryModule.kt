@@ -1,10 +1,12 @@
 package com.example.repository.di
 
-import com.example.repository.AudioDataRepository
-import com.example.repository.providers.AudioDataProvider
+import com.example.repository.AudioMediaDataRepository
+import com.example.repository.dataprovider.AudioMediaDataMapper
+import com.example.repository.dataprovider.IAudioMediaDataMapper
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    factory { AudioDataProvider() }
-    single { AudioDataRepository(get(), get(), get()) }
+    single { AudioMediaDataRepository(get(), get(), get()) }
+    factory { AudioMediaDataMapper() } bind IAudioMediaDataMapper::class
 }

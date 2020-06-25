@@ -2,7 +2,7 @@ package com.example.storage.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.daos.AudioMediaData
+import com.example.data.audio.AudioMediaData
 
 @Dao
 interface AudioMediaDataDao {
@@ -17,8 +17,9 @@ interface AudioMediaDataDao {
     suspend fun update(audioMediaData: AudioMediaData)
 
     @Query("SELECT * FROM AudioMediaData WHERE id = :id")
-    suspend fun get(id: String): LiveData<AudioMediaData>
+    suspend fun get(id: String): AudioMediaData?
 
     @Query("SELECT * FROM AudioMediaData")
-    suspend fun getAll(): LiveData<List<AudioMediaData>>
+    suspend fun getAll(): List<AudioMediaData>?
+
 }

@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(project(BuildModules.network))
     implementation(project(BuildModules.storage))
-    implementation(project(BuildModules.repositoryDaos))
+    api(project(BuildModules.daos))
     implementation(project(BuildModules.extensions))
     implementation(project(BuildModules.di))
 }

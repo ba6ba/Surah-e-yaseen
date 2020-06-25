@@ -4,14 +4,16 @@ import com.example.media.media.di.mediaModule
 import com.example.tilawat.TilawatChapterProvider
 import com.example.tilawat.TilawatViewModel
 import com.example.reciters.translatorsModule
+import com.example.repository.di.repositoryModule
+import com.example.repository.dataprovider.AudioMediaDataMapper
+import com.example.repository.dataprovider.IAudioMediaDataMapper
 import com.example.tilawat.dataprovider.AudioDataProvider
 import com.example.tilawat.dataprovider.IAudioData
-import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val tilawatModule = module {
-    factory { TilawatViewModel(get(), get(), get(), get()) }
+    factory { TilawatViewModel(get(), get(), get(), get(), get()) }
     single { TilawatChapterProvider(get()) }
     factory { AudioDataProvider() } bind IAudioData::class
-} + translatorsModule + mediaModule
+} + translatorsModule + mediaModule + repositoryModule

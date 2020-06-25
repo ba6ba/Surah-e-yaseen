@@ -1,12 +1,13 @@
 package com.example.media.media.source
 
+import android.content.Context
 import android.support.v4.media.MediaMetadataCompat
 import com.example.data.audio.ServiceMetaData
 import com.example.media.media.extensions.from
 import com.example.network.DefaultDispatcher
 import kotlinx.coroutines.withContext
 
-class RemoteSource : AbstractAudioSource() {
+class RemoteSource(private val context: Context) : AbstractAudioSource() {
 
     private var audioList: List<MediaMetadataCompat> = emptyList()
 
@@ -30,7 +31,7 @@ class RemoteSource : AbstractAudioSource() {
         return withContext(DefaultDispatcher) {
             arrayListOf<MediaMetadataCompat>().apply {
                 metaDataList.forEach { audioMediaData ->
-                    add(MediaMetadataCompat.Builder().from(audioMediaData).build())
+                    add(MediaMetadataCompat.Builder().from(context, audioMediaData).build())
                 }
             }
         }

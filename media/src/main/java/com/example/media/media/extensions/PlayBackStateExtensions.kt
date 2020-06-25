@@ -32,13 +32,8 @@ inline val PlaybackStateCompat.isSkipToPreviousEnabled
 
 inline val PlaybackStateCompat.audioMediaDataState: AudioMediaData.PlaybackState
     get() = when (state) {
-        PlaybackStateCompat.STATE_NONE -> AudioMediaData.PlaybackState.NONE
-        PlaybackStateCompat.STATE_STOPPED -> AudioMediaData.PlaybackState.STOP
         PlaybackStateCompat.STATE_PAUSED -> AudioMediaData.PlaybackState.PAUSE
         PlaybackStateCompat.STATE_PLAYING -> AudioMediaData.PlaybackState.PLAYING
-        PlaybackStateCompat.STATE_FAST_FORWARDING -> AudioMediaData.PlaybackState.STOP
-        PlaybackStateCompat.STATE_SKIPPING_TO_NEXT -> AudioMediaData.PlaybackState.PLAY_NEXT
-        PlaybackStateCompat.STATE_SKIPPING_TO_PREVIOUS -> AudioMediaData.PlaybackState.PLAY_PREVIOUS
         else -> AudioMediaData.PlaybackState.NONE
     }
 

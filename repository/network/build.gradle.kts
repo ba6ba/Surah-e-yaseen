@@ -23,6 +23,5 @@ dependencies {
     implementation(CoroutinesDependencies.coroutines)
     implementation(CoroutinesDependencies.coroutinesAndroid)
     implementation(project(BuildModules.di))
-    implementation(project(BuildModules.repositoryDaos))
     implementation(project(BuildModules.daos))
 }

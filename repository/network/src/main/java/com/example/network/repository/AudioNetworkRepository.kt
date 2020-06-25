@@ -1,7 +1,7 @@
 package com.example.network.repository
 
-import com.example.daos.AudioApiResponse
-import com.example.daos.AudioClipModel
+import com.example.data.audio.AudioApiResponse
+import com.example.data.audio.AudioClipModel
 import com.example.network.ApiResponse
 import com.example.network.error.ErrorHandler
 import com.example.network.services.AudioService

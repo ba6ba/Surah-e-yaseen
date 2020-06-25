@@ -6,7 +6,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.*
 import com.example.core.BaseViewModel
-import com.example.data.audio.*
+import com.example.data.audio.AudioMediaData
+import com.example.data.audio.ServiceMetaData
+import com.example.data.audio.isValid
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.reciters.toWrapperList
 import com.example.extensions.*
@@ -16,11 +18,15 @@ import com.example.media.media.connection.NOTHING_PLAYING
 import com.example.media.media.extensions.*
 import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaHelper
+import com.example.network.MainDispatcher
 import com.example.network.error.ErrorType
 import com.example.reciters.RecitersProvider
+import com.example.repository.AudioMediaDataRepository
+import com.example.repository.base.Status
 import com.example.tilawat.dataprovider.IAudioData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.ArrayList
 
@@ -30,7 +36,8 @@ class TilawatViewModel constructor(
     private val tilawatChapterProvider: TilawatChapterProvider,
     private val recitersProvider: RecitersProvider,
     private val audioConnection: AudioServiceConnection,
-    private val audioDataProvider : IAudioData
+    private val audioDataProvider : IAudioData,
+    private val audioMediaDataRepository: AudioMediaDataRepository
 ) : BaseViewModel() {
 
     init {
@@ -156,29 +163,49 @@ class TilawatViewModel constructor(
         }
     }
 
-    private fun fetchAudioForVerse(verseNumber: Int) {
+    private fun sendDataToService(list: List<AudioMediaData>) {
+        audioDataProvider.apply {
+            updateList(list)
+            sendCommandToService(mapMetaDataFromList())
+        }
+    }
+
+    private fun fetchFromRepository(verseNumber: Int) {
         viewModelScope.launch {
-            tilawatChapterProvider.getAudioData(verseNumber, this@TilawatViewModel).nonNull {
-                audioDataProvider.loadAudioData(audio) {
-                    sendCommandToService(this)
+            audioMediaDataRepository.fetchDataFor(audioDataProvider.buildAudioHelperData(verseNumber)) {
+                when(status) {
+                    Status.LOADING -> {}
+                    Status.SUCCESS -> {
+                        sendDataToService(data!!)
+                    }
+                    Status.FAILURE -> {
+                        data.nonNull {
+                            sendDataToService(this)
+                        }
+                        onError(error)
+                    }
                 }
             }
         }
     }
 
     private fun sendCommandToService(metaData: List<ServiceMetaData>) {
-        audioConnection.sendCommand(AudioService.REFRESH_AUDIO_DATA, Bundle().apply {
-            putSerializable(AudioService.AUDIO_DATA, metaData as ArrayList<ServiceMetaData>)
-        }) { _, _ -> }
+        viewModelScope.launch {
+            withContext(MainDispatcher) {
+                audioConnection.sendCommand(AudioService.REFRESH_AUDIO_DATA, Bundle().apply {
+                    putSerializable(AudioService.AUDIO_DATA, metaData as ArrayList<ServiceMetaData>)
+                }) { _, _ -> }
+            }
+        }
     }
 
     fun doFetchOrPlay(verseNumber: Int) {
-        audioDataProvider.fetchFromRemoteOrPlayFromLocal(verseNumber) {
+        audioDataProvider.canPlayFromLocalList(verseNumber) {
             it.isTrue {
                 audioDataProvider.getCurrentPlayingMediaMetadata().nonNull {
                     playMediaIfHasValidId(this)
                 }
-            } ?: fetchAudioForVerse(verseNumber)
+            } ?: fetchFromRepository(verseNumber)
         }
     }
 

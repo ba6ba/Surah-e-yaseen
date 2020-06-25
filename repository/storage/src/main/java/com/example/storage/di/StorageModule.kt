@@ -18,7 +18,6 @@ val storageModule = module {
 
 fun provideAppDatabase(application: Application): AppDatabase =
     Room.databaseBuilder(application, AppDatabase::class.java, "Surah-e-yaseen.db")
-        .addCallback(AppDatabaseCallback())
         .build()
 
 fun provideAudioMediaDataDao(appDatabase: AppDatabase): AudioMediaDataDao =

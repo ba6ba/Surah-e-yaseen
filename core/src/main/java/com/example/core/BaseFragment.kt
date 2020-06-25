@@ -5,7 +5,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.example.data.GenericError
-import com.example.extensions.observeOnce
+import com.example.extensions.observeOnceOnLifecycle
 import com.example.extensions.showToast
 
 abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(layoutRes) {
@@ -19,7 +19,7 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(la
 
     private fun observeErrorHandler() {
         getViewModel()?.apply {
-            observeOnce(errorLiveData) { genericError ->
+            observeOnceOnLifecycle(errorLiveData) { genericError ->
                 if (GenericError.Severity.HIGH == genericError.severity) {
                     // open Fragment to block user from doing any actions
                 } else {

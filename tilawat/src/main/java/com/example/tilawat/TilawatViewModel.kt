@@ -181,8 +181,7 @@ class TilawatViewModel constructor(
                     Status.FAILURE -> {
                         data.nonNull {
                             sendDataToService(this)
-                        }
-                        onError(error)
+                        } ?: onError(error)
                     }
                 }
             }

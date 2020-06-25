@@ -6,5 +6,5 @@ enum class ErrorType(var message : String) {
     NETWORK("Server Down"),
     DATABASE("DB Error"),
     UNKNOWN("Technical Error!\n We are working on it."),
-    NONE("Technical Error!\n We are working on it.")
+    NONE("")
 }

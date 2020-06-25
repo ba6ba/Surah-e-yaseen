@@ -2,7 +2,6 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.shared.FlowData
@@ -67,24 +66,24 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     }
 
     private fun viewModelObservers() {
-        observeOnce(tilawatViewModel.tilawatChapterData) { chapter ->
+        observeOnceOnLifecycle(tilawatViewModel.tilawatChapterData) { chapter ->
             chapter.hasValidReciter.isTrue {
                 updateViews(chapter)
             } ?: observeReciters()
         }
 
-        observeOnce(tilawatViewModel.audioMetaData) { metaData ->
+        observeOnceOnLifecycle(tilawatViewModel.audioMetaData) { metaData ->
             audioPlayer.updatePlayer(metaData)
             setVerseCounterText(metaData.number)
         }
 
-        observeDistinctUntilChanged(tilawatViewModel.currentDurationLiveData) { duration ->
+        observeDistinctUntilChangedOnLifecycle(tilawatViewModel.currentDurationLiveData) { duration ->
             audioPlayer.updatePlayerProgress(duration)
         }
     }
 
     private fun observeReciters() {
-        observeDistinctUntilChanged(tilawatViewModel.getTranslators()) { dataList ->
+        observeDistinctUntilChangedOnLifecycle(tilawatViewModel.getTranslators()) { dataList ->
             recitersListView.apply {
                 itemClickListener = {
                     tilawatViewModel.setCurrentReciter(it)

@@ -21,6 +21,9 @@ abstract class BaseViewModel : ViewModel(), ErrorHandler {
             ErrorType.UNKNOWN -> errorLiveData.postValue(lowSeverityError(error.message))
             ErrorType.TIMEOUT -> errorLiveData.postValue(highSeverityError(error.message))
             ErrorType.NETWORK -> errorLiveData.postValue(highSeverityError(error.message))
+            ErrorType.DATABASE -> errorLiveData.postValue(lowSeverityError(error.message))
+            ErrorType.INVALID_AUDIO_DATA -> errorLiveData.postValue(highSeverityError(error.message))
+            else -> {}
         }
     }
 

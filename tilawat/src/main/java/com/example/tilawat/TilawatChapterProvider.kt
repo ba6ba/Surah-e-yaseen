@@ -11,7 +11,7 @@ import com.example.network.error.ErrorHandler
 import com.example.network.repository.AudioNetworkRepository
 import com.example.shared.getSurahYaseen
 
-class TilawatChapterProvider(private val audioNetworkRepository: AudioNetworkRepository) {
+class TilawatChapterProvider {
 
     var getTilawatChapterLiveData: MutableLiveData<TilawatChapterData> = MutableLiveData()
     var tilawatChapterData: TilawatChapterData = TilawatChapterData()
@@ -36,15 +36,6 @@ class TilawatChapterProvider(private val audioNetworkRepository: AudioNetworkRep
 
     private val convertChapterToTilawatChapterData
         get() = chapter.toTilawatChapterData()
-
-    suspend fun getAudioData(number: Int, errorHandler: ErrorHandler) = audioNetworkRepository.getAudioClipData(getAudioModel(number), errorHandler)
-
-    private fun getAudioModel(number: Int) =
-        AudioClipModel(getSurahYaseen, tilawatAudioClipRange.getMemberFromIndex(number),
-            tilawatChapterData.reciterId ?: defaultReciter.id)
-            .also {
-                tilawatChapterData.currentVerseNumber = number
-            }
 }
 
 val TilawatChapterProvider.authorData

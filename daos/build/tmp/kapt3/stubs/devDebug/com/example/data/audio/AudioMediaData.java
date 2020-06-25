@@ -4,27 +4,27 @@ import java.lang.System;
 
 @kotlinx.android.parcel.Parcelize()
 @androidx.room.Entity()
-@kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\\\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b-\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\n\b\u0087\b\u0018\u0000 P2\u00020\u0001:\bNOPQRSTUB\u000f\b\u0012\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u00a2\u0006\u0002\u0010\u0004Bs\u0012\b\b\u0002\u0010\u0005\u001a\u00020\u0006\u0012\b\b\u0002\u0010\u0007\u001a\u00020\u0006\u0012\b\b\u0002\u0010\b\u001a\u00020\u0006\u0012\b\b\u0002\u0010\t\u001a\u00020\u0006\u0012\b\b\u0002\u0010\n\u001a\u00020\u0006\u0012\n\b\u0002\u0010\u000b\u001a\u0004\u0018\u00010\f\u0012\n\b\u0002\u0010\r\u001a\u0004\u0018\u00010\u000e\u0012\n\b\u0002\u0010\u000f\u001a\u0004\u0018\u00010\u0010\u0012\n\b\u0002\u0010\u0011\u001a\u0004\u0018\u00010\u0012\u0012\n\b\u0002\u0010\u0013\u001a\u0004\u0018\u00010\u0014\u00a2\u0006\u0002\u0010\u0015J\t\u00106\u001a\u00020\u0006H\u00c6\u0003J\u000b\u00107\u001a\u0004\u0018\u00010\u0014H\u00c6\u0003J\t\u00108\u001a\u00020\u0006H\u00c6\u0003J\t\u00109\u001a\u00020\u0006H\u00c6\u0003J\t\u0010:\u001a\u00020\u0006H\u00c6\u0003J\t\u0010;\u001a\u00020\u0006H\u00c6\u0003J\u000b\u0010<\u001a\u0004\u0018\u00010\fH\u00c6\u0003J\u000b\u0010=\u001a\u0004\u0018\u00010\u000eH\u00c6\u0003J\u000b\u0010>\u001a\u0004\u0018\u00010\u0010H\u00c6\u0003J\u000b\u0010?\u001a\u0004\u0018\u00010\u0012H\u00c6\u0003Jw\u0010@\u001a\u00020\u00002\b\b\u0002\u0010\u0005\u001a\u00020\u00062\b\b\u0002\u0010\u0007\u001a\u00020\u00062\b\b\u0002\u0010\b\u001a\u00020\u00062\b\b\u0002\u0010\t\u001a\u00020\u00062\b\b\u0002\u0010\n\u001a\u00020\u00062\n\b\u0002\u0010\u000b\u001a\u0004\u0018\u00010\f2\n\b\u0002\u0010\r\u001a\u0004\u0018\u00010\u000e2\n\b\u0002\u0010\u000f\u001a\u0004\u0018\u00010\u00102\n\b\u0002\u0010\u0011\u001a\u0004\u0018\u00010\u00122\n\b\u0002\u0010\u0013\u001a\u0004\u0018\u00010\u0014H\u00c6\u0001J\t\u0010A\u001a\u00020BH\u00d6\u0001J\u0013\u0010C\u001a\u00020D2\b\u0010E\u001a\u0004\u0018\u00010FH\u00d6\u0003J\t\u0010G\u001a\u00020BH\u00d6\u0001J\t\u0010H\u001a\u00020\u0006H\u00d6\u0001J\u0019\u0010I\u001a\u00020J2\u0006\u0010K\u001a\u00020L2\u0006\u0010M\u001a\u00020BH\u00d6\u0001R\u001a\u0010\t\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0016\u0010\u0017\"\u0004\b\u0018\u0010\u0019R\u001c\u0010\u0011\u001a\u0004\u0018\u00010\u0012X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001a\u0010\u001b\"\u0004\b\u001c\u0010\u001dR\u001c\u0010\u000b\u001a\u0004\u0018\u00010\fX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001e\u0010\u001f\"\u0004\b \u0010!R\u001a\u0010\n\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\"\u0010\u0017\"\u0004\b#\u0010\u0019R\u001e\u0010\u0005\u001a\u00020\u00068\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b$\u0010\u0017\"\u0004\b%\u0010\u0019R\u001c\u0010\r\u001a\u0004\u0018\u00010\u000eX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b&\u0010\'\"\u0004\b(\u0010)R\u001c\u0010\u0013\u001a\u0004\u0018\u00010\u0014X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b*\u0010+\"\u0004\b,\u0010-R\u001c\u0010\u000f\u001a\u0004\u0018\u00010\u0010X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b.\u0010/\"\u0004\b0\u00101R\u001a\u0010\b\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b2\u0010\u0017\"\u0004\b3\u0010\u0019R\u001a\u0010\u0007\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b4\u0010\u0017\"\u0004\b5\u0010\u0019\u00a8\u0006V"}, d2 = {"Lcom/example/data/audio/AudioMediaData;", "Landroid/os/Parcelable;", "builder", "Lcom/example/data/audio/AudioMediaData$Builder;", "(Lcom/example/data/audio/AudioMediaData$Builder;)V", "id", "", "title", "subTitle", "album", "genre", "data", "Lcom/example/data/audio/AudioMediaData$Data;", "imageMetaData", "Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "metaData", "Lcom/example/data/audio/AudioMediaData$MetaData;", "authorData", "Lcom/example/data/audio/AudioMediaData$AuthorData;", "mediaMetaData", "Lcom/example/data/audio/AudioMediaData$MediaMetaData;", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/example/data/audio/AudioMediaData$Data;Lcom/example/data/audio/AudioMediaData$ImageMetaData;Lcom/example/data/audio/AudioMediaData$MetaData;Lcom/example/data/audio/AudioMediaData$AuthorData;Lcom/example/data/audio/AudioMediaData$MediaMetaData;)V", "getAlbum", "()Ljava/lang/String;", "setAlbum", "(Ljava/lang/String;)V", "getAuthorData", "()Lcom/example/data/audio/AudioMediaData$AuthorData;", "setAuthorData", "(Lcom/example/data/audio/AudioMediaData$AuthorData;)V", "getData", "()Lcom/example/data/audio/AudioMediaData$Data;", "setData", "(Lcom/example/data/audio/AudioMediaData$Data;)V", "getGenre", "setGenre", "getId", "setId", "getImageMetaData", "()Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "setImageMetaData", "(Lcom/example/data/audio/AudioMediaData$ImageMetaData;)V", "getMediaMetaData", "()Lcom/example/data/audio/AudioMediaData$MediaMetaData;", "setMediaMetaData", "(Lcom/example/data/audio/AudioMediaData$MediaMetaData;)V", "getMetaData", "()Lcom/example/data/audio/AudioMediaData$MetaData;", "setMetaData", "(Lcom/example/data/audio/AudioMediaData$MetaData;)V", "getSubTitle", "setSubTitle", "getTitle", "setTitle", "component1", "component10", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "component9", "copy", "describeContents", "", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "AuthorData", "Builder", "Companion", "Data", "ImageMetaData", "MediaMetaData", "MetaData", "PlaybackState", "daos_devDebug"})
+@kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\\\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b-\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\n\b\u0087\b\u0018\u0000 P2\u00020\u0001:\bNOPQRSTUB\u000f\b\u0012\u0012\u0006\u0010\u0002\u001a\u00020\u0003\u00a2\u0006\u0002\u0010\u0004Bs\u0012\b\b\u0002\u0010\u0005\u001a\u00020\u0006\u0012\n\b\u0002\u0010\u0007\u001a\u0004\u0018\u00010\b\u0012\b\b\u0002\u0010\t\u001a\u00020\u0006\u0012\b\b\u0002\u0010\n\u001a\u00020\u0006\u0012\b\b\u0002\u0010\u000b\u001a\u00020\u0006\u0012\b\b\u0002\u0010\f\u001a\u00020\u0006\u0012\n\b\u0002\u0010\r\u001a\u0004\u0018\u00010\u000e\u0012\n\b\u0002\u0010\u000f\u001a\u0004\u0018\u00010\u0010\u0012\n\b\u0002\u0010\u0011\u001a\u0004\u0018\u00010\u0012\u0012\n\b\u0002\u0010\u0013\u001a\u0004\u0018\u00010\u0014\u00a2\u0006\u0002\u0010\u0015J\t\u00106\u001a\u00020\u0006H\u00c6\u0003J\u000b\u00107\u001a\u0004\u0018\u00010\u0014H\u00c6\u0003J\u000b\u00108\u001a\u0004\u0018\u00010\bH\u00c6\u0003J\t\u00109\u001a\u00020\u0006H\u00c6\u0003J\t\u0010:\u001a\u00020\u0006H\u00c6\u0003J\t\u0010;\u001a\u00020\u0006H\u00c6\u0003J\t\u0010<\u001a\u00020\u0006H\u00c6\u0003J\u000b\u0010=\u001a\u0004\u0018\u00010\u000eH\u00c6\u0003J\u000b\u0010>\u001a\u0004\u0018\u00010\u0010H\u00c6\u0003J\u000b\u0010?\u001a\u0004\u0018\u00010\u0012H\u00c6\u0003Jw\u0010@\u001a\u00020\u00002\b\b\u0002\u0010\u0005\u001a\u00020\u00062\n\b\u0002\u0010\u0007\u001a\u0004\u0018\u00010\b2\b\b\u0002\u0010\t\u001a\u00020\u00062\b\b\u0002\u0010\n\u001a\u00020\u00062\b\b\u0002\u0010\u000b\u001a\u00020\u00062\b\b\u0002\u0010\f\u001a\u00020\u00062\n\b\u0002\u0010\r\u001a\u0004\u0018\u00010\u000e2\n\b\u0002\u0010\u000f\u001a\u0004\u0018\u00010\u00102\n\b\u0002\u0010\u0011\u001a\u0004\u0018\u00010\u00122\n\b\u0002\u0010\u0013\u001a\u0004\u0018\u00010\u0014H\u00c6\u0001J\t\u0010A\u001a\u00020BH\u00d6\u0001J\u0013\u0010C\u001a\u00020D2\b\u0010E\u001a\u0004\u0018\u00010FH\u00d6\u0003J\t\u0010G\u001a\u00020BH\u00d6\u0001J\t\u0010H\u001a\u00020\u0006H\u00d6\u0001J\u0019\u0010I\u001a\u00020J2\u0006\u0010K\u001a\u00020L2\u0006\u0010M\u001a\u00020BH\u00d6\u0001R\u001a\u0010\u000b\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0016\u0010\u0017\"\u0004\b\u0018\u0010\u0019R\u001c\u0010\u000f\u001a\u0004\u0018\u00010\u0010X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001a\u0010\u001b\"\u0004\b\u001c\u0010\u001dR\u001c\u0010\u0007\u001a\u0004\u0018\u00010\bX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001e\u0010\u001f\"\u0004\b \u0010!R\u001a\u0010\t\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\"\u0010\u0017\"\u0004\b#\u0010\u0019R\u001e\u0010\u0005\u001a\u00020\u00068\u0006@\u0006X\u0087\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b$\u0010\u0017\"\u0004\b%\u0010\u0019R\u001c\u0010\u0011\u001a\u0004\u0018\u00010\u0012X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b&\u0010\'\"\u0004\b(\u0010)R\u001c\u0010\u0013\u001a\u0004\u0018\u00010\u0014X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b*\u0010+\"\u0004\b,\u0010-R\u001c\u0010\r\u001a\u0004\u0018\u00010\u000eX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b.\u0010/\"\u0004\b0\u00101R\u001a\u0010\f\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b2\u0010\u0017\"\u0004\b3\u0010\u0019R\u001a\u0010\n\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b4\u0010\u0017\"\u0004\b5\u0010\u0019\u00a8\u0006V"}, d2 = {"Lcom/example/data/audio/AudioMediaData;", "Landroid/os/Parcelable;", "builder", "Lcom/example/data/audio/AudioMediaData$Builder;", "(Lcom/example/data/audio/AudioMediaData$Builder;)V", "id", "", "data", "Lcom/example/data/audio/AudioMediaData$Data;", "genre", "title", "album", "subTitle", "metaData", "Lcom/example/data/audio/AudioMediaData$MetaData;", "authorData", "Lcom/example/data/audio/AudioMediaData$AuthorData;", "imageMetaData", "Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "mediaMetaData", "Lcom/example/data/audio/AudioMediaData$MediaMetaData;", "(Ljava/lang/String;Lcom/example/data/audio/AudioMediaData$Data;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/example/data/audio/AudioMediaData$MetaData;Lcom/example/data/audio/AudioMediaData$AuthorData;Lcom/example/data/audio/AudioMediaData$ImageMetaData;Lcom/example/data/audio/AudioMediaData$MediaMetaData;)V", "getAlbum", "()Ljava/lang/String;", "setAlbum", "(Ljava/lang/String;)V", "getAuthorData", "()Lcom/example/data/audio/AudioMediaData$AuthorData;", "setAuthorData", "(Lcom/example/data/audio/AudioMediaData$AuthorData;)V", "getData", "()Lcom/example/data/audio/AudioMediaData$Data;", "setData", "(Lcom/example/data/audio/AudioMediaData$Data;)V", "getGenre", "setGenre", "getId", "setId", "getImageMetaData", "()Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "setImageMetaData", "(Lcom/example/data/audio/AudioMediaData$ImageMetaData;)V", "getMediaMetaData", "()Lcom/example/data/audio/AudioMediaData$MediaMetaData;", "setMediaMetaData", "(Lcom/example/data/audio/AudioMediaData$MediaMetaData;)V", "getMetaData", "()Lcom/example/data/audio/AudioMediaData$MetaData;", "setMetaData", "(Lcom/example/data/audio/AudioMediaData$MetaData;)V", "getSubTitle", "setSubTitle", "getTitle", "setTitle", "component1", "component10", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "component9", "copy", "describeContents", "", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "AuthorData", "Builder", "Companion", "Data", "ImageMetaData", "MediaMetaData", "MetaData", "PlaybackState", "daos_devDebug"})
 public final class AudioMediaData implements android.os.Parcelable {
     @org.jetbrains.annotations.NotNull()
     @androidx.room.PrimaryKey(autoGenerate = false)
     private java.lang.String id;
+    @org.jetbrains.annotations.Nullable()
+    private com.example.data.audio.AudioMediaData.Data data;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String genre;
     @org.jetbrains.annotations.NotNull()
     private java.lang.String title;
     @org.jetbrains.annotations.NotNull()
-    private java.lang.String subTitle;
-    @org.jetbrains.annotations.NotNull()
     private java.lang.String album;
     @org.jetbrains.annotations.NotNull()
-    private java.lang.String genre;
-    @org.jetbrains.annotations.Nullable()
-    private com.example.data.audio.AudioMediaData.Data data;
-    @org.jetbrains.annotations.Nullable()
-    private com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData;
+    private java.lang.String subTitle;
     @org.jetbrains.annotations.Nullable()
     private com.example.data.audio.AudioMediaData.MetaData metaData;
     @org.jetbrains.annotations.Nullable()
     private com.example.data.audio.AudioMediaData.AuthorData authorData;
+    @org.jetbrains.annotations.Nullable()
+    private com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData;
     @org.jetbrains.annotations.Nullable()
     private com.example.data.audio.AudioMediaData.MediaMetaData mediaMetaData;
     public static final com.example.data.audio.AudioMediaData.Companion Companion = null;
@@ -39,21 +39,30 @@ public final class AudioMediaData implements android.os.Parcelable {
     java.lang.String p0) {
     }
     
+    @org.jetbrains.annotations.Nullable()
+    public final com.example.data.audio.AudioMediaData.Data getData() {
+        return null;
+    }
+    
+    public final void setData(@org.jetbrains.annotations.Nullable()
+    com.example.data.audio.AudioMediaData.Data p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getGenre() {
+        return null;
+    }
+    
+    public final void setGenre(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
     @org.jetbrains.annotations.NotNull()
     public final java.lang.String getTitle() {
         return null;
     }
     
     public final void setTitle(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getSubTitle() {
-        return null;
-    }
-    
-    public final void setSubTitle(@org.jetbrains.annotations.NotNull()
     java.lang.String p0) {
     }
     
@@ -67,30 +76,12 @@ public final class AudioMediaData implements android.os.Parcelable {
     }
     
     @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getGenre() {
+    public final java.lang.String getSubTitle() {
         return null;
     }
     
-    public final void setGenre(@org.jetbrains.annotations.NotNull()
+    public final void setSubTitle(@org.jetbrains.annotations.NotNull()
     java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.Nullable()
-    public final com.example.data.audio.AudioMediaData.Data getData() {
-        return null;
-    }
-    
-    public final void setData(@org.jetbrains.annotations.Nullable()
-    com.example.data.audio.AudioMediaData.Data p0) {
-    }
-    
-    @org.jetbrains.annotations.Nullable()
-    public final com.example.data.audio.AudioMediaData.ImageMetaData getImageMetaData() {
-        return null;
-    }
-    
-    public final void setImageMetaData(@org.jetbrains.annotations.Nullable()
-    com.example.data.audio.AudioMediaData.ImageMetaData p0) {
     }
     
     @org.jetbrains.annotations.Nullable()
@@ -112,6 +103,15 @@ public final class AudioMediaData implements android.os.Parcelable {
     }
     
     @org.jetbrains.annotations.Nullable()
+    public final com.example.data.audio.AudioMediaData.ImageMetaData getImageMetaData() {
+        return null;
+    }
+    
+    public final void setImageMetaData(@org.jetbrains.annotations.Nullable()
+    com.example.data.audio.AudioMediaData.ImageMetaData p0) {
+    }
+    
+    @org.jetbrains.annotations.Nullable()
     public final com.example.data.audio.AudioMediaData.MediaMetaData getMediaMetaData() {
         return null;
     }
@@ -121,15 +121,15 @@ public final class AudioMediaData implements android.os.Parcelable {
     }
     
     public AudioMediaData(@org.jetbrains.annotations.NotNull()
-    java.lang.String id, @org.jetbrains.annotations.NotNull()
+    java.lang.String id, @org.jetbrains.annotations.Nullable()
+    com.example.data.audio.AudioMediaData.Data data, @org.jetbrains.annotations.NotNull()
+    java.lang.String genre, @org.jetbrains.annotations.NotNull()
     java.lang.String title, @org.jetbrains.annotations.NotNull()
-    java.lang.String subTitle, @org.jetbrains.annotations.NotNull()
     java.lang.String album, @org.jetbrains.annotations.NotNull()
-    java.lang.String genre, @org.jetbrains.annotations.Nullable()
-    com.example.data.audio.AudioMediaData.Data data, @org.jetbrains.annotations.Nullable()
-    com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData, @org.jetbrains.annotations.Nullable()
+    java.lang.String subTitle, @org.jetbrains.annotations.Nullable()
     com.example.data.audio.AudioMediaData.MetaData metaData, @org.jetbrains.annotations.Nullable()
     com.example.data.audio.AudioMediaData.AuthorData authorData, @org.jetbrains.annotations.Nullable()
+    com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData, @org.jetbrains.annotations.Nullable()
     com.example.data.audio.AudioMediaData.MediaMetaData mediaMetaData) {
         super();
     }
@@ -147,8 +147,8 @@ public final class AudioMediaData implements android.os.Parcelable {
         return null;
     }
     
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String component2() {
+    @org.jetbrains.annotations.Nullable()
+    public final com.example.data.audio.AudioMediaData.Data component2() {
         return null;
     }
     
@@ -167,23 +167,23 @@ public final class AudioMediaData implements android.os.Parcelable {
         return null;
     }
     
-    @org.jetbrains.annotations.Nullable()
-    public final com.example.data.audio.AudioMediaData.Data component6() {
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String component6() {
         return null;
     }
     
     @org.jetbrains.annotations.Nullable()
-    public final com.example.data.audio.AudioMediaData.ImageMetaData component7() {
+    public final com.example.data.audio.AudioMediaData.MetaData component7() {
         return null;
     }
     
     @org.jetbrains.annotations.Nullable()
-    public final com.example.data.audio.AudioMediaData.MetaData component8() {
+    public final com.example.data.audio.AudioMediaData.AuthorData component8() {
         return null;
     }
     
     @org.jetbrains.annotations.Nullable()
-    public final com.example.data.audio.AudioMediaData.AuthorData component9() {
+    public final com.example.data.audio.AudioMediaData.ImageMetaData component9() {
         return null;
     }
     
@@ -194,15 +194,15 @@ public final class AudioMediaData implements android.os.Parcelable {
     
     @org.jetbrains.annotations.NotNull()
     public final com.example.data.audio.AudioMediaData copy(@org.jetbrains.annotations.NotNull()
-    java.lang.String id, @org.jetbrains.annotations.NotNull()
+    java.lang.String id, @org.jetbrains.annotations.Nullable()
+    com.example.data.audio.AudioMediaData.Data data, @org.jetbrains.annotations.NotNull()
+    java.lang.String genre, @org.jetbrains.annotations.NotNull()
     java.lang.String title, @org.jetbrains.annotations.NotNull()
-    java.lang.String subTitle, @org.jetbrains.annotations.NotNull()
     java.lang.String album, @org.jetbrains.annotations.NotNull()
-    java.lang.String genre, @org.jetbrains.annotations.Nullable()
-    com.example.data.audio.AudioMediaData.Data data, @org.jetbrains.annotations.Nullable()
-    com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData, @org.jetbrains.annotations.Nullable()
+    java.lang.String subTitle, @org.jetbrains.annotations.Nullable()
     com.example.data.audio.AudioMediaData.MetaData metaData, @org.jetbrains.annotations.Nullable()
     com.example.data.audio.AudioMediaData.AuthorData authorData, @org.jetbrains.annotations.Nullable()
+    com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData, @org.jetbrains.annotations.Nullable()
     com.example.data.audio.AudioMediaData.MediaMetaData mediaMetaData) {
         return null;
     }
@@ -486,13 +486,11 @@ public final class AudioMediaData implements android.os.Parcelable {
     }
     
     @kotlinx.android.parcel.Parcelize()
-    @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000:\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\b\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0013\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\b\u0087\b\u0018\u00002\u00020\u0001B%\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0004\u001a\u00020\u0005\u0012\n\b\u0002\u0010\u0006\u001a\u0004\u0018\u00010\u0007\u00a2\u0006\u0002\u0010\bJ\t\u0010\u0015\u001a\u00020\u0003H\u00c6\u0003J\t\u0010\u0016\u001a\u00020\u0005H\u00c6\u0003J\u000b\u0010\u0017\u001a\u0004\u0018\u00010\u0007H\u00c6\u0003J)\u0010\u0018\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u00052\n\b\u0002\u0010\u0006\u001a\u0004\u0018\u00010\u0007H\u00c6\u0001J\t\u0010\u0019\u001a\u00020\u0005H\u00d6\u0001J\u0013\u0010\u001a\u001a\u00020\u001b2\b\u0010\u001c\u001a\u0004\u0018\u00010\u001dH\u00d6\u0003J\t\u0010\u001e\u001a\u00020\u0005H\u00d6\u0001J\t\u0010\u001f\u001a\u00020\u0003H\u00d6\u0001J\u0019\u0010 \u001a\u00020!2\u0006\u0010\"\u001a\u00020#2\u0006\u0010$\u001a\u00020\u0005H\u00d6\u0001R\u001c\u0010\u0006\u001a\u0004\u0018\u00010\u0007X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\t\u0010\n\"\u0004\b\u000b\u0010\fR\u001a\u0010\u0004\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\r\u0010\u000e\"\u0004\b\u000f\u0010\u0010R\u001a\u0010\u0002\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0011\u0010\u0012\"\u0004\b\u0013\u0010\u0014\u00a8\u0006%"}, d2 = {"Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "Landroid/os/Parcelable;", "imageUri", "", "imageDrawableRes", "", "bitmap", "Landroid/graphics/Bitmap;", "(Ljava/lang/String;ILandroid/graphics/Bitmap;)V", "getBitmap", "()Landroid/graphics/Bitmap;", "setBitmap", "(Landroid/graphics/Bitmap;)V", "getImageDrawableRes", "()I", "setImageDrawableRes", "(I)V", "getImageUri", "()Ljava/lang/String;", "setImageUri", "(Ljava/lang/String;)V", "component1", "component2", "component3", "copy", "describeContents", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "daos_devDebug"})
+    @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u00004\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\b\n\u0002\b\u000e\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\b\u0087\b\u0018\u00002\u00020\u0001B\u0019\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0004\u001a\u00020\u0005\u00a2\u0006\u0002\u0010\u0006J\t\u0010\u000f\u001a\u00020\u0003H\u00c6\u0003J\t\u0010\u0010\u001a\u00020\u0005H\u00c6\u0003J\u001d\u0010\u0011\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u0005H\u00c6\u0001J\t\u0010\u0012\u001a\u00020\u0005H\u00d6\u0001J\u0013\u0010\u0013\u001a\u00020\u00142\b\u0010\u0015\u001a\u0004\u0018\u00010\u0016H\u00d6\u0003J\t\u0010\u0017\u001a\u00020\u0005H\u00d6\u0001J\t\u0010\u0018\u001a\u00020\u0003H\u00d6\u0001J\u0019\u0010\u0019\u001a\u00020\u001a2\u0006\u0010\u001b\u001a\u00020\u001c2\u0006\u0010\u001d\u001a\u00020\u0005H\u00d6\u0001R\u001a\u0010\u0004\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0007\u0010\b\"\u0004\b\t\u0010\nR\u001a\u0010\u0002\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u000b\u0010\f\"\u0004\b\r\u0010\u000e\u00a8\u0006\u001e"}, d2 = {"Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "Landroid/os/Parcelable;", "imageUri", "", "imageDrawableRes", "", "(Ljava/lang/String;I)V", "getImageDrawableRes", "()I", "setImageDrawableRes", "(I)V", "getImageUri", "()Ljava/lang/String;", "setImageUri", "(Ljava/lang/String;)V", "component1", "component2", "copy", "describeContents", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "daos_devDebug"})
     public static final class ImageMetaData implements android.os.Parcelable {
         @org.jetbrains.annotations.NotNull()
         private java.lang.String imageUri;
         private int imageDrawableRes;
-        @org.jetbrains.annotations.Nullable()
-        private android.graphics.Bitmap bitmap;
         public static final android.os.Parcelable.Creator CREATOR = null;
         
         @org.jetbrains.annotations.NotNull()
@@ -511,18 +509,8 @@ public final class AudioMediaData implements android.os.Parcelable {
         public final void setImageDrawableRes(int p0) {
         }
         
-        @org.jetbrains.annotations.Nullable()
-        public final android.graphics.Bitmap getBitmap() {
-            return null;
-        }
-        
-        public final void setBitmap(@org.jetbrains.annotations.Nullable()
-        android.graphics.Bitmap p0) {
-        }
-        
         public ImageMetaData(@org.jetbrains.annotations.NotNull()
-        java.lang.String imageUri, int imageDrawableRes, @org.jetbrains.annotations.Nullable()
-        android.graphics.Bitmap bitmap) {
+        java.lang.String imageUri, int imageDrawableRes) {
             super();
         }
         
@@ -539,15 +527,9 @@ public final class AudioMediaData implements android.os.Parcelable {
             return 0;
         }
         
-        @org.jetbrains.annotations.Nullable()
-        public final android.graphics.Bitmap component3() {
-            return null;
-        }
-        
         @org.jetbrains.annotations.NotNull()
         public final com.example.data.audio.AudioMediaData.ImageMetaData copy(@org.jetbrains.annotations.NotNull()
-        java.lang.String imageUri, int imageDrawableRes, @org.jetbrains.annotations.Nullable()
-        android.graphics.Bitmap bitmap) {
+        java.lang.String imageUri, int imageDrawableRes) {
             return null;
         }
         
@@ -599,10 +581,12 @@ public final class AudioMediaData implements android.os.Parcelable {
     }
     
     @kotlinx.android.parcel.Parcelize()
-    @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000B\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0010\t\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\"\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\b\u0087\b\u0018\u00002\u00020\u0001BU\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0004\u001a\u00020\u0005\u0012\b\b\u0002\u0010\u0006\u001a\u00020\u0005\u0012\b\b\u0002\u0010\u0007\u001a\u00020\u0005\u0012\b\b\u0002\u0010\b\u001a\u00020\u0003\u0012\b\b\u0002\u0010\t\u001a\u00020\u0003\u0012\b\b\u0002\u0010\n\u001a\u00020\u000b\u0012\b\b\u0002\u0010\f\u001a\u00020\u0003\u00a2\u0006\u0002\u0010\rJ\t\u0010$\u001a\u00020\u0003H\u00c6\u0003J\t\u0010%\u001a\u00020\u0005H\u00c6\u0003J\t\u0010&\u001a\u00020\u0005H\u00c6\u0003J\t\u0010\'\u001a\u00020\u0005H\u00c6\u0003J\t\u0010(\u001a\u00020\u0003H\u00c6\u0003J\t\u0010)\u001a\u00020\u0003H\u00c6\u0003J\t\u0010*\u001a\u00020\u000bH\u00c6\u0003J\t\u0010+\u001a\u00020\u0003H\u00c6\u0003JY\u0010,\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u00052\b\b\u0002\u0010\u0006\u001a\u00020\u00052\b\b\u0002\u0010\u0007\u001a\u00020\u00052\b\b\u0002\u0010\b\u001a\u00020\u00032\b\b\u0002\u0010\t\u001a\u00020\u00032\b\b\u0002\u0010\n\u001a\u00020\u000b2\b\b\u0002\u0010\f\u001a\u00020\u0003H\u00c6\u0001J\t\u0010-\u001a\u00020.H\u00d6\u0001J\u0013\u0010/\u001a\u0002002\b\u00101\u001a\u0004\u0018\u000102H\u00d6\u0003J\t\u00103\u001a\u00020.H\u00d6\u0001J\t\u00104\u001a\u00020\u0003H\u00d6\u0001J\u0019\u00105\u001a\u0002062\u0006\u00107\u001a\u0002082\u0006\u00109\u001a\u00020.H\u00d6\u0001R\u001a\u0010\u0006\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u000e\u0010\u000f\"\u0004\b\u0010\u0010\u0011R\u001a\u0010\u0007\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0012\u0010\u000f\"\u0004\b\u0013\u0010\u0011R\u001a\u0010\b\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0014\u0010\u0015\"\u0004\b\u0016\u0010\u0017R\u001a\u0010\t\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0018\u0010\u0015\"\u0004\b\u0019\u0010\u0017R\u001a\u0010\f\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001a\u0010\u0015\"\u0004\b\u001b\u0010\u0017R\u001a\u0010\u0004\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001c\u0010\u000f\"\u0004\b\u001d\u0010\u0011R\u001a\u0010\n\u001a\u00020\u000bX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001e\u0010\u001f\"\u0004\b \u0010!R\u001a\u0010\u0002\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\"\u0010\u0015\"\u0004\b#\u0010\u0017\u00a8\u0006:"}, d2 = {"Lcom/example/data/audio/AudioMediaData$MetaData;", "Landroid/os/Parcelable;", "url", "", "number", "", "audioDuration", "audioProgress", "displayableDuration", "displayableProgress", "playbackState", "Lcom/example/data/audio/AudioMediaData$PlaybackState;", "format", "(Ljava/lang/String;JJJLjava/lang/String;Ljava/lang/String;Lcom/example/data/audio/AudioMediaData$PlaybackState;Ljava/lang/String;)V", "getAudioDuration", "()J", "setAudioDuration", "(J)V", "getAudioProgress", "setAudioProgress", "getDisplayableDuration", "()Ljava/lang/String;", "setDisplayableDuration", "(Ljava/lang/String;)V", "getDisplayableProgress", "setDisplayableProgress", "getFormat", "setFormat", "getNumber", "setNumber", "getPlaybackState", "()Lcom/example/data/audio/AudioMediaData$PlaybackState;", "setPlaybackState", "(Lcom/example/data/audio/AudioMediaData$PlaybackState;)V", "getUrl", "setUrl", "component1", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "copy", "describeContents", "", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "daos_devDebug"})
+    @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000D\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0002\n\u0002\u0010\t\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b!\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0003\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0002\b\u0087\b\u0018\u00002\u00020\u0001BU\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0004\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u0005\u001a\u00020\u0006\u0012\b\b\u0002\u0010\u0007\u001a\u00020\u0006\u0012\b\b\u0002\u0010\b\u001a\u00020\u0006\u0012\b\b\u0002\u0010\t\u001a\u00020\u0003\u0012\b\b\u0002\u0010\n\u001a\u00020\u0003\u0012\b\b\u0002\u0010\u000b\u001a\u00020\f\u00a2\u0006\u0002\u0010\rJ\t\u0010$\u001a\u00020\u0003H\u00c6\u0003J\t\u0010%\u001a\u00020\u0003H\u00c6\u0003J\t\u0010&\u001a\u00020\u0006H\u00c6\u0003J\t\u0010\'\u001a\u00020\u0006H\u00c6\u0003J\t\u0010(\u001a\u00020\u0006H\u00c6\u0003J\t\u0010)\u001a\u00020\u0003H\u00c6\u0003J\t\u0010*\u001a\u00020\u0003H\u00c6\u0003J\t\u0010+\u001a\u00020\fH\u00c6\u0003JY\u0010,\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u00032\b\b\u0002\u0010\u0005\u001a\u00020\u00062\b\b\u0002\u0010\u0007\u001a\u00020\u00062\b\b\u0002\u0010\b\u001a\u00020\u00062\b\b\u0002\u0010\t\u001a\u00020\u00032\b\b\u0002\u0010\n\u001a\u00020\u00032\b\b\u0002\u0010\u000b\u001a\u00020\fH\u00c6\u0001J\t\u0010-\u001a\u00020.H\u00d6\u0001J\u0013\u0010/\u001a\u0002002\b\u00101\u001a\u0004\u0018\u000102H\u00d6\u0003J\t\u00103\u001a\u00020.H\u00d6\u0001J\t\u00104\u001a\u00020\u0003H\u00d6\u0001J\u0019\u00105\u001a\u0002062\u0006\u00107\u001a\u0002082\u0006\u00109\u001a\u00020.H\u00d6\u0001R\u001a\u0010\u0007\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u000e\u0010\u000f\"\u0004\b\u0010\u0010\u0011R\u001a\u0010\b\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0012\u0010\u000f\"\u0004\b\u0013\u0010\u0011R\u001a\u0010\t\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0014\u0010\u0015\"\u0004\b\u0016\u0010\u0017R\u001a\u0010\n\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0018\u0010\u0015\"\u0004\b\u0019\u0010\u0017R\u001a\u0010\u0004\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001a\u0010\u0015\"\u0004\b\u001b\u0010\u0017R\u001a\u0010\u0005\u001a\u00020\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001c\u0010\u000f\"\u0004\b\u001d\u0010\u0011R\u001a\u0010\u000b\u001a\u00020\fX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001e\u0010\u001f\"\u0004\b \u0010!R\u001a\u0010\u0002\u001a\u00020\u0003X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\"\u0010\u0015\"\u0004\b#\u0010\u0017\u00a8\u0006:"}, d2 = {"Lcom/example/data/audio/AudioMediaData$MetaData;", "Landroid/os/Parcelable;", "url", "", "format", "number", "", "audioDuration", "audioProgress", "displayableDuration", "displayableProgress", "playbackState", "Lcom/example/data/audio/AudioMediaData$PlaybackState;", "(Ljava/lang/String;Ljava/lang/String;JJJLjava/lang/String;Ljava/lang/String;Lcom/example/data/audio/AudioMediaData$PlaybackState;)V", "getAudioDuration", "()J", "setAudioDuration", "(J)V", "getAudioProgress", "setAudioProgress", "getDisplayableDuration", "()Ljava/lang/String;", "setDisplayableDuration", "(Ljava/lang/String;)V", "getDisplayableProgress", "setDisplayableProgress", "getFormat", "setFormat", "getNumber", "setNumber", "getPlaybackState", "()Lcom/example/data/audio/AudioMediaData$PlaybackState;", "setPlaybackState", "(Lcom/example/data/audio/AudioMediaData$PlaybackState;)V", "getUrl", "setUrl", "component1", "component2", "component3", "component4", "component5", "component6", "component7", "component8", "copy", "describeContents", "", "equals", "", "other", "", "hashCode", "toString", "writeToParcel", "", "parcel", "Landroid/os/Parcel;", "flags", "daos_devDebug"})
     public static final class MetaData implements android.os.Parcelable {
         @org.jetbrains.annotations.NotNull()
         private java.lang.String url;
+        @org.jetbrains.annotations.NotNull()
+        private java.lang.String format;
         private long number;
         private long audioDuration;
         private long audioProgress;
@@ -612,8 +596,6 @@ public final class AudioMediaData implements android.os.Parcelable {
         private java.lang.String displayableProgress;
         @org.jetbrains.annotations.NotNull()
         private com.example.data.audio.AudioMediaData.PlaybackState playbackState;
-        @org.jetbrains.annotations.NotNull()
-        private java.lang.String format;
         public static final android.os.Parcelable.Creator CREATOR = null;
         
         @org.jetbrains.annotations.NotNull()
@@ -622,6 +604,15 @@ public final class AudioMediaData implements android.os.Parcelable {
         }
         
         public final void setUrl(@org.jetbrains.annotations.NotNull()
+        java.lang.String p0) {
+        }
+        
+        @org.jetbrains.annotations.NotNull()
+        public final java.lang.String getFormat() {
+            return null;
+        }
+        
+        public final void setFormat(@org.jetbrains.annotations.NotNull()
         java.lang.String p0) {
         }
         
@@ -673,21 +664,12 @@ public final class AudioMediaData implements android.os.Parcelable {
         com.example.data.audio.AudioMediaData.PlaybackState p0) {
         }
         
-        @org.jetbrains.annotations.NotNull()
-        public final java.lang.String getFormat() {
-            return null;
-        }
-        
-        public final void setFormat(@org.jetbrains.annotations.NotNull()
-        java.lang.String p0) {
-        }
-        
         public MetaData(@org.jetbrains.annotations.NotNull()
-        java.lang.String url, long number, long audioDuration, long audioProgress, @org.jetbrains.annotations.NotNull()
+        java.lang.String url, @org.jetbrains.annotations.NotNull()
+        java.lang.String format, long number, long audioDuration, long audioProgress, @org.jetbrains.annotations.NotNull()
         java.lang.String displayableDuration, @org.jetbrains.annotations.NotNull()
         java.lang.String displayableProgress, @org.jetbrains.annotations.NotNull()
-        com.example.data.audio.AudioMediaData.PlaybackState playbackState, @org.jetbrains.annotations.NotNull()
-        java.lang.String format) {
+        com.example.data.audio.AudioMediaData.PlaybackState playbackState) {
             super();
         }
         
@@ -700,8 +682,9 @@ public final class AudioMediaData implements android.os.Parcelable {
             return null;
         }
         
-        public final long component2() {
-            return 0L;
+        @org.jetbrains.annotations.NotNull()
+        public final java.lang.String component2() {
+            return null;
         }
         
         public final long component3() {
@@ -712,9 +695,8 @@ public final class AudioMediaData implements android.os.Parcelable {
             return 0L;
         }
         
-        @org.jetbrains.annotations.NotNull()
-        public final java.lang.String component5() {
-            return null;
+        public final long component5() {
+            return 0L;
         }
         
         @org.jetbrains.annotations.NotNull()
@@ -723,22 +705,22 @@ public final class AudioMediaData implements android.os.Parcelable {
         }
         
         @org.jetbrains.annotations.NotNull()
-        public final com.example.data.audio.AudioMediaData.PlaybackState component7() {
+        public final java.lang.String component7() {
             return null;
         }
         
         @org.jetbrains.annotations.NotNull()
-        public final java.lang.String component8() {
+        public final com.example.data.audio.AudioMediaData.PlaybackState component8() {
             return null;
         }
         
         @org.jetbrains.annotations.NotNull()
         public final com.example.data.audio.AudioMediaData.MetaData copy(@org.jetbrains.annotations.NotNull()
-        java.lang.String url, long number, long audioDuration, long audioProgress, @org.jetbrains.annotations.NotNull()
+        java.lang.String url, @org.jetbrains.annotations.NotNull()
+        java.lang.String format, long number, long audioDuration, long audioProgress, @org.jetbrains.annotations.NotNull()
         java.lang.String displayableDuration, @org.jetbrains.annotations.NotNull()
         java.lang.String displayableProgress, @org.jetbrains.annotations.NotNull()
-        com.example.data.audio.AudioMediaData.PlaybackState playbackState, @org.jetbrains.annotations.NotNull()
-        java.lang.String format) {
+        com.example.data.audio.AudioMediaData.PlaybackState playbackState) {
             return null;
         }
         
@@ -938,22 +920,31 @@ public final class AudioMediaData implements android.os.Parcelable {
     
     @kotlin.Metadata(mv = {1, 1, 16}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000B\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0010\u000e\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u000b\n\u0002\u0018\u0002\n\u0000\u0018\u00002\u00020\u0001B\u0005\u00a2\u0006\u0002\u0010\u0002J\u0006\u0010-\u001a\u00020.R\u001c\u0010\u0003\u001a\u0004\u0018\u00010\u0004X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0005\u0010\u0006\"\u0004\b\u0007\u0010\bR\u001c\u0010\t\u001a\u0004\u0018\u00010\nX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u000b\u0010\f\"\u0004\b\r\u0010\u000eR\u001a\u0010\u000f\u001a\u00020\u0010X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0011\u0010\u0012\"\u0004\b\u0013\u0010\u0014R\u001c\u0010\u0015\u001a\u0004\u0018\u00010\u0016X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0017\u0010\u0018\"\u0004\b\u0019\u0010\u001aR\u001c\u0010\u001b\u001a\u0004\u0018\u00010\u001cX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001d\u0010\u001e\"\u0004\b\u001f\u0010 R\u001c\u0010!\u001a\u0004\u0018\u00010\"X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b#\u0010$\"\u0004\b%\u0010&R\u001a\u0010\'\u001a\u00020\u0010X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b(\u0010\u0012\"\u0004\b)\u0010\u0014R\u001a\u0010*\u001a\u00020\u0010X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b+\u0010\u0012\"\u0004\b,\u0010\u0014\u00a8\u0006/"}, d2 = {"Lcom/example/data/audio/AudioMediaData$Builder;", "", "()V", "authorData", "Lcom/example/data/audio/AudioMediaData$AuthorData;", "getAuthorData", "()Lcom/example/data/audio/AudioMediaData$AuthorData;", "setAuthorData", "(Lcom/example/data/audio/AudioMediaData$AuthorData;)V", "data", "Lcom/example/data/audio/AudioMediaData$Data;", "getData", "()Lcom/example/data/audio/AudioMediaData$Data;", "setData", "(Lcom/example/data/audio/AudioMediaData$Data;)V", "id", "", "getId", "()Ljava/lang/String;", "setId", "(Ljava/lang/String;)V", "imageMetaData", "Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "getImageMetaData", "()Lcom/example/data/audio/AudioMediaData$ImageMetaData;", "setImageMetaData", "(Lcom/example/data/audio/AudioMediaData$ImageMetaData;)V", "mediaMetaData", "Lcom/example/data/audio/AudioMediaData$MediaMetaData;", "getMediaMetaData", "()Lcom/example/data/audio/AudioMediaData$MediaMetaData;", "setMediaMetaData", "(Lcom/example/data/audio/AudioMediaData$MediaMetaData;)V", "metaData", "Lcom/example/data/audio/AudioMediaData$MetaData;", "getMetaData", "()Lcom/example/data/audio/AudioMediaData$MetaData;", "setMetaData", "(Lcom/example/data/audio/AudioMediaData$MetaData;)V", "subTitle", "getSubTitle", "setSubTitle", "title", "getTitle", "setTitle", "build", "Lcom/example/data/audio/AudioMediaData;", "daos_devDebug"})
     public static final class Builder {
+        @org.jetbrains.annotations.Nullable()
+        private com.example.data.audio.AudioMediaData.Data data;
         @org.jetbrains.annotations.NotNull()
         private java.lang.String id = "";
         @org.jetbrains.annotations.Nullable()
-        private com.example.data.audio.AudioMediaData.Data data;
+        private com.example.data.audio.AudioMediaData.MetaData metaData;
+        @org.jetbrains.annotations.NotNull()
+        private java.lang.String title = "";
         @org.jetbrains.annotations.Nullable()
         private com.example.data.audio.AudioMediaData.AuthorData authorData;
-        @org.jetbrains.annotations.Nullable()
-        private com.example.data.audio.AudioMediaData.MetaData metaData;
+        @org.jetbrains.annotations.NotNull()
+        private java.lang.String subTitle = "";
         @org.jetbrains.annotations.Nullable()
         private com.example.data.audio.AudioMediaData.MediaMetaData mediaMetaData;
         @org.jetbrains.annotations.Nullable()
         private com.example.data.audio.AudioMediaData.ImageMetaData imageMetaData;
-        @org.jetbrains.annotations.NotNull()
-        private java.lang.String title = "";
-        @org.jetbrains.annotations.NotNull()
-        private java.lang.String subTitle = "";
+        
+        @org.jetbrains.annotations.Nullable()
+        public final com.example.data.audio.AudioMediaData.Data getData() {
+            return null;
+        }
+        
+        public final void setData(@org.jetbrains.annotations.Nullable()
+        com.example.data.audio.AudioMediaData.Data p0) {
+        }
         
         @org.jetbrains.annotations.NotNull()
         public final java.lang.String getId() {
@@ -965,12 +956,21 @@ public final class AudioMediaData implements android.os.Parcelable {
         }
         
         @org.jetbrains.annotations.Nullable()
-        public final com.example.data.audio.AudioMediaData.Data getData() {
+        public final com.example.data.audio.AudioMediaData.MetaData getMetaData() {
             return null;
         }
         
-        public final void setData(@org.jetbrains.annotations.Nullable()
-        com.example.data.audio.AudioMediaData.Data p0) {
+        public final void setMetaData(@org.jetbrains.annotations.Nullable()
+        com.example.data.audio.AudioMediaData.MetaData p0) {
+        }
+        
+        @org.jetbrains.annotations.NotNull()
+        public final java.lang.String getTitle() {
+            return null;
+        }
+        
+        public final void setTitle(@org.jetbrains.annotations.NotNull()
+        java.lang.String p0) {
         }
         
         @org.jetbrains.annotations.Nullable()
@@ -982,13 +982,13 @@ public final class AudioMediaData implements android.os.Parcelable {
         com.example.data.audio.AudioMediaData.AuthorData p0) {
         }
         
-        @org.jetbrains.annotations.Nullable()
-        public final com.example.data.audio.AudioMediaData.MetaData getMetaData() {
+        @org.jetbrains.annotations.NotNull()
+        public final java.lang.String getSubTitle() {
             return null;
         }
         
-        public final void setMetaData(@org.jetbrains.annotations.Nullable()
-        com.example.data.audio.AudioMediaData.MetaData p0) {
+        public final void setSubTitle(@org.jetbrains.annotations.NotNull()
+        java.lang.String p0) {
         }
         
         @org.jetbrains.annotations.Nullable()
@@ -1007,24 +1007,6 @@ public final class AudioMediaData implements android.os.Parcelable {
         
         public final void setImageMetaData(@org.jetbrains.annotations.Nullable()
         com.example.data.audio.AudioMediaData.ImageMetaData p0) {
-        }
-        
-        @org.jetbrains.annotations.NotNull()
-        public final java.lang.String getTitle() {
-            return null;
-        }
-        
-        public final void setTitle(@org.jetbrains.annotations.NotNull()
-        java.lang.String p0) {
-        }
-        
-        @org.jetbrains.annotations.NotNull()
-        public final java.lang.String getSubTitle() {
-            return null;
-        }
-        
-        public final void setSubTitle(@org.jetbrains.annotations.NotNull()
-        java.lang.String p0) {
         }
         
         @org.jetbrains.annotations.NotNull()

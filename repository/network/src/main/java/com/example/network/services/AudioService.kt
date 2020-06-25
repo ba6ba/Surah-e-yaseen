@@ -12,11 +12,6 @@ interface AudioService {
     @GET("chapters/{chapterNumber}/verses/{verseId}/audio_files")
     suspend fun getAudio(@Path(value = "chapterNumber", encoded = true) chapterNumber : Int,
         @Path(value = "verseId", encoded = true) verseId : Int, @Query("recitation") reciterId : Int = 7,
-        @Query("language") language : String = LanguageProvider.getDefaultLanguageCode) : AudioApiResponse
-
-    @GET("chapters/{chapterNumber}/verses/{verseId}/audio_files")
-    suspend fun getAudio1(@Path(value = "chapterNumber", encoded = true) chapterNumber : Int,
-        @Path(value = "verseId", encoded = true) verseId : Int, @Query("recitation") reciterId : Int = 7,
         @Query("language") language : String = LanguageProvider.getDefaultLanguageCode) : Response<AudioApiResponse>
 
 }

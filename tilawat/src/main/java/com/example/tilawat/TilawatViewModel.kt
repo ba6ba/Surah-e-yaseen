@@ -165,14 +165,16 @@ class TilawatViewModel constructor(
 
     private fun sendDataToService(list: List<AudioMediaData>) {
         audioDataProvider.apply {
-            updateList(list)
-            sendCommandToService(mapMetaDataFromList())
+            list.hasDataToShow {
+                updateList(this)
+                sendCommandToService(mapMetaDataFromList())
+            }
         }
     }
 
     private fun fetchFromRepository(verseNumber: Int) {
         viewModelScope.launch {
-            audioMediaDataRepository.fetchDataFor(audioDataProvider.buildAudioHelperData(verseNumber)) {
+            audioMediaDataRepository.fetchData(audioDataProvider.buildAudioHelperData(verseNumber)) {
                 when(status) {
                     Status.LOADING -> {}
                     Status.SUCCESS -> {

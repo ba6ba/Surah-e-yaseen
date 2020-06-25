@@ -55,7 +55,7 @@ class AudioDataProvider : IAudioData, KoinComponent {
 
     override fun buildAudioHelperData(verseNumber: Int): AudioHelperData =
         AudioHelperData(
-            currentAudioId = AudioMediaIdGenerator.generate(verseNumber, getSurahYaseen),
+            currentAudioId = AudioMediaIdProvider.generate(verseNumber, getSurahYaseen),
             audioClipModel = createAudioClipModel(verseNumber),
             title = tilawatChapterProvider.surahName,
             authorData = tilawatChapterProvider.authorData!!,

@@ -16,14 +16,14 @@ class AudioMediaDataRepository constructor(
     private val audioMediaDataMapper: IAudioMediaDataMapper
 ) {
 
-    suspend fun fetchDataFor(audioHelperData: AudioHelperData, callback: suspend Resource<List<AudioMediaData>>.() -> Unit) {
+    suspend fun fetchData(audioHelperData: AudioHelperData, callback: suspend Resource<List<AudioMediaData>>.() -> Unit) {
         object : Repository<List<AudioMediaData>, AudioApiResponse>() {
             override suspend fun loadFromDb(): List<AudioMediaData> {
                 return audioMediaDataDao.getAll() ?: emptyList()
             }
 
             override suspend fun fetchFromRemote(): ApiResponse<AudioApiResponse>? {
-                return audioNetworkRepository.getAudioClipData1(audioHelperData.audioClipModel)
+                return audioNetworkRepository.getAudioClipData(audioHelperData.audioClipModel)
             }
 
             override fun needToFetchFromRemote(data: List<AudioMediaData>): Boolean {

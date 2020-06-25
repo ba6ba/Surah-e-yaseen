@@ -36,14 +36,16 @@ public final class AppDatabase_Impl extends AppDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `AudioMediaData` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `subTitle` TEXT NOT NULL, `album` TEXT NOT NULL, `genre` TEXT NOT NULL, `data` TEXT, `imageMetaData` TEXT, `metaData` TEXT, `authorData` TEXT, `mediaMetaData` TEXT, PRIMARY KEY(`id`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `AudioMediaData` (`id` TEXT NOT NULL, `data` TEXT, `genre` TEXT NOT NULL, `title` TEXT NOT NULL, `album` TEXT NOT NULL, `subTitle` TEXT NOT NULL, `metaData` TEXT, `authorData` TEXT, `imageMetaData` TEXT, `mediaMetaData` TEXT, PRIMARY KEY(`id`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `LastSavedData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `lastSavedAudio` TEXT NOT NULL, `lastSavedReadingContent` TEXT NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b93c03695fca264dca8c7d64b0bfbcbd')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e8daadf7e8a044955c84f87230d5927f')");
       }
 
       @Override
       public void dropAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("DROP TABLE IF EXISTS `AudioMediaData`");
+        _db.execSQL("DROP TABLE IF EXISTS `LastSavedData`");
         if (mCallbacks != null) {
           for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
             mCallbacks.get(_i).onDestructiveMigration(_db);
@@ -84,14 +86,14 @@ public final class AppDatabase_Impl extends AppDatabase {
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
         final HashMap<String, TableInfo.Column> _columnsAudioMediaData = new HashMap<String, TableInfo.Column>(10);
         _columnsAudioMediaData.put("id", new TableInfo.Column("id", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsAudioMediaData.put("title", new TableInfo.Column("title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsAudioMediaData.put("subTitle", new TableInfo.Column("subTitle", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsAudioMediaData.put("album", new TableInfo.Column("album", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsAudioMediaData.put("genre", new TableInfo.Column("genre", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsAudioMediaData.put("data", new TableInfo.Column("data", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsAudioMediaData.put("imageMetaData", new TableInfo.Column("imageMetaData", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAudioMediaData.put("genre", new TableInfo.Column("genre", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAudioMediaData.put("title", new TableInfo.Column("title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAudioMediaData.put("album", new TableInfo.Column("album", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAudioMediaData.put("subTitle", new TableInfo.Column("subTitle", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsAudioMediaData.put("metaData", new TableInfo.Column("metaData", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsAudioMediaData.put("authorData", new TableInfo.Column("authorData", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsAudioMediaData.put("imageMetaData", new TableInfo.Column("imageMetaData", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsAudioMediaData.put("mediaMetaData", new TableInfo.Column("mediaMetaData", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysAudioMediaData = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesAudioMediaData = new HashSet<TableInfo.Index>(0);
@@ -102,9 +104,22 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoAudioMediaData + "\n"
                   + " Found:\n" + _existingAudioMediaData);
         }
+        final HashMap<String, TableInfo.Column> _columnsLastSavedData = new HashMap<String, TableInfo.Column>(3);
+        _columnsLastSavedData.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLastSavedData.put("lastSavedAudio", new TableInfo.Column("lastSavedAudio", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLastSavedData.put("lastSavedReadingContent", new TableInfo.Column("lastSavedReadingContent", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysLastSavedData = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesLastSavedData = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoLastSavedData = new TableInfo("LastSavedData", _columnsLastSavedData, _foreignKeysLastSavedData, _indicesLastSavedData);
+        final TableInfo _existingLastSavedData = TableInfo.read(_db, "LastSavedData");
+        if (! _infoLastSavedData.equals(_existingLastSavedData)) {
+          return new RoomOpenHelper.ValidationResult(false, "LastSavedData(com.example.data.lastsaved.LastSavedData).\n"
+                  + " Expected:\n" + _infoLastSavedData + "\n"
+                  + " Found:\n" + _existingLastSavedData);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "b93c03695fca264dca8c7d64b0bfbcbd", "96dc44cebd0c2b965adfadedbbef8ed9");
+    }, "e8daadf7e8a044955c84f87230d5927f", "f3513eb4e480832a1833a8f43094a5c3");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -117,7 +132,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "AudioMediaData");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "AudioMediaData","LastSavedData");
   }
 
   @Override
@@ -127,6 +142,7 @@ public final class AppDatabase_Impl extends AppDatabase {
     try {
       super.beginTransaction();
       _db.execSQL("DELETE FROM `AudioMediaData`");
+      _db.execSQL("DELETE FROM `LastSavedData`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();

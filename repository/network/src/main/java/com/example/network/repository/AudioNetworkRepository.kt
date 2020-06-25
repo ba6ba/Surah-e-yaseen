@@ -8,13 +8,8 @@ import com.example.network.services.AudioService
 
 class AudioNetworkRepository(private val audioService : AudioService) : NetworkRepository() {
 
-    suspend fun getAudioClipData(audioClipModel: AudioClipModel, errorHandler: ErrorHandler) : AudioApiResponse? =
-        makeApiCall(errorHandler) {
-            audioService.getAudio(audioClipModel.chapterId, audioClipModel.verseId, audioClipModel.reciterId)
-        }
-
-    suspend fun getAudioClipData1(audioClipModel: AudioClipModel) : ApiResponse<AudioApiResponse> =
+    suspend fun getAudioClipData(audioClipModel: AudioClipModel) : ApiResponse<AudioApiResponse> =
         apiCall {
-            audioService.getAudio1(audioClipModel.chapterId, audioClipModel.verseId, audioClipModel.reciterId)
+            audioService.getAudio(audioClipModel.chapterId, audioClipModel.verseId, audioClipModel.reciterId)
         }
 }

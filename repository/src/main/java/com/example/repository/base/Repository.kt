@@ -26,7 +26,7 @@ internal constructor() : CoroutineScope by MainScope() {
                                 saveRemoteDataIntoDb(remoteData?.data)
                                 val newData = loadFromDb()
                                 newData.nonNull {
-                                    postResult(Resource.success(loadFromDb))
+                                    postResult(Resource.success(newData))
                                 } ?: postResult(Resource.error(ErrorType.DATABASE, null))
                             }
                         } ?: postResult(Resource.error(ErrorType.NETWORK, loadFromDb))

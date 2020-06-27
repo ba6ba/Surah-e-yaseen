@@ -13,8 +13,11 @@ interface AudioMediaDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAll(listAudioMediaData: List<AudioMediaData>)
 
+    @Query("UPDATE AudioMediaData SET authorData = :authorData WHERE id = :audioId")
+    suspend fun update(authorData: AudioMediaData.AuthorData, audioId : String)
+
     @Update
-    suspend fun update(audioMediaData: AudioMediaData)
+    suspend fun updateAll(listAudioMediaData: List<AudioMediaData>)
 
     @Query("SELECT * FROM AudioMediaData WHERE id = :id")
     suspend fun get(id: String): AudioMediaData?

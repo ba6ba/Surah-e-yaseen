@@ -6,6 +6,7 @@ import androidx.room.EntityDeletionOrUpdateAdapter;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
 import androidx.room.RoomSQLiteQuery;
+import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
@@ -43,6 +44,8 @@ public final class AudioMediaDataDao_Impl implements AudioMediaDataDao {
   private final MediaMetaDataConverter __mediaMetaDataConverter = new MediaMetaDataConverter();
 
   private final EntityDeletionOrUpdateAdapter<AudioMediaData> __updateAdapterOfAudioMediaData;
+
+  private final SharedSQLiteStatement __preparedStmtOfUpdate;
 
   public AudioMediaDataDao_Impl(RoomDatabase __db) {
     this.__db = __db;
@@ -191,6 +194,13 @@ public final class AudioMediaDataDao_Impl implements AudioMediaDataDao {
         }
       }
     };
+    this.__preparedStmtOfUpdate = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "UPDATE AudioMediaData SET authorData = ? WHERE id = ?";
+        return _query;
+      }
+    };
   }
 
   @Override
@@ -229,13 +239,14 @@ public final class AudioMediaDataDao_Impl implements AudioMediaDataDao {
   }
 
   @Override
-  public Object update(final AudioMediaData audioMediaData, final Continuation<? super Unit> p1) {
+  public Object updateAll(final List<AudioMediaData> listAudioMediaData,
+      final Continuation<? super Unit> p1) {
     return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
       @Override
       public Unit call() throws Exception {
         __db.beginTransaction();
         try {
-          __updateAdapterOfAudioMediaData.handle(audioMediaData);
+          __updateAdapterOfAudioMediaData.handleMultiple(listAudioMediaData);
           __db.setTransactionSuccessful();
           return Unit.INSTANCE;
         } finally {
@@ -243,6 +254,40 @@ public final class AudioMediaDataDao_Impl implements AudioMediaDataDao {
         }
       }
     }, p1);
+  }
+
+  @Override
+  public Object update(final AudioMediaData.AuthorData authorData, final String audioId,
+      final Continuation<? super Unit> p2) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfUpdate.acquire();
+        int _argIndex = 1;
+        final String _tmp;
+        _tmp = __authorDataConverter.fromList(authorData);
+        if (_tmp == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindString(_argIndex, _tmp);
+        }
+        _argIndex = 2;
+        if (audioId == null) {
+          _stmt.bindNull(_argIndex);
+        } else {
+          _stmt.bindString(_argIndex, audioId);
+        }
+        __db.beginTransaction();
+        try {
+          _stmt.executeUpdateDelete();
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+          __preparedStmtOfUpdate.release(_stmt);
+        }
+      }
+    }, p2);
   }
 
   @Override

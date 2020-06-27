@@ -11,7 +11,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val tilawatModule = module {
-    factory { TilawatViewModel(get(), get(), get(), get(), get()) }
+    factory { TilawatViewModel(get(), get(), get(), get(), get(), get()) }
     single { TilawatChapterProvider() }
     factory { AudioDataProvider() } bind IAudioData::class
 } + translatorsModule + mediaModule + repositoryModule

@@ -22,6 +22,7 @@ import com.example.network.MainDispatcher
 import com.example.network.error.ErrorType
 import com.example.reciters.RecitersProvider
 import com.example.repository.AudioMediaDataRepository
+import com.example.repository.LastSavedAudioDataRepository
 import com.example.repository.base.Status
 import com.example.tilawat.dataprovider.IAudioData
 import kotlinx.coroutines.delay
@@ -37,7 +38,8 @@ class TilawatViewModel constructor(
     private val recitersProvider: RecitersProvider,
     private val audioConnection: AudioServiceConnection,
     private val audioDataProvider : IAudioData,
-    private val audioMediaDataRepository: AudioMediaDataRepository
+    private val audioMediaDataRepository: AudioMediaDataRepository,
+    private val lastSavedAudioDataRepository: LastSavedAudioDataRepository
 ) : BaseViewModel() {
 
     init {
@@ -63,6 +65,7 @@ class TilawatViewModel constructor(
         .apply {
             postValue(0L)
         }
+    private var canPlayAudio = false
 
     fun getTranslators(): LiveData<Reciters> = liveData {
         recitersProvider.getReciters(this@TilawatViewModel)
@@ -97,7 +100,11 @@ class TilawatViewModel constructor(
 
     private fun postMetadataToUI(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat) {
         audioDataProvider.updateCurrentVerse(mediaMetadata.trackNumber)
-        audioMetaData.postValue(audioDataProvider.getCurrentAudioMetaData(playbackState, mediaMetadata))
+        getMetaDataFromProviderAndPostOnUi(playbackState)
+    }
+
+    private fun getMetaDataFromProviderAndPostOnUi(playbackState: PlaybackStateCompat) {
+        audioMetaData.postValue(audioDataProvider.getCurrentAudioMetaData(playbackState))
     }
 
     private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
@@ -200,7 +207,12 @@ class TilawatViewModel constructor(
         }
     }
 
-    fun doFetchOrPlay(verseNumber: Int) {
+    fun play(verseNumber: Int) {
+        canPlayAudio = true
+        doFetchOrPlay(verseNumber)
+    }
+
+    private fun doFetchOrPlay(verseNumber: Int) {
         audioDataProvider.canPlayFromLocalList(verseNumber) {
             it.isTrue {
                 audioDataProvider.getCurrentPlayingMediaMetadata().nonNull {
@@ -212,7 +224,24 @@ class TilawatViewModel constructor(
 
     private fun playMediaIfHasValidId(mediaMetadata: AudioMediaData.MediaMetaData) {
         mediaMetadata.apply {
-            isValid.isTrue { playMediaId(mediaId) } ?: onError(ErrorType.INVALID_AUDIO_DATA)
+            isTrue(isValid and canPlayAudio) { playMediaId(mediaId) } ?: onError(ErrorType.INVALID_AUDIO_DATA)
+        }
+    }
+
+    fun onScreenPaused() {
+        audioDataProvider.getLastSavedAudioData().nonNull {
+            viewModelScope.launch {
+                lastSavedAudioDataRepository.insert(this@nonNull)
+            }
+        }
+    }
+
+    fun checkForLastSavedAudio() {
+        viewModelScope.launch {
+            lastSavedAudioDataRepository.get()?.apply {
+                canPlayAudio = false
+                doFetchOrPlay(audioIndex)
+            }
         }
     }
 }

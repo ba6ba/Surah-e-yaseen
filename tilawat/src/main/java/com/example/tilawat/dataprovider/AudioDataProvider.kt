@@ -4,6 +4,7 @@ import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.example.data.audio.*
+import com.example.data.lastsaved.LastSavedAudio
 import com.example.data.reciters.defaultReciter
 import com.example.extensions.*
 import com.example.media.media.extensions.isPlaying
@@ -14,7 +15,7 @@ import org.koin.core.inject
 
 class AudioDataProvider : IAudioData, KoinComponent {
 
-    private var currentVersePlaying: Int = 0
+    private var currentVersePlaying: Int = 1
     private val audioItemsList: ArrayList<AudioMediaData> = arrayListOf()
     private val tilawatChapterProvider: TilawatChapterProvider by inject()
 
@@ -40,8 +41,7 @@ class AudioDataProvider : IAudioData, KoinComponent {
     }
 
     override fun getCurrentAudioMetaData(
-        playbackState: PlaybackStateCompat,
-        mediaMetadata: MediaMetadataCompat
+        playbackState: PlaybackStateCompat
     ): AudioMediaData.MetaData? =
         getAll().find { it.data?.id == currentVersePlaying }?.metaData
             ?.copy(
@@ -71,11 +71,11 @@ class AudioDataProvider : IAudioData, KoinComponent {
     private fun createAudioClipModel(verseNumber: Int): AudioClipModel =
         AudioClipModel(
             chapterId = getSurahYaseen, reciterId = tilawatChapterProvider.tilawatChapterData.reciterId ?: defaultReciter.id,
-            verseId = tilawatChapterProvider.tilawatAudioClipRange.getMemberFromIndex(verseNumber)
+            verseId = tilawatChapterProvider.tilawatAudioClipRange.getMemberFromIndex(verseNumber.dec())
         )
 
     override fun getAll(): List<AudioMediaData> = audioItemsList.apply {
-        sortedBy { it.data?.audioId }
+        sortedBy { it.data?.id }
     }
 
     override fun getCurrentPlayingMediaMetadata(): AudioMediaData.MediaMetaData =
@@ -97,6 +97,14 @@ class AudioDataProvider : IAudioData, KoinComponent {
     override fun mapMetaDataFromList(): List<ServiceMetaData> =
         getAll().map {
             it.toServiceMetaData
+        }
+
+    override fun getLastSavedAudioData(): LastSavedAudio? =
+        get(currentVersePlaying.dec()).data?.run {
+            LastSavedAudio(
+                audioId = audioId,
+                audioIndex = id
+            )
         }
 
     private val getPlayingState: State

@@ -7,6 +7,7 @@ import com.example.data.audio.Audio
 import com.example.data.audio.AudioHelperData
 import com.example.data.audio.AudioMediaData
 import com.example.data.audio.ServiceMetaData
+import com.example.data.lastsaved.LastSavedAudio
 
 interface IAudioData {
     val authorData : AudioMediaData.AuthorData
@@ -17,9 +18,10 @@ interface IAudioData {
     fun get(index : Int) : AudioMediaData
     fun canPlayFromLocalList(verseNumber: Int, fetchFromRepository : (Boolean) -> Unit)
     fun transformMediaItemDataToAudioMediaData(children: MutableList<MediaBrowserCompat.MediaItem>, itemToPlay: AudioMediaData.() -> Unit)
-    fun getCurrentAudioMetaData(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat): AudioMediaData.MetaData?
+    fun getCurrentAudioMetaData(playbackState: PlaybackStateCompat): AudioMediaData.MetaData?
     fun updateCurrentVerse(verseNumber: Number)
     fun buildAudioHelperData(verseNumber: Int) : AudioHelperData
     fun updateList(list: List<AudioMediaData>)
     fun mapMetaDataFromList(): List<ServiceMetaData>
+    fun getLastSavedAudioData() : LastSavedAudio?
 }

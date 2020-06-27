@@ -32,6 +32,11 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         sideSheetListener()
     }
 
+    override fun onPause() {
+        super.onPause()
+        tilawatViewModel.onScreenPaused()
+    }
+
     private fun sideSheetListener() {
         sideSheet.onStateChangeListener = {
             FlowData.viewStateChangeLiveData.postValue(SideSheetStates.EXPAND == it)
@@ -46,7 +51,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     private fun setObservers() {
         audioPlayer.onPlayClick = {
             updateCurrentAudioPlayingLayout(it)
-            tilawatViewModel.doFetchOrPlay(it)
+            tilawatViewModel.play(it)
         }
         viewModelObservers()
     }
@@ -62,19 +67,20 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     }
 
     private fun setVerseCounterText(number: Number) {
-        currentAudioNumber.text = number.toInt().inc().asFormatted(format = tilawatViewModel.formatToDisplayVerseCount)
+        currentAudioNumber.text = number.toInt().asFormatted(format = tilawatViewModel.formatToDisplayVerseCount)
     }
 
     private fun viewModelObservers() {
         observeOnceOnLifecycle(tilawatViewModel.tilawatChapterData) { chapter ->
             chapter.hasValidReciter.isTrue {
                 updateViews(chapter)
+                tilawatViewModel.checkForLastSavedAudio()
             } ?: observeReciters()
         }
 
         observeOnceOnLifecycle(tilawatViewModel.audioMetaData) { metaData ->
             audioPlayer.updatePlayer(metaData)
-            setVerseCounterText(metaData.number)
+            updateCurrentAudioPlayingLayout(metaData.number.toInt())
         }
 
         observeDistinctUntilChangedOnLifecycle(tilawatViewModel.currentDurationLiveData) { duration ->

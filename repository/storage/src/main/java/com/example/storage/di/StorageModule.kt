@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.storage.AppDatabase
 import com.example.storage.AppDatabaseCallback
 import com.example.storage.dao.AudioMediaDataDao
+import com.example.storage.dao.LastSavedAudioDataDao
 import com.example.storage.dao.SurahDao
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
@@ -14,6 +15,7 @@ val storageModule = module {
     single { provideAppDatabase(androidApplication()) }
     single { provideSurahDao(get()) }
     single { provideAudioMediaDataDao(get()) }
+    single { provideLastSavedAudioDataDao(get()) }
 }
 
 fun provideAppDatabase(application: Application): AppDatabase =
@@ -25,3 +27,6 @@ fun provideAudioMediaDataDao(appDatabase: AppDatabase): AudioMediaDataDao =
 
 fun provideSurahDao(appDatabase: AppDatabase): SurahDao =
     appDatabase.surahDao()
+
+fun provideLastSavedAudioDataDao(appDatabase: AppDatabase): LastSavedAudioDataDao =
+    appDatabase.lastSavedAudioDataDao()

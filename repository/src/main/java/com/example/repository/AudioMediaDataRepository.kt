@@ -3,12 +3,15 @@ package com.example.repository
 import com.example.data.audio.AudioApiResponse
 import com.example.data.audio.AudioHelperData
 import com.example.data.audio.AudioMediaData
+import com.example.data.hasData
 import com.example.network.ApiResponse
+import com.example.network.IODispatcher
 import com.example.network.repository.AudioNetworkRepository
 import com.example.repository.base.Repository
 import com.example.repository.base.Resource
 import com.example.repository.dataprovider.IAudioMediaDataMapper
 import com.example.storage.dao.AudioMediaDataDao
+import kotlinx.coroutines.withContext
 
 class AudioMediaDataRepository constructor(
     private val audioMediaDataDao: AudioMediaDataDao,
@@ -40,5 +43,20 @@ class AudioMediaDataRepository constructor(
                 }
             }
         }
+    }
+
+    suspend fun updateAuthorForAll(authorData: AudioMediaData.AuthorData) {
+        val allAudioData = audioMediaDataDao.getAll()
+        if (allAudioData.hasData()) {
+            withContext(IODispatcher) {
+                allAudioData?.apply {
+                    map { it.authorData = authorData }
+                }
+            }
+        }
+    }
+
+    suspend fun updateAuthor(audioId : String, authorData: AudioMediaData.AuthorData) {
+        audioMediaDataDao.update(authorData, audioId)
     }
 }

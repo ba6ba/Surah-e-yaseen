@@ -65,7 +65,7 @@ class CustomAudioPlayer @JvmOverloads constructor(
     }
 
     private fun actionOnCounter() {
-        onPlayClick(makeCounterValue)
+        onPlayClick(counterValue)
     }
 
     private fun visibilityOfIcons() {
@@ -102,11 +102,8 @@ class CustomAudioPlayer @JvmOverloads constructor(
         seekBar.max = metaData.audioDuration.toInt()
         setTotalDuration(metaData.displayableDuration)
         playerState = metaData.playbackState
-        counterValue = metaData.number.inc().toInt()
+        counterValue = metaData.number.toInt()
     }
-
-    private val makeCounterValue
-        get() = counterValue - 1
 
     private fun canPlayOnPreviousIndex() = if (counterValue == resetValue) null else counterValue.dec().also { counterValue = it }
 

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1032665700331",
+    "project_id": "surah-e-yaseen-d373f",
+    "storage_bucket": "surah-e-yaseen-d373f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032665700331:android:ab2d3839d4f53af9582bae",
+        "android_client_info": {
+          "package_name": "com.example.surah_e_yaseen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032665700331-2sb6e9gmas7cgqvbk1ail0uuqo6822uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Xq1RgPl4fZVY31ba0SoyiGNhXpLAj_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032665700331-2sb6e9gmas7cgqvbk1ail0uuqo6822uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032665700331:android:1ca8e12d3016cdec582bae",
+        "android_client_info": {
+          "package_name": "com.example.surah_e_yaseen.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032665700331-2sb6e9gmas7cgqvbk1ail0uuqo6822uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Xq1RgPl4fZVY31ba0SoyiGNhXpLAj_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032665700331-2sb6e9gmas7cgqvbk1ail0uuqo6822uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

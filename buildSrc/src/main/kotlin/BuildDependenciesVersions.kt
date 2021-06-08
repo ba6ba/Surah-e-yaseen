@@ -2,6 +2,7 @@ object BuildDependenciesVersions {
 
     const val gradle = "3.6.3"
     const val googleServices = "4.3.3"
+    const val appDistribution = "2.1.2"
     const val kotlin = "1.3.72"
     const val materialDesignNew = "1.2.0-alpha05"
     const val appcompat = "1.2.0-alpha03"

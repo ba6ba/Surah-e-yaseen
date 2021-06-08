@@ -10,6 +10,7 @@ buildscript {
     dependencies {
         classpath(Dependencies.kotlinGradle)
         classpath(Dependencies.googleServices)
+        classpath(Dependencies.appDistribution)
     }
 }
 

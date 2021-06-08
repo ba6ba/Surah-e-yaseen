@@ -16,13 +16,13 @@ jobs:
           java-version: 1.8
 
       - name: Assemble Staging release APK
-        run: bash ./gradlew assembleStagingRelease --stacktrace
+        run: bash ./gradlew assembleDevDebug --stacktrace
 
-      - name: Upload QA Debug APK
+      - name: Upload Debug APK
         uses: actions/upload-artifact@v1
         with:
-          name: app-staging-release
-          path: app/build/outputs/apk/staging/release/app-staging-release.apk
+          name: app-release
+          path: app/build/outputs/apk/dev/debug/app-dev-debug.apk
 
       - name: Branch name from push
         if: github.event_name == 'push'
@@ -49,8 +49,8 @@ jobs:
       - name: upload QA build to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
         with:
-          appId: ${{ secrets.FIREBASE_APP_ID_DEV }}
+          appId: ${{ secrets.FIREBASE_APP_ID }}
           token: ${{ secrets.FIREBASE_TOKEN }}
-          groups: QA
-          file: app/build/outputs/apk/staging/release/app-staging-release.apk
+          groups: Testers
+          file: app/build/outputs/apk/dev/debug/app-dev-debug.apk
           releaseNotes: "--QA-Debug-build \n--Branch Name: *${{ steps.extract_branch_push.outputs.branch_push }}*  \n--Release Notes: ${{ steps.pr_get_commit_message.outputs.pr_commit_message }} ${{ steps.push_get_commit_message.outputs.push_commit_message }}"

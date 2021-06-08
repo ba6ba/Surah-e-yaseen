@@ -1,0 +1,39 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.media"
+4    android:versionName="-dev" >
+5
+6    <uses-sdk
+7        android:minSdkVersion="23"
+7-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml
+8        android:targetSdkVersion="29" />
+8-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml
+9
+10    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+10-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:4:5-77
+10-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:4:22-74
+11
+12    <application>
+12-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:6:5-22:19
+13
+14        <!--
+15             MediaSession, prior to API 21, uses a broadcast receiver to communicate with a
+16             media session. It does not have to be this broadcast receiver, but it must
+17             handle the action "android.intent.action.MEDIA_BUTTON".
+18
+19             Additionally, this is used to resume the service from an inactive state upon
+20             receiving a media button event (such as "play").
+21        -->
+22        <receiver android:name="androidx.media.session.MediaButtonReceiver" >
+22-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:16:9-20:20
+22-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:16:19-76
+23            <intent-filter>
+23-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:17:13-19:29
+24                <action android:name="android.intent.action.MEDIA_BUTTON" />
+24-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:18:17-77
+24-->/Users/apple/Surah-e-yaseen/media/src/main/AndroidManifest.xml:18:25-74
+25            </intent-filter>
+26        </receiver>
+27    </application>
+28
+29</manifest>

@@ -5,4 +5,5 @@ object BuildPlugins {
 	const val kotlinKapt = "kotlin-kapt"
 	const val kotlinAndroid = "kotlin-android"
     const val googleServices = "com.google.gms.google-services"
+    const val firebaseAppDistribution = "com.google.firebase.appdistribution"
 }

@@ -6,6 +6,7 @@ plugins {
     id(BuildPlugins.kotlinAndroid)
     id(BuildPlugins.kotlinAndroidExtension)
     id(BuildPlugins.kotlinKapt)
+    id(BuildPlugins.firebaseAppDistribution)
 }
 
 android {

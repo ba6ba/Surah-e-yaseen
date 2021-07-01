@@ -28,7 +28,7 @@ val mediaModule = module {
             ComponentName(androidContext(), AudioService::class.java)
         )
     }
-    factory { RemoteSource() } bind AudioSource::class
+    factory { RemoteSource(get()) } bind AudioSource::class
     single { MediaSessionCompat(get(), AudioService.TAG) }
     factory { NoisyReceiver(get()) }
     factory { NotificationBuilder(get()) }

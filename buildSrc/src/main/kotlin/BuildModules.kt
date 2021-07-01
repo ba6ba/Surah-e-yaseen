@@ -12,9 +12,11 @@ object BuildModules {
     const val sidesheet = ":sidesheet"
     const val reciters = ":reciters"
     const val listpager = ":listpager"
-    const val network = ":network"
-    const val data = ":data"
+    const val daos = ":daos"
     const val audioplayer = ":audioplayer"
     const val media = ":media"
     const val shared = ":shared"
+    const val repository = ":repository"
+    const val network = ":repository:network"
+    const val storage = ":repository:storage"
 }

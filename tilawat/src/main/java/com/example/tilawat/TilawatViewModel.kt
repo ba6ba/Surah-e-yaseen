@@ -6,7 +6,9 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import androidx.lifecycle.*
 import com.example.core.BaseViewModel
-import com.example.data.audio.*
+import com.example.data.audio.AudioMediaData
+import com.example.data.audio.ServiceMetaData
+import com.example.data.audio.isValid
 import com.example.data.reciters.ReciterWrapper
 import com.example.data.reciters.toWrapperList
 import com.example.extensions.*
@@ -16,14 +18,18 @@ import com.example.media.media.connection.NOTHING_PLAYING
 import com.example.media.media.extensions.*
 import com.example.media.media.service.AudioService
 import com.example.media.media.service.MediaHelper
-import com.example.network.error.ApiErrorType
+import com.example.network.MainDispatcher
+import com.example.network.error.ErrorType
 import com.example.reciters.RecitersProvider
+import com.example.repository.AudioMediaDataRepository
+import com.example.repository.LastSavedAudioDataRepository
+import com.example.repository.base.Status
 import com.example.tilawat.dataprovider.IAudioData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.ArrayList
-import kotlin.time.Duration
 
 typealias Reciters = List<ReciterWrapper>
 
@@ -31,14 +37,16 @@ class TilawatViewModel constructor(
     private val tilawatChapterProvider: TilawatChapterProvider,
     private val recitersProvider: RecitersProvider,
     private val audioConnection: AudioServiceConnection,
-    private val audioDataProvider : IAudioData
+    private val audioDataProvider : IAudioData,
+    private val audioMediaDataRepository: AudioMediaDataRepository,
+    private val lastSavedAudioDataRepository: LastSavedAudioDataRepository
 ) : BaseViewModel() {
 
     init {
         viewModelScope.launch {
             Transformations.map(audioConnection.networkFailure) {
                 it.isTrue {
-                    onError(ApiErrorType.NETWORK)
+                    onError(ErrorType.NETWORK)
                 }
             }
         }
@@ -57,6 +65,7 @@ class TilawatViewModel constructor(
         .apply {
             postValue(0L)
         }
+    private var canPlayAudio = false
 
     fun getTranslators(): LiveData<Reciters> = liveData {
         recitersProvider.getReciters(this@TilawatViewModel)
@@ -91,7 +100,11 @@ class TilawatViewModel constructor(
 
     private fun postMetadataToUI(playbackState: PlaybackStateCompat, mediaMetadata: MediaMetadataCompat) {
         audioDataProvider.updateCurrentVerse(mediaMetadata.trackNumber)
-        audioMetaData.postValue(audioDataProvider.getCurrentAudioMetaData(playbackState, mediaMetadata))
+        getMetaDataFromProviderAndPostOnUi(playbackState)
+    }
+
+    private fun getMetaDataFromProviderAndPostOnUi(playbackState: PlaybackStateCompat) {
+        audioMetaData.postValue(audioDataProvider.getCurrentAudioMetaData(playbackState))
     }
 
     private val mediaMetadataObserver = Observer<MediaMetadataCompat> {
@@ -157,35 +170,78 @@ class TilawatViewModel constructor(
         }
     }
 
-    private fun fetchAudioForVerse(verseNumber: Int) {
+    private fun sendDataToService(list: List<AudioMediaData>) {
+        audioDataProvider.apply {
+            list.hasDataToShow {
+                updateList(this)
+                sendCommandToService(mapMetaDataFromList())
+            }
+        }
+    }
+
+    private fun fetchFromRepository(verseNumber: Int) {
         viewModelScope.launch {
-            tilawatChapterProvider.getAudioData(verseNumber, this@TilawatViewModel).nonNull {
-                audioDataProvider.loadAudioData(audio) {
-                    sendCommandToService(this)
+            audioMediaDataRepository.fetchData(audioDataProvider.buildAudioHelperData(verseNumber)) {
+                when(status) {
+                    Status.LOADING -> {}
+                    Status.SUCCESS -> {
+                        sendDataToService(data!!)
+                    }
+                    Status.FAILURE -> {
+                        data.nonNull {
+                            sendDataToService(this)
+                        } ?: onError(error)
+                    }
                 }
             }
         }
     }
 
     private fun sendCommandToService(metaData: List<ServiceMetaData>) {
-        audioConnection.sendCommand(AudioService.REFRESH_AUDIO_DATA, Bundle().apply {
-            putSerializable(AudioService.AUDIO_DATA, metaData as ArrayList<ServiceMetaData>)
-        }) { _, _ -> }
+        viewModelScope.launch {
+            withContext(MainDispatcher) {
+                audioConnection.sendCommand(AudioService.REFRESH_AUDIO_DATA, Bundle().apply {
+                    putSerializable(AudioService.AUDIO_DATA, metaData as ArrayList<ServiceMetaData>)
+                }) { _, _ -> }
+            }
+        }
     }
 
-    fun doFetchOrPlay(verseNumber: Int) {
-        audioDataProvider.fetchFromRemoteOrPlayFromLocal(verseNumber) {
+    fun play(verseNumber: Int) {
+        canPlayAudio = true
+        doFetchOrPlay(verseNumber)
+    }
+
+    private fun doFetchOrPlay(verseNumber: Int) {
+        audioDataProvider.canPlayFromLocalList(verseNumber) {
             it.isTrue {
                 audioDataProvider.getCurrentPlayingMediaMetadata().nonNull {
                     playMediaIfHasValidId(this)
                 }
-            } ?: fetchAudioForVerse(verseNumber)
+            } ?: fetchFromRepository(verseNumber)
         }
     }
 
     private fun playMediaIfHasValidId(mediaMetadata: AudioMediaData.MediaMetaData) {
         mediaMetadata.apply {
-            isValid.isTrue { playMediaId(mediaId) } ?: onError(ApiErrorType.INVALID_AUDIO_DATA)
+            isTrue(isValid and canPlayAudio) { playMediaId(mediaId) } ?: onError(ErrorType.INVALID_AUDIO_DATA)
+        }
+    }
+
+    fun onScreenPaused() {
+        audioDataProvider.getLastSavedAudioData().nonNull {
+            viewModelScope.launch {
+                lastSavedAudioDataRepository.insert(this@nonNull)
+            }
+        }
+    }
+
+    fun checkForLastSavedAudio() {
+        viewModelScope.launch {
+            lastSavedAudioDataRepository.get()?.apply {
+                canPlayAudio = false
+                doFetchOrPlay(audioIndex)
+            }
         }
     }
 }

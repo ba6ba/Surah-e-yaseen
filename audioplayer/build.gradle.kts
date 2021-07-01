@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     implementation(project(BuildModules.ui))
-    implementation(project(BuildModules.data))
+    implementation(project(BuildModules.daos))
 }

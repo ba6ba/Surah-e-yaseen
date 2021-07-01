@@ -1,21 +1,21 @@
 package com.example.home
 
 import com.example.data.Chapter
-import com.example.network.error.ApiErrorType
+import com.example.network.error.ErrorType
 import com.example.network.error.ErrorHandler
-import com.example.network.repository.ChapterRepository
+import com.example.network.repository.ChapterNetworkRepository
 import com.example.recitation.RecitationChapterProvider
 import com.example.shared.getSurahYaseen
 import com.example.tilawat.TilawatChapterProvider
 
 class ChapterProvider constructor(
-    private val chapterRepository: ChapterRepository,
+    private val chapterNetworkRepository: ChapterNetworkRepository,
     private val recitationChapterProvider: RecitationChapterProvider,
     private val tilawatChapterProvider: TilawatChapterProvider
 ) {
 
     suspend fun fetchChapterInfo(chapterNumber: Int = getSurahYaseen, errorHandler: ErrorHandler) {
-        chapterRepository.getChapterInfo(chapterNumber, errorHandler)?.apply {
+        chapterNetworkRepository.getChapterInfo(chapterNumber, errorHandler)?.apply {
             val chapter = Chapter(chapter)
             recitationChapterProvider.chapter = chapter
             tilawatChapterProvider.chapter = chapter
@@ -23,7 +23,7 @@ class ChapterProvider constructor(
     }
 
     private fun emitEmptyDataError(errorHandler: ErrorHandler) {
-        errorHandler.onError(ApiErrorType.NETWORK)
+        errorHandler.onError(ErrorType.NETWORK)
     }
 
     suspend fun fetchChapterSpecificVerse(chapterNumber: Int = getSurahYaseen, numberOfVerses: Int = 0) =

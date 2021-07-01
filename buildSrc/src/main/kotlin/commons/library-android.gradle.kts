@@ -16,6 +16,12 @@ android {
     defaultConfig {
         minSdkVersion(BuildAndroidConfig.minSdk)
         targetSdkVersion(BuildAndroidConfig.targetSdk)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     androidExtensions {

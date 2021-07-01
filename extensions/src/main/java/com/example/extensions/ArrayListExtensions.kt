@@ -44,3 +44,6 @@ val <T> List<T>.castToArrayList : ArrayList<T>
 
 val <T> List<T>.castToMutableList : MutableList<T>
     get() = this as MutableList<T>
+
+val <T> List<T>?.isNotNullOrEmpty
+    get() = isNullOrEmpty().not()

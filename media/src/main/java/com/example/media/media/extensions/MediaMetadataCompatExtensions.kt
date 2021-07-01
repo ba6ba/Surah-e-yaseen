@@ -1,11 +1,12 @@
 package com.example.media.media.extensions
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v4.media.MediaBrowserCompat.MediaItem
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
-import com.example.data.audio.*
+import com.example.data.audio.ServiceMetaData
 import com.example.extensions.*
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -291,14 +292,14 @@ val MediaMetadataCompat.isValid : Boolean
  */
 const val METADATA_KEY_FLAGS = "com.example.media.media.METADATA_KEY_FLAGS"
 
-fun MediaMetadataCompat.Builder.from(serviceMetaData: ServiceMetaData): MediaMetadataCompat.Builder {
+fun MediaMetadataCompat.Builder.from(context: Context, serviceMetaData: ServiceMetaData): MediaMetadataCompat.Builder {
     // The duration from the JSON is given in seconds, but the rest of the code works in
     // milliseconds. Here's where we convert to the proper units.
     id = serviceMetaData.audioId
     title = serviceMetaData.title
     duration = serviceMetaData.audioDuration
     mediaUri = serviceMetaData.url
-    albumArt = serviceMetaData.byteArray.getBitmap
+    albumArt = generateBitmap(context, serviceMetaData.imageRes)
     flag = MediaItem.FLAG_PLAYABLE
     trackNumber = serviceMetaData.id.toLong()
 

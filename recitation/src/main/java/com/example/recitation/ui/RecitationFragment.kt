@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
-import com.example.extensions.observeOnce
+import com.example.extensions.observeOnceOnLifecycle
 import com.example.recitation.R
 import com.example.recitation.RecitationViewModel
 import kotlinx.android.synthetic.main.fragment_recitation.*
@@ -29,14 +29,14 @@ class RecitationFragment : BaseFragment(R.layout.fragment_recitation) {
 
     private fun setObservers() {
         recitationViewModel.apply {
-            observeOnce(canFetchVerses) { nothing ->
+            observeOnceOnLifecycle(canFetchVerses) { nothing ->
                 requestForVersesData()
             }
         }
     }
 
     private fun requestForVersesData(pageNo : Int = 0) {
-        observeOnce(recitationViewModel.fetchVerses(recitationsListPager, pageNo)) { chapter ->
+        observeOnceOnLifecycle(recitationViewModel.fetchVerses(recitationsListPager, pageNo)) { chapter ->
             recitationsListPager.populateData(chapter?.verses.orEmpty())
         }
     }

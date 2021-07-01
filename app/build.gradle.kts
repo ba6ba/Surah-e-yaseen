@@ -1,5 +1,6 @@
 import dependencies.*
 import extensions.addTestsDependencies
+import org.jetbrains.kotlin.utils.alwaysTrue
 
 plugins {
     id(BuildPlugins.androidApplication)
@@ -22,6 +23,12 @@ android {
 
         vectorDrawables.useSupportLibrary = BuildAndroidConfig.supportLibraryVectorDrawables
         testInstrumentationRunner = BuildAndroidConfig.androidTestInstrumentationRunner
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
 
     buildTypes {

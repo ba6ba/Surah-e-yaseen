@@ -2,7 +2,6 @@ package com.example.tilawat
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.example.core.BaseFragment
 import com.example.core.BaseViewModel
 import com.example.shared.FlowData
@@ -33,6 +32,11 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
         sideSheetListener()
     }
 
+    override fun onPause() {
+        super.onPause()
+        tilawatViewModel.onScreenPaused()
+    }
+
     private fun sideSheetListener() {
         sideSheet.onStateChangeListener = {
             FlowData.viewStateChangeLiveData.postValue(SideSheetStates.EXPAND == it)
@@ -47,7 +51,7 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     private fun setObservers() {
         audioPlayer.onPlayClick = {
             updateCurrentAudioPlayingLayout(it)
-            tilawatViewModel.doFetchOrPlay(it)
+            tilawatViewModel.play(it)
         }
         viewModelObservers()
     }
@@ -63,28 +67,29 @@ class TilawatFragment : BaseFragment(R.layout.fragment_tilawat) {
     }
 
     private fun setVerseCounterText(number: Number) {
-        currentAudioNumber.text = number.toInt().inc().asFormatted(format = tilawatViewModel.formatToDisplayVerseCount)
+        currentAudioNumber.text = number.toInt().asFormatted(format = tilawatViewModel.formatToDisplayVerseCount)
     }
 
     private fun viewModelObservers() {
-        observeOnce(tilawatViewModel.tilawatChapterData) { chapter ->
+        observeOnceOnLifecycle(tilawatViewModel.tilawatChapterData) { chapter ->
             chapter.hasValidReciter.isTrue {
                 updateViews(chapter)
+                tilawatViewModel.checkForLastSavedAudio()
             } ?: observeReciters()
         }
 
-        observeOnce(tilawatViewModel.audioMetaData) { metaData ->
+        observeOnceOnLifecycle(tilawatViewModel.audioMetaData) { metaData ->
             audioPlayer.updatePlayer(metaData)
-            setVerseCounterText(metaData.number)
+            updateCurrentAudioPlayingLayout(metaData.number.toInt())
         }
 
-        observeDistinctUntilChanged(tilawatViewModel.currentDurationLiveData) { duration ->
+        observeDistinctUntilChangedOnLifecycle(tilawatViewModel.currentDurationLiveData) { duration ->
             audioPlayer.updatePlayerProgress(duration)
         }
     }
 
     private fun observeReciters() {
-        observeDistinctUntilChanged(tilawatViewModel.getTranslators()) { dataList ->
+        observeDistinctUntilChangedOnLifecycle(tilawatViewModel.getTranslators()) { dataList ->
             recitersListView.apply {
                 itemClickListener = {
                     tilawatViewModel.setCurrentReciter(it)

@@ -6,6 +6,7 @@ dependencies {
 	implementation(project(BuildModules.core))
 	implementation(project(BuildModules.tilawat))
 	implementation(project(BuildModules.recitation))
-    implementation(project(BuildModules.data))
+    implementation(project(BuildModules.daos))
     implementation(project(BuildModules.shared))
+    implementation(project(BuildModules.storage))
 }

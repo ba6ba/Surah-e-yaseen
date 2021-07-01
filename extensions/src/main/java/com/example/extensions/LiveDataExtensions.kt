@@ -47,7 +47,7 @@ fun LiveData<Boolean>.isFalseObserver(lifecycleOwner: LifecycleOwner, observer: 
     })
 }
 
-fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: (t : T) -> Unit) {
+fun <T> LiveData<T>.observeOnceOnLifecycle(lifecycleOwner: LifecycleOwner, observer: (t : T) -> Unit) {
     removeObservers(lifecycleOwner)
     nonNullObserver(lifecycleOwner, observer)
 }
